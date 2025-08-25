@@ -47,7 +47,7 @@ class Plugin
         $o .= print_plugin_admin('off');
         switch ($admin) {
             case '':
-                $o .= $this->renderVersion() . tag('hr')
+                $o .= $this->renderVersion() . "<hr>"
                     . $this->renderSystemCheck();
                 break;
             default:
@@ -63,10 +63,8 @@ class Plugin
         global $pth, $plugin_tx;
 
         return '<h1>Tablesorter</h1>'
-            . tag(
-                'img class="tablesorter_logo" src="' . $pth['folder']['plugins']
-                . 'tablesorter/tablesorter.png" alt="' . $plugin_tx['tablesorter']['alt_logo'] . '"'
-            )
+            . '<img class="tablesorter_logo" src="' . $pth['folder']['plugins']
+            . 'tablesorter/tablesorter.png" alt="' . $plugin_tx['tablesorter']['alt_logo'] . '">'
             . '<p style="margin-top: 1em">Version: ' . self::VERSION . '</p>'
             . '<p>Copyright &copy; 2012-2019 Christoph M. Becker</p>'
             . '<p class="tablesorter_license">'
@@ -96,21 +94,21 @@ class Plugin
         $phpVersion =  '5.5.0';
         $ptx = $plugin_tx['tablesorter'];
         $imgdir = $pth['folder']['plugins'] . 'tablesorter/images/';
-        $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
-        $warn = tag('img src="' . $imgdir . 'warn.png" alt="warning"');
-        $fail = tag('img src="' . $imgdir . 'fail.png" alt="failure"');
-        $o = tag('hr') . '<h4>' . $ptx['syscheck_title'] . '</h4>'
+        $ok = '<img src="' . $imgdir . 'ok.png" alt="ok">';
+        $warn = '<img src="' . $imgdir . 'warn.png" alt="warning">';
+        $fail = '<img src="' . $imgdir . 'fail.png" alt="failure">';
+        $o = '<hr>' . '<h4>' . $ptx['syscheck_title'] . '</h4>'
             . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
             . '&nbsp;&nbsp;'
             . sprintf($ptx['syscheck_phpversion'], $phpVersion)
-            . tag('br') . tag('br');
+            . '<br><br>';
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'tablesorter/' . $folder;
         }
         foreach ($folders as $folder) {
             $o .= (is_writable($folder) ? $ok : $warn)
                 . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder)
-                . tag('br');
+                . '<br>';
         }
         return $o;
     }
