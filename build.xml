@@ -61,14 +61,14 @@
     </jsMin>
     <move todir="dist">
       <fileset dir="export">
+        <exclude name=".phive/**"/>
+        <exclude name="demo/**"/>
+        <exclude name="tests/**"/>
         <exclude name="build.xml"/>
         <exclude name="composer.*"/>
         <exclude name="coverage.xml"/>
-        <exclude name="demo/**"/>
         <exclude name="help/template.htm"/>
-        <exclude name="pax_global_header"/>
         <exclude name="README*.md"/>
-        <exclude name="tests/**"/>
       </fileset>
     </move>
     <delete dir="export"/>
