@@ -21,16 +21,29 @@
 
 namespace Tablesorter;
 
-class Plugin
+class Main
 {
-    const VERSION = '1.0';
-
-    public function run(): void
+    public function __invoke(): void
     {
-        global $plugin_cf;
+        global $bjs, $pth, $plugin_cf, $plugin_tx;
+        static $again = false;
 
-        if ($plugin_cf['tablesorter']['auto']) {
-            (new Main())();
+        if ($again) {
+            return;
         }
+        $again = true;
+        $pcf = $plugin_cf['tablesorter'];
+        $ptx = $plugin_tx['tablesorter'];
+        $config = array(
+            'sortable' => (bool) $pcf['sortable'],
+            'maxPages' => (int) $pcf['pagination_max'],
+            'show' => $ptx['label_show'],
+            'hide' => $ptx['label_hide']
+        );
+        $json = json_encode($config);
+        $bjs .= <<<HTML
+            <script>var TABLESORTER = $json;</script>
+            <script async src="{$pth['folder']['plugins']}tablesorter/tablesorter.min.js"></script>
+            HTML;
     }
 }

@@ -19,28 +19,11 @@
  * along with Tablesorter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Tablesorter\Main;
+
 function tablesorter(): void
 {
-    global $bjs, $pth, $plugin_cf, $plugin_tx;
-    static $again = false;
-
-    if ($again) {
-        return;
-    }
-    $again = true;
-    $pcf = $plugin_cf['tablesorter'];
-    $ptx = $plugin_tx['tablesorter'];
-    $config = array(
-        'sortable' => (bool) $pcf['sortable'],
-        'maxPages' => (int) $pcf['pagination_max'],
-        'show' => $ptx['label_show'],
-        'hide' => $ptx['label_hide']
-    );
-    $json = json_encode($config);
-    $bjs .= <<<HTML
-<script>var TABLESORTER = $json;</script>
-<script async src="{$pth['folder']['plugins']}tablesorter/tablesorter.min.js"></script>
-HTML;
+    (new Main())();
 }
 
 (new Tablesorter\Plugin())->run();
