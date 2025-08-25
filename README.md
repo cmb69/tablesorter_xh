@@ -1,6 +1,6 @@
-# Tablesorter\_XH
+# Tablesorter_XH
 
-Tablesorter\_XH facilitates semi-automatic enhancement of tables in
+Tablesorter_XH facilitates semi-automatic enhancement of tables in
 browsers which support somewhat contemporary JavaScript. Sorting by
 single columns in ascending and descending order, hiding of predefined
 columns which can be expanded, and pagination are supported.
@@ -18,7 +18,7 @@ columns which can be expanded, and pagination are supported.
 
 ## Requirements
 
-Tablesorter\_XH is a plugin for CMSimple\_XH ≥ 1.7.0. It requires PHP ≥
+Tablesorter_XH is a plugin for CMSimple_XH ≥ 1.7.0. It requires PHP ≥
 7.4.0.
 
 ## Download
@@ -28,15 +28,15 @@ is available for download on Github.
 
 ## Installation
 
-The installation is done as with many other CMSimple\_XH plugins. See
-the [CMSimple\_XH
+The installation is done as with many other CMSimple_XH plugins. See
+the [CMSimple_XH
 wiki](https://wiki.cmsimple-xh.org/doku.php/installation#plugins) for further
 details.
 
 1.  Backup the data on your server.
 2.  Unzip the distribution on your computer.
 3.  Upload the whole directory tablesorter/ to your server into
-    CMSimple\_XH's plugins directory.
+    CMSimple_XH's plugins directory.
 4.  Set write permissions for the subdirectories config/, css/ and
     languages/.
 5.  Switch to *Plugins*→*Tablesorter* in the back-end to check if all
@@ -44,10 +44,10 @@ details.
 
 ## Settings
 
-The plugin's configuration is done as with many other CMSimple\_XH
+The plugin's configuration is done as with many other CMSimple_XH
 plugins in the website's back-end. Select Plugins→Tablesorter.
 
-You can change the default settings of Tablesorter\_XH under *Config*.
+You can change the default settings of Tablesorter_XH under *Config*.
 Hints for the options will be displayed when hovering over the help icon
 with your mouse.
 
@@ -55,7 +55,7 @@ Localization is done under *Language*. You can translate the character
 strings to your own language if there is no appropriate language file
 available, or customize them according to your needs.
 
-The look of Tablesorter\_XH can be customized under *Stylesheet*.
+The look of Tablesorter_XH can be customized under *Stylesheet*.
 
 ## Usage
 
@@ -98,18 +98,18 @@ or in the [CMSimple_XH Forum](https://cmsimpleforum.com/).
 
 ## License
 
-Tablesorter\_XH is free software: you can redistribute it and/or modify
+Tablesorter_XH is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Tablesorter\_XH is distributed in the hope that it will be useful,
+Tablesorter_XH is distributed in the hope that it will be useful,
 but *without any warranty*; without even the implied warranty of
 *merchantibility* or *fitness for a particular purpose*. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Tablesorter\_XH.  If not, see <http://www.gnu.org/licenses/>.
+along with Tablesorter_XH.  If not, see <http://www.gnu.org/licenses/>.
 
 Copyright © 2012-2019 Christoph M. Becker
 
@@ -123,12 +123,12 @@ This plugin uses free applications icons from
 [Aha-Soft](http://www.aha-soft.com/). Many thanks for making these icons
 freely available.
 
-Many thanks to the community at the [CMSimple\_XH
+Many thanks to the community at the [CMSimple_XH
 forum](http://www.cmsimpleforum.com) for tips, suggestions and testing.
 Particularly, I want to thank lck for helpful hints regarding the
 design.
 
 And last but not least many thanks to [Peter Harteg](http://harteg.dk/),
 the father of CMSimple, and all developers of
-[CMSimple\_XH](http://www.cmsimple-xh.org) without whom this amazing CMS
+[CMSimple_XH](http://www.cmsimple-xh.org) without whom this amazing CMS
 wouldn't exist.

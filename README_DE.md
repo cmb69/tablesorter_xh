@@ -1,6 +1,6 @@
-# Tablesorter\_XH
+# Tablesorter_XH
 
-Tablesorter\_XH ermöglicht die halbautomatische Verbesserung von
+Tablesorter_XH ermöglicht die halbautomatische Verbesserung von
 Tabellen in Browsern, die einigermaßen zeitgemäßes JavaScript
 unterstützen. Sortieren nach einzelnen Spalten in auf- und absteigender
 Reihenfolge, verstecken vordefinierter Spalten, die erweitert werden
@@ -19,7 +19,7 @@ können, sowie Paginierung sind möglich.
 
 ## Voraussetzungen
 
-Tablesorter\_XH ist ein Plugin für CMSimple\_XH ≥ 1.7.0. Es benötigt PHP ≥
+Tablesorter_XH ist ein Plugin für CMSimple_XH ≥ 1.7.0. Es benötigt PHP ≥
 7.4.0 mit der JSON Extension.
 
 ## Download
@@ -29,15 +29,15 @@ kann von Github herunter geladen werden.
 
 ## Installation
 
-Die Installation erfolgt wie bei vielen anderen CMSimple\_XH-Plugins
+Die Installation erfolgt wie bei vielen anderen CMSimple_XH-Plugins
 auch. Im
-[CMSimple\_XH-Wiki](https://wiki.cmsimple-xh.org/doku.php/de:installation#plugins)
+[CMSimple_XH-Wiki](https://wiki.cmsimple-xh.org/doku.php/de:installation#plugins)
 sind weitere Details zu finden.
 
 1.  Sichern Sie die Daten auf Ihrem Server.
 2.  Entpacken Sie die ZIP-Datei auf Ihrem Rechner.
 3.  Laden Sie das ganze Verzeichnis tablesorter/ auf Ihren Server in
-    CMSimple\_XHs Plugin-Verzeichnis hoch.
+    CMSimple_XHs Plugin-Verzeichnis hoch.
 4.  Machen Sie die Unterverzeichnisse config/, css/ und languages/
     beschreibbar.
 5.  Gehen Sie im Administrationsbereich zu *Plugins*→*Tablesorter* , um
@@ -46,10 +46,10 @@ sind weitere Details zu finden.
 ## Einstellungen
 
 Die Plugin-Konfiguration erfolgt wie bei vielen anderen
-CMSimple\_XH-Plugins auch im Administrationsbereich der Website. Wählen
+CMSimple_XH-Plugins auch im Administrationsbereich der Website. Wählen
 Sie *Plugins*→*Tablesorter*.
 
-Sie können die Voreinstellungen von Tablesorter\_XH unter
+Sie können die Voreinstellungen von Tablesorter_XH unter
 *Konfiguration* ändern. Hinweise zu den Optionen werden beim Überfahren
 der Hilfe-Icons mit der Maus angezeigt.
 
@@ -58,7 +58,7 @@ Sprachtexte in Ihre eigene Sprache übersetzen, falls keine entsprechende
 Sprachdatei zur Verfügung steht, oder diese Ihren Wünschen gemäß
 anpassen.
 
-Das Aussehen von Tablesorter\_XH kann unter *Stylesheet* angepasst
+Das Aussehen von Tablesorter_XH kann unter *Stylesheet* angepasst
 werden.
 
 ## Verwendung
@@ -109,18 +109,18 @@ Melden Sie Programmfehler und stellen Sie Supportanfragen entweder auf
 
 ## Lizenz
 
-Tablesorter\_XH ist freie Software. Sie können es unter den Bedingungen der
+Tablesorter_XH ist freie Software. Sie können es unter den Bedingungen der
 GNU General Public License, wie von der Free Software Foundation
 veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß
 Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
 
-Die Veröffentlichung von Tablesorter\_XH erfolgt in der Hoffnung, daß es
+Die Veröffentlichung von Tablesorter_XH erfolgt in der Hoffnung, daß es
 Ihnen von Nutzen sein wird, aber ohne irgendeine Garantie, sogar ohne
 die implizite Garantie der Marktreife oder der Verwendbarkeit für einen
 bestimmten Zweck. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
-Tablesorter\_XH erhalten haben. Falls nicht, siehe
+Tablesorter_XH erhalten haben. Falls nicht, siehe
 http://www.gnu.org/licenses/.
 
 Copyright © 2012-2019 Christoph M. Becker
@@ -134,12 +134,12 @@ Diese Plugin verwendet Free-Application-Icons von
 [Aha-Soft](http://www.aha-soft.com/). Vielen Dank für die freie
 Bereitstellung dieser Icons.
 
-Vielen Dank an die Community im [CMSimple\_XH
+Vielen Dank an die Community im [CMSimple_XH
 Forum](http://www.cmsimpleforum.com/) für Hinweise, Anregungen und das
 Testen. Besonders möchte ich lck für hilfreiche Tipps bezüglich der
 Gestaltung danken.
 
 Und zu guter letzt vielen Dank an [Peter Harteg](http://www.harteg.dk/),
 den "Vater" von CMSimple, und allen Entwicklern von
-[CMSimple\_XH](http://www.cmsimple-xh.org/de/) ohne die es dieses
+[CMSimple_XH](http://www.cmsimple-xh.org/de/) ohne die es dieses
 phantastische CMS nicht gäbe.
