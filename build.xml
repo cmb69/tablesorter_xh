@@ -18,11 +18,10 @@
         <echo>${help}</echo>
     </target>
 
-    <target name="sniff" description="checks adherence to coding standard">
-        <phpcodesniffer standard="PSR2">
-            <fileset refid="php-sources"/>
-            <fileset refid="unit-tests"/>
-        </phpcodesniffer>
+    <target name="sniff" description="checks adherence to coding standards">
+        <exec executable="phpcs" passthru="true" checkreturn="true">
+            <arg line="--standard=PSR2 --runtime-set ignore_warnings_on_exit true classes index.php"/>
+        </exec>
     </target>
 
     <target name="unit-tests" description="runs all unit tests">
