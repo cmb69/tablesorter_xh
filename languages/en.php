@@ -5,6 +5,8 @@ $plugin_tx['tablesorter']['label_hide'] = "less";
 
 $plugin_tx['tablesorter']['syscheck_title'] = "System check";
 $plugin_tx['tablesorter']['syscheck_phpversion'] = "PHP version ≥ %s";
+$plugin_tx['tablesorter']['syscheck_plibversion'] = "Plib_XH version ≥ %s";
+$plugin_tx['tablesorter']['syscheck_xhversion'] = "CMSimple_XH version ≥ %s";
 $plugin_tx['tablesorter']['syscheck_extension'] = "Extension '%s' loaded";
 $plugin_tx['tablesorter']['syscheck_writable'] = "Folder '%s' writable";
 

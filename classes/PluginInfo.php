@@ -48,6 +48,8 @@ class PluginInfo
             "version" => Plugin::VERSION,
             "checks" => [
                 $this->checkPhpVersion("7.4.0"),
+                $this->checkXhVersion("1.7.0"),
+                $this->checkPlib("1.11"),
                 $this->checkWritability($this->pluginFolder . "config/"),
                 $this->checkWritability($this->pluginFolder . "css/"),
                 $this->checkWritability($this->pluginFolder . "languages/"),
@@ -59,6 +61,18 @@ class PluginInfo
     {
         $status = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? "success" : "fail";
         return $this->view->message($status, "syscheck_phpversion", $version);
+    }
+
+    private function checkXhVersion(string $version): string
+    {
+        $status = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH $version") ? "success" : "fail";
+        return $this->view->message($status, "syscheck_xhversion", $version);
+    }
+
+    private function checkPlib(string $version): string
+    {
+        $status = $this->systemChecker->checkPlugin("plib", $version) ? "success" : "fail";
+        return $this->view->message($status, "syscheck_plibversion", $version);
     }
 
     private function checkWritability(string $folder): string

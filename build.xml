@@ -65,7 +65,7 @@
         <exclude name="build.xml"/>
         <exclude name="composer.*"/>
         <exclude name="coverage.xml"/>
-        <exclude name="phpstan.neon"/>
+        <exclude name="phpstan.*"/>
         <exclude name="README*.md"/>
       </fileset>
     </move>

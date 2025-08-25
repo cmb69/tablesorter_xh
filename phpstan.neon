@@ -4,6 +4,8 @@ parameters:
     - classes/
     - admin.php
     - index.php
+  bootstrapFiles:
+    - phpstan.php
   scanFiles:
     - ../../cmsimple/adminfuncs.php
   scanDirectories:
