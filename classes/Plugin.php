@@ -26,7 +26,7 @@ use Plib\View;
 
 class Plugin
 {
-    const VERSION = '1.0';
+    public const VERSION = '1.0';
 
     public static function makeMain(): Main
     {

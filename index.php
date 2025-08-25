@@ -19,6 +19,8 @@
  * along with Tablesorter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// phpcs:disable PSR1.Files.SideEffects
+
 use Tablesorter\Plugin;
 
 /**
