@@ -21,37 +21,40 @@
 
 namespace Tablesorter;
 
+use Plib\View;
+
 class PluginInfo
 {
     /** @var string */
     private $pluginFolder;
 
-    public function __construct(string $pluginFolder)
+    /** @var View */
+    private $view;
+
+    public function __construct(string $pluginFolder, View $view)
     {
         $this->pluginFolder = $pluginFolder;
+        $this->view = $view;
     }
 
     public function render(): string
     {
-        global $plugin_tx;
-    
         $phpVersion =  '7.4.0';
-        $ptx = $plugin_tx['tablesorter'];
         $imgdir = $this->pluginFolder . 'images/';
         $ok = '<img src="' . $imgdir . 'ok.png" alt="ok">';
         $warn = '<img src="' . $imgdir . 'warn.png" alt="warning">';
         $fail = '<img src="' . $imgdir . 'fail.png" alt="failure">';
-        $o = '<h4>' . $ptx['syscheck_title'] . '</h4>'
+        $o = '<h4>' . $this->view->text("syscheck_title") . '</h4>'
             . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
             . '&nbsp;&nbsp;'
-            . sprintf($ptx['syscheck_phpversion'], $phpVersion)
+            . $this->view->text("syscheck_phpversion", $phpVersion)
             . '<br><br>';
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $this->pluginFolder . $folder;
         }
         foreach ($folders as $folder) {
             $o .= (is_writable($folder) ? $ok : $warn)
-                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder)
+                . '&nbsp;&nbsp;' . $this->view->text("syscheck_writable", $folder)
                 . '<br>';
         }
         return $o;

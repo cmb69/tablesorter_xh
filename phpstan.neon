@@ -6,3 +6,5 @@ parameters:
     - index.php
   scanFiles:
     - ../../cmsimple/adminfuncs.php
+  scanDirectories:
+    - ../plib/classes

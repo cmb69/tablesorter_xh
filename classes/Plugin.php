@@ -21,6 +21,8 @@
 
 namespace Tablesorter;
 
+use Plib\View;
+
 class Plugin
 {
     const VERSION = '1.0';
@@ -32,7 +34,10 @@ class Plugin
 
     public static function makePluginInfo(): PluginInfo
     {
-        global $pth;
-        return new PluginInfo($pth["folder"]["plugins"] . "tablesorter/");
+        global $pth, $plugin_tx;
+        return new PluginInfo(
+            $pth["folder"]["plugins"] . "tablesorter/",
+            new View($pth["folder"]["plugins"] . "tablesorter/views/", $plugin_tx["tablesorter"])
+        );
     }
 }

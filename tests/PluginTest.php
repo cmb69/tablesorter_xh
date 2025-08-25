@@ -14,8 +14,9 @@ class PluginTest extends TestCase
 
     public function testMakesPluginInfo(): void
     {
-        global $pth;
+        global $pth, $plugin_tx;
         $pth = ["folder" => ["plugins" => ""]];
+        $plugin_tx = ["tablesorter" => []];
         $this->assertInstanceOf(PluginInfo::class, Plugin::makePluginInfo());
     }
 }

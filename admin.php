@@ -20,7 +20,6 @@
  */
 
 use Tablesorter\Plugin;
-use Tablesorter\PluginInfo;
 
 /**
  * @var string $admin
