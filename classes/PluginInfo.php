@@ -44,19 +44,19 @@ class PluginInfo
         $ok = '<img src="' . $imgdir . 'ok.png" alt="ok">';
         $warn = '<img src="' . $imgdir . 'warn.png" alt="warning">';
         $fail = '<img src="' . $imgdir . 'fail.png" alt="failure">';
-        $o = '<h1>Tablesorter ' . Plugin::VERSION . '</h1>'
-            . '<h4>' . $this->view->text("syscheck_title") . '</h4>'
+        $o = '<h1>Tablesorter ' . Plugin::VERSION . '</h1>' . "\n"
+            . '<h4>' . $this->view->text("syscheck_title") . '</h4>' . "\n"
             . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
             . '&nbsp;&nbsp;'
             . $this->view->text("syscheck_phpversion", $phpVersion)
-            . '<br><br>';
+            . '<br><br>' . "\n";
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $this->pluginFolder . $folder;
         }
         foreach ($folders as $folder) {
             $o .= (is_writable($folder) ? $ok : $warn)
                 . '&nbsp;&nbsp;' . $this->view->text("syscheck_writable", $folder)
-                . '<br>';
+                . '<br>' . "\n";
         }
         return $o;
     }
