@@ -33,7 +33,7 @@ if (XH_wantsPluginAdministration("tablesorter")) {
     switch ($admin) {
         case '':
             $o .= '<h1>Tablesorter ' . Plugin::VERSION . '</h1>'
-                . (new PluginInfo())->render();
+                . Plugin::makePluginInfo()->render();
             break;
         default:
             $o .= plugin_admin_common();

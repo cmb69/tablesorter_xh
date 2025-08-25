@@ -29,4 +29,9 @@ class Plugin
     {
         return new Main();
     }
+
+    public static function makePluginInfo(): PluginInfo
+    {
+        return new PluginInfo();
+    }
 }
