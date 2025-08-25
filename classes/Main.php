@@ -21,6 +21,7 @@
 
 namespace Tablesorter;
 
+use Plib\Response;
 use Plib\View;
 
 class Main
@@ -45,19 +46,18 @@ class Main
         $this->view = $view;
     }
 
-    public function __invoke(): void
+    public function __invoke(): Response
     {
-        global $bjs;
         static $again = false;
 
         if ($again) {
-            return;
+            return Response::create();
         }
         $again = true;
-        $bjs .= $this->view->render("main", [
+        return Response::create()->withBjs($this->view->render("main", [
             "script" => $this->pluginFolder . "tablesorter.min.js",
             "config" => $this->config(),
-        ]);
+        ]));
     }
 
     /** @return array<string,mixed> */

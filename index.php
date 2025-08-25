@@ -24,14 +24,15 @@
 use Tablesorter\Plugin;
 
 /**
+ * @var string $o
  * @var array<string,array<string,string>> $plugin_cf
  */
 
 if ($plugin_cf['tablesorter']['auto']) {
-    Plugin::makeMain()();
+    $o .= Plugin::makeMain()()();
 }
 
-function tablesorter(): void
+function tablesorter(): string
 {
-    Plugin::makeMain()();
+    return Plugin::makeMain()()();
 }
