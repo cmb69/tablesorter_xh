@@ -30,16 +30,22 @@ class Plugin
 
     public static function makeMain(): Main
     {
-        return new Main();
+        return new Main(self::view());
     }
 
     public static function makePluginInfo(): PluginInfo
     {
-        global $pth, $plugin_tx;
+        global $pth;
         return new PluginInfo(
             $pth["folder"]["plugins"] . "tablesorter/",
             new SystemChecker(),
-            new View($pth["folder"]["plugins"] . "tablesorter/views/", $plugin_tx["tablesorter"])
+            self::view()
         );
+    }
+
+    private static function view(): View
+    {
+        global $pth, $plugin_tx;
+        return new View($pth["folder"]["plugins"] . "tablesorter/views/", $plugin_tx["tablesorter"]);
     }
 }

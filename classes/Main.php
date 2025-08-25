@@ -21,29 +21,44 @@
 
 namespace Tablesorter;
 
+use Plib\View;
+
 class Main
 {
+    /** @var View */
+    private $view;
+
+    public function __construct(View $view)
+    {
+        $this->view = $view;
+    }
+
     public function __invoke(): void
     {
-        global $bjs, $pth, $plugin_cf, $plugin_tx;
+        global $bjs, $pth;
         static $again = false;
 
         if ($again) {
             return;
         }
         $again = true;
+        $bjs .= $this->view->render("main", [
+            "script" => "{$pth['folder']['plugins']}tablesorter/tablesorter.min.js",
+            "config" => $this->config(),
+        ]);
+    }
+
+    /** @return array<string,mixed> */
+    private function config(): array
+    {
+        global $plugin_cf, $plugin_tx;
         $pcf = $plugin_cf['tablesorter'];
         $ptx = $plugin_tx['tablesorter'];
-        $config = array(
+        return [
             'sortable' => (bool) $pcf['sortable'],
             'maxPages' => (int) $pcf['pagination_max'],
             'show' => $ptx['label_show'],
             'hide' => $ptx['label_hide']
-        );
-        $json = json_encode($config);
-        $bjs .= <<<HTML
-            <script>var TABLESORTER = $json;</script>
-            <script async src="{$pth['folder']['plugins']}tablesorter/tablesorter.min.js"></script>
-            HTML;
+        ];
     }
 }
