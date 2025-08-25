@@ -31,8 +31,7 @@ if (XH_wantsPluginAdministration("tablesorter")) {
     $o .= print_plugin_admin('off');
     switch ($admin) {
         case '':
-            $o .= '<h1>Tablesorter ' . Plugin::VERSION . '</h1>'
-                . Plugin::makePluginInfo()->render();
+            $o .= Plugin::makePluginInfo()->render();
             break;
         default:
             $o .= plugin_admin_common();

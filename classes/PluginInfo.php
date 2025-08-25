@@ -44,7 +44,8 @@ class PluginInfo
         $ok = '<img src="' . $imgdir . 'ok.png" alt="ok">';
         $warn = '<img src="' . $imgdir . 'warn.png" alt="warning">';
         $fail = '<img src="' . $imgdir . 'fail.png" alt="failure">';
-        $o = '<h4>' . $this->view->text("syscheck_title") . '</h4>'
+        $o = '<h1>Tablesorter ' . Plugin::VERSION . '</h1>'
+            . '<h4>' . $this->view->text("syscheck_title") . '</h4>'
             . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
             . '&nbsp;&nbsp;'
             . $this->view->text("syscheck_phpversion", $phpVersion)
