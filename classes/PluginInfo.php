@@ -39,25 +39,27 @@ class PluginInfo
 
     public function render(): string
     {
-        $phpVersion =  '7.4.0';
-        $imgdir = $this->pluginFolder . 'images/';
-        $ok = '<img src="' . $imgdir . 'ok.png" alt="ok">';
-        $warn = '<img src="' . $imgdir . 'warn.png" alt="warning">';
-        $fail = '<img src="' . $imgdir . 'fail.png" alt="failure">';
         $o = '<h1>Tablesorter ' . Plugin::VERSION . '</h1>' . "\n"
             . '<h4>' . $this->view->text("syscheck_title") . '</h4>' . "\n"
-            . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
-            . '&nbsp;&nbsp;'
-            . $this->view->text("syscheck_phpversion", $phpVersion)
-            . '<br><br>' . "\n";
+            . $this->checkPhpVersion("7.4.0");
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $this->pluginFolder . $folder;
         }
         foreach ($folders as $folder) {
-            $o .= (is_writable($folder) ? $ok : $warn)
-                . '&nbsp;&nbsp;' . $this->view->text("syscheck_writable", $folder)
-                . '<br>' . "\n";
+            $o .= $this->checkWritability($folder);
         }
         return $o;
+    }
+
+    private function checkPhpVersion(string $version): string
+    {
+        $status = version_compare(PHP_VERSION, $version) >= 0 ? "success" : "fail";
+        return $this->view->message($status, "syscheck_phpversion", $version);
+    }
+
+    private function checkWritability(string $folder): string
+    {
+        $status = is_writable($folder) ? "success" : "warning";
+        return $this->view->message($status, "syscheck_writable", $folder);
     }
 }

@@ -134,10 +134,6 @@ Copyright © 2012-2019 Christoph M. Becker
 Das Pluginlogo wurde von [New Mooon](http://code.google.com/u/newmooon/)
 gestaltet. Vielen Dank für die Veröffentlichung unter GPL.
 
-Diese Plugin verwendet Free-Application-Icons von
-[Aha-Soft](http://www.aha-soft.com/). Vielen Dank für die freie
-Bereitstellung dieser Icons.
-
 Vielen Dank an die Community im [CMSimple_XH
 Forum](http://www.cmsimpleforum.com/) für Hinweise, Anregungen und das
 Testen. Besonders möchte ich lck für hilfreiche Tipps bezüglich der

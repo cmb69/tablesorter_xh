@@ -123,10 +123,6 @@ The plugin logo is designed by [New
 Mooon](http://code.google.com/u/newmooon/). Many thanks for publishing
 this icon under GPL.
 
-This plugin uses free applications icons from
-[Aha-Soft](http://www.aha-soft.com/). Many thanks for making these icons
-freely available.
-
 Many thanks to the community at the [CMSimple_XH
 forum](http://www.cmsimpleforum.com) for tips, suggestions and testing.
 Particularly, I want to thank lck for helpful hints regarding the
