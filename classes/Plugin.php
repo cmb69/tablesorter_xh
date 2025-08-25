@@ -24,4 +24,9 @@ namespace Tablesorter;
 class Plugin
 {
     const VERSION = '1.0';
+
+    public static function makeMain(): Main
+    {
+        return new Main();
+    }
 }

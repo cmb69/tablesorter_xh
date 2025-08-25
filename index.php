@@ -19,17 +19,17 @@
  * along with Tablesorter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Tablesorter\Main;
+use Tablesorter\Plugin;
 
 /**
  * @var array<string,array<string,string>> $plugin_cf
  */
 
 if ($plugin_cf['tablesorter']['auto']) {
-    (new Main())();
+    Plugin::makeMain()();
 }
 
 function tablesorter(): void
 {
-    (new Main())();
+    Plugin::makeMain()();
 }
