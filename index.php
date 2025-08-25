@@ -21,9 +21,15 @@
 
 use Tablesorter\Main;
 
+/**
+ * @var array<string,array<string,string>> $plugin_cf
+ */
+
+if ($plugin_cf['tablesorter']['auto']) {
+    (new Main())();
+}
+
 function tablesorter(): void
 {
     (new Main())();
 }
-
-(new Tablesorter\Plugin())->run();

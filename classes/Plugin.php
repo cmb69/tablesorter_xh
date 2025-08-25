@@ -24,13 +24,4 @@ namespace Tablesorter;
 class Plugin
 {
     const VERSION = '1.0';
-
-    public function run(): void
-    {
-        global $plugin_cf;
-
-        if ($plugin_cf['tablesorter']['auto']) {
-            (new Main())();
-        }
-    }
 }
