@@ -21,6 +21,7 @@
 
 namespace Tablesorter;
 
+use Plib\SystemChecker;
 use Plib\View;
 
 class PluginInfo
@@ -28,12 +29,16 @@ class PluginInfo
     /** @var string */
     private $pluginFolder;
 
+    /** @var SystemChecker */
+    private $systemChecker;
+
     /** @var View */
     private $view;
 
-    public function __construct(string $pluginFolder, View $view)
+    public function __construct(string $pluginFolder, SystemChecker $systemChecker, View $view)
     {
         $this->pluginFolder = $pluginFolder;
+        $this->systemChecker = $systemChecker;
         $this->view = $view;
     }
 
@@ -52,13 +57,13 @@ class PluginInfo
 
     private function checkPhpVersion(string $version): string
     {
-        $status = version_compare(PHP_VERSION, $version) >= 0 ? "success" : "fail";
+        $status = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? "success" : "fail";
         return $this->view->message($status, "syscheck_phpversion", $version);
     }
 
     private function checkWritability(string $folder): string
     {
-        $status = is_writable($folder) ? "success" : "warning";
+        $status = $this->systemChecker->checkWritability($folder) ? "success" : "warning";
         return $this->view->message($status, "syscheck_writable", $folder);
     }
 }

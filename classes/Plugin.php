@@ -21,6 +21,7 @@
 
 namespace Tablesorter;
 
+use Plib\SystemChecker;
 use Plib\View;
 
 class Plugin
@@ -37,6 +38,7 @@ class Plugin
         global $pth, $plugin_tx;
         return new PluginInfo(
             $pth["folder"]["plugins"] . "tablesorter/",
+            new SystemChecker(),
             new View($pth["folder"]["plugins"] . "tablesorter/views/", $plugin_tx["tablesorter"])
         );
     }
