@@ -19,7 +19,7 @@
  * along with Tablesorter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function tablesorter()
+function tablesorter(): void
 {
     global $bjs, $pth, $plugin_cf, $plugin_tx;
     static $again = false;

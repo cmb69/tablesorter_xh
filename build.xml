@@ -24,6 +24,10 @@
     </exec>
   </target>
 
+  <target name="stan" description="runs static analyzer">
+    <exec executable="phpstan" passthru="true" checkreturn="true"/>
+  </target>
+
   <target name="unit-tests" description="runs all unit tests">
     <phpunit haltonerror="true" haltonfailure="true">
       <formatter type="plain" usefile="false"/>
@@ -63,11 +67,12 @@
       <fileset dir="export">
         <exclude name=".phive/**"/>
         <exclude name="demo/**"/>
+        <exclude name="help/template.htm"/>
         <exclude name="tests/**"/>
         <exclude name="build.xml"/>
         <exclude name="composer.*"/>
         <exclude name="coverage.xml"/>
-        <exclude name="help/template.htm"/>
+        <exclude name="phpstan.neon"/>
         <exclude name="README*.md"/>
       </fileset>
     </move>

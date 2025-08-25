@@ -25,7 +25,7 @@ class Plugin
 {
     const VERSION = '1.0';
 
-    public function run()
+    public function run(): void
     {
         global $plugin_cf;
 
@@ -40,9 +40,9 @@ class Plugin
         }
     }
 
-    protected function handleAdministration()
+    protected function handleAdministration(): void
     {
-        global $admin, $action, $o;
+        global $admin, $o;
 
         $o .= print_plugin_admin('off');
         switch ($admin) {
@@ -51,7 +51,7 @@ class Plugin
                     . (new PluginInfo())->render();
                 break;
             default:
-                $o .= plugin_admin_common($action, $admin, 'tablesorter');
+                $o .= plugin_admin_common();
         }
     }
 }
