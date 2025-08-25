@@ -8,8 +8,9 @@ class PluginTest extends TestCase
 {
     public function testMakesMain(): void
     {
-        global $pth, $plugin_tx;
+        global $pth, $plugin_cf, $plugin_tx;
         $pth = ["folder" => ["plugins" => ""]];
+        $plugin_cf = ["tablesorter" => []];
         $plugin_tx = ["tablesorter" => []];
         $this->assertInstanceOf(Main::class, Plugin::makeMain());
     }

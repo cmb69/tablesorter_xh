@@ -25,17 +25,29 @@ use Plib\View;
 
 class Main
 {
+    /** @var string */
+    private $pluginFolder;
+
+    /** @var array<string,string> */
+    private $config;
+
     /** @var View */
     private $view;
 
-    public function __construct(View $view)
-    {
+    /** @param array<string,string> $config */
+    public function __construct(
+        string $pluginFolder,
+        array $config,
+        View $view
+    ) {
+        $this->pluginFolder = $pluginFolder;
+        $this->config = $config;
         $this->view = $view;
     }
 
     public function __invoke(): void
     {
-        global $bjs, $pth;
+        global $bjs;
         static $again = false;
 
         if ($again) {
@@ -43,7 +55,7 @@ class Main
         }
         $again = true;
         $bjs .= $this->view->render("main", [
-            "script" => "{$pth['folder']['plugins']}tablesorter/tablesorter.min.js",
+            "script" => $this->pluginFolder . "tablesorter.min.js",
             "config" => $this->config(),
         ]);
     }
@@ -51,14 +63,11 @@ class Main
     /** @return array<string,mixed> */
     private function config(): array
     {
-        global $plugin_cf, $plugin_tx;
-        $pcf = $plugin_cf['tablesorter'];
-        $ptx = $plugin_tx['tablesorter'];
         return [
-            'sortable' => (bool) $pcf['sortable'],
-            'maxPages' => (int) $pcf['pagination_max'],
-            'show' => $ptx['label_show'],
-            'hide' => $ptx['label_hide']
+            'sortable' => (bool) $this->config["sortable"],
+            'maxPages' => (int) $this->config["pagination_max"],
+            'show' => $this->view->plain("label_show"),
+            'hide' => $this->view->plain("label_hide"),
         ];
     }
 }
