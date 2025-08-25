@@ -32,26 +32,5 @@ class Plugin
         if ($plugin_cf['tablesorter']['auto']) {
             tablesorter();
         }
-        if (defined('XH_ADM') && XH_ADM) {
-            XH_registerStandardPluginMenuItems(false);
-            if (XH_wantsPluginAdministration('tablesorter')) {
-                $this->handleAdministration();
-            }
-        }
-    }
-
-    protected function handleAdministration(): void
-    {
-        global $admin, $o;
-
-        $o .= print_plugin_admin('off');
-        switch ($admin) {
-            case '':
-                $o .= '<h1>Tablesorter ' . self::VERSION . '</h1>'
-                    . (new PluginInfo())->render();
-                break;
-            default:
-                $o .= plugin_admin_common();
-        }
     }
 }
