@@ -62,7 +62,7 @@ class Plugin
     {
         global $pth, $plugin_tx;
     
-        $phpVersion =  '5.5.0';
+        $phpVersion =  '7.4.0';
         $ptx = $plugin_tx['tablesorter'];
         $imgdir = $pth['folder']['plugins'] . 'tablesorter/images/';
         $ok = '<img src="' . $imgdir . 'ok.png" alt="ok">';

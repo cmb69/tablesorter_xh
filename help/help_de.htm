@@ -30,7 +30,11 @@
 </head>
 <body>
 <h1 id="tablesorter_xh">Tablesorter_XH</h1>
-<p>Tablesorter_XH ermöglicht die halbautomatische Verbesserung von Tabellen in Browsern, die einigermaßen zeitgemäßes JavaScript unterstützen. Sortieren nach einzelnen Spalten in auf- und absteigender Reihenfolge, verstecken vordefinierter Spalten, die erweitert werden können, sowie Paginierung sind möglich.</p>
+<p>Tablesorter_XH ermöglicht die halbautomatische Verbesserung von
+Tabellen in Browsern, die einigermaßen zeitgemäßes JavaScript
+unterstützen. Sortieren nach einzelnen Spalten in auf- und absteigender
+Reihenfolge, verstecken vordefinierter Spalten, die erweitert werden
+können, sowie Paginierung sind möglich.</p>
 <h2 id="inhaltsverzeichnis">Inhaltsverzeichnis</h2>
 <ul>
 <li><a href="#voraussetzungen">Voraussetzungen</a></li>
@@ -43,41 +47,111 @@
 <li><a href="#danksagung">Danksagung</a></li>
 </ul>
 <h2 id="voraussetzungen">Voraussetzungen</h2>
-<p>Tablesorter_XH ist ein Plugin für CMSimple_XH ≥ 1.7.0. Es benötigt PHP ≥ 5.5.0 mit der JSON Extension.</p>
+<p>Tablesorter_XH ist ein Plugin für CMSimple_XH ≥ 1.7.0. Es benötigt
+PHP ≥ 7.4.0 mit der JSON Extension.</p>
 <h2 id="download">Download</h2>
-<p>Das <a href="https://github.com/cmb69/tablesorter_xh/releases/latest">aktuelle Release</a> kann von Github herunter geladen werden.</p>
+<p>Das <a
+href="https://github.com/cmb69/tablesorter_xh/releases/latest">aktuelle
+Release</a> kann von Github herunter geladen werden.</p>
 <h2 id="installation">Installation</h2>
-<p>Die Installation erfolgt wie bei vielen anderen CMSimple_XH-Plugins auch. Im <a href="https://wiki.cmsimple-xh.org/doku.php/de:installation#plugins">CMSimple_XH-Wiki</a> sind weitere Details zu finden.</p>
+<p>Die Installation erfolgt wie bei vielen anderen CMSimple_XH-Plugins
+auch. Im <a
+href="https://wiki.cmsimple-xh.org/doku.php/de:installation#plugins">CMSimple_XH-Wiki</a>
+sind weitere Details zu finden.</p>
 <ol type="1">
 <li>Sichern Sie die Daten auf Ihrem Server.</li>
 <li>Entpacken Sie die ZIP-Datei auf Ihrem Rechner.</li>
-<li>Laden Sie das ganze Verzeichnis tablesorter/ auf Ihren Server in CMSimple_XHs Plugin-Verzeichnis hoch.</li>
-<li>Machen Sie die Unterverzeichnisse config/, css/ und languages/ beschreibbar.</li>
-<li>Gehen Sie im Administrationsbereich zu <em>Plugins</em>→<em>Tablesorter</em> , um zu prüfen ob alle Voraussetzungen erfüllt sind.</li>
+<li>Laden Sie das ganze Verzeichnis tablesorter/ auf Ihren Server in
+CMSimple_XHs Plugin-Verzeichnis hoch.</li>
+<li>Machen Sie die Unterverzeichnisse config/, css/ und languages/
+beschreibbar.</li>
+<li>Gehen Sie im Administrationsbereich zu
+<em>Plugins</em>→<em>Tablesorter</em> , um zu prüfen ob alle
+Voraussetzungen erfüllt sind.</li>
 </ol>
 <h2 id="einstellungen">Einstellungen</h2>
-<p>Die Plugin-Konfiguration erfolgt wie bei vielen anderen CMSimple_XH-Plugins auch im Administrationsbereich der Website. Wählen Sie <em>Plugins</em>→<em>Tablesorter</em>.</p>
-<p>Sie können die Voreinstellungen von Tablesorter_XH unter <em>Konfiguration</em> ändern. Hinweise zu den Optionen werden beim Überfahren der Hilfe-Icons mit der Maus angezeigt.</p>
-<p>Die Lokalisierung wird unter <em>Sprache</em> vorgenommen. Sie können die Sprachtexte in Ihre eigene Sprache übersetzen, falls keine entsprechende Sprachdatei zur Verfügung steht, oder diese Ihren Wünschen gemäß anpassen.</p>
-<p>Das Aussehen von Tablesorter_XH kann unter <em>Stylesheet</em> angepasst werden.</p>
+<p>Die Plugin-Konfiguration erfolgt wie bei vielen anderen
+CMSimple_XH-Plugins auch im Administrationsbereich der Website. Wählen
+Sie <em>Plugins</em>→<em>Tablesorter</em>.</p>
+<p>Sie können die Voreinstellungen von Tablesorter_XH unter
+<em>Konfiguration</em> ändern. Hinweise zu den Optionen werden beim
+Überfahren der Hilfe-Icons mit der Maus angezeigt.</p>
+<p>Die Lokalisierung wird unter <em>Sprache</em> vorgenommen. Sie können
+die Sprachtexte in Ihre eigene Sprache übersetzen, falls keine
+entsprechende Sprachdatei zur Verfügung steht, oder diese Ihren Wünschen
+gemäß anpassen.</p>
+<p>Das Aussehen von Tablesorter_XH kann unter <em>Stylesheet</em>
+angepasst werden.</p>
 <h2 id="verwendung">Verwendung</h2>
-<p>Um eine Tabelle in eine verbesserte Tabelle zu wandeln, muss ihr die CSS-Klasse <code>tablesorter</code> gegeben werden. Weiterhin ist es erforderlich, dass die Tabelle einen <code>&lt;thead&gt;</code> Abschnitt mit <code>&lt;th&gt;</code> Zellen, und einen <code>&lt;tbody&gt;</code> Abschnitt hat.</p>
-<p>Um breite Tabellen besser lesbar zu gestalten, können weniger wichtige Spalten ausgewählt werden, die nicht gezeigt werden; allerdings wird der Besucher in der Lage sein, jede Zeile zu erweitern, um den Inhalt der versteckten Spalten einzusehen. Um eine Spalte als versteckt zu markieren, muss das entsprechende <code>&lt;th&gt;</code> die CSS-Klasse <code>tablesorter_hide</code> erhalten. Alternativ können auch die CSS-Klassen <code>tablesorter_x_small</code>, <code>tablesorter_small</code>, <code>tablesorter_medium</code> oder <code>tablesorter_large</code> verwendet werden, um die Spalte in unpassenden Viewports auszublenden. Beispielsweise wird <code>tablesorter_medium</code> die Spalte in mittleren und großen Viewports anzeigen, sie aber in schmalen Viewports ausblenden.</p>
-<p>Die Sortierung der Zeilen erfolgt gemäß des Zeichenkettenvergleichs unter Berücksichtung der im Browser gültigen Regionaleinstellungen; Groß-/Kleinschreibung spielt dabei keine Rolle. Dies liefert bei numerischen Spalten falsche Resultate, so dass es möglich ist, numerische Spalten als solche auszuzeichnen indem dem zugehöhrigen <code>&lt;th&gt;</code> die CSS-Klasse <code>tablesorter_numeric</code> zugewiesen wird. Es ist zu beachten, dass Tausendertrennzeichen nicht unterstützt werden, und dass nur Punkte (<code>.</code>) als Dezimaltrennzeichen erlaubt sind. Das Sortieren von beliebigen Datums- und/oder Zeitangaben wird ebenfalls nicht unterstützt; wird dies benötigt, sollten ISO 8601 Datums-/Zeitformate wie <code>2017-03-15</code> und <code>08:12</code> verwendet werden, für die Zeichenkettenvergleiche wie gewünscht funktionieren.</p>
-<p>Um die Tabellenverbesserungen wirklich zu aktivieren, muss der folgende Pluginaufruf irgendwo auf der Seite eingefügt werden:</p>
+<p>Um eine Tabelle in eine verbesserte Tabelle zu wandeln, muss ihr die
+CSS-Klasse <code>tablesorter</code> gegeben werden. Weiterhin ist es
+erforderlich, dass die Tabelle einen <code>&lt;thead&gt;</code>
+Abschnitt mit <code>&lt;th&gt;</code> Zellen, und einen
+<code>&lt;tbody&gt;</code> Abschnitt hat.</p>
+<p>Um breite Tabellen besser lesbar zu gestalten, können weniger
+wichtige Spalten ausgewählt werden, die nicht gezeigt werden; allerdings
+wird der Besucher in der Lage sein, jede Zeile zu erweitern, um den
+Inhalt der versteckten Spalten einzusehen. Um eine Spalte als versteckt
+zu markieren, muss das entsprechende <code>&lt;th&gt;</code> die
+CSS-Klasse <code>tablesorter_hide</code> erhalten. Alternativ können
+auch die CSS-Klassen <code>tablesorter_x_small</code>,
+<code>tablesorter_small</code>, <code>tablesorter_medium</code> oder
+<code>tablesorter_large</code> verwendet werden, um die Spalte in
+unpassenden Viewports auszublenden. Beispielsweise wird
+<code>tablesorter_medium</code> die Spalte in mittleren und großen
+Viewports anzeigen, sie aber in schmalen Viewports ausblenden.</p>
+<p>Die Sortierung der Zeilen erfolgt gemäß des Zeichenkettenvergleichs
+unter Berücksichtung der im Browser gültigen Regionaleinstellungen;
+Groß-/Kleinschreibung spielt dabei keine Rolle. Dies liefert bei
+numerischen Spalten falsche Resultate, so dass es möglich ist,
+numerische Spalten als solche auszuzeichnen indem dem zugehöhrigen
+<code>&lt;th&gt;</code> die CSS-Klasse <code>tablesorter_numeric</code>
+zugewiesen wird. Es ist zu beachten, dass Tausendertrennzeichen nicht
+unterstützt werden, und dass nur Punkte (<code>.</code>) als
+Dezimaltrennzeichen erlaubt sind. Das Sortieren von beliebigen Datums-
+und/oder Zeitangaben wird ebenfalls nicht unterstützt; wird dies
+benötigt, sollten ISO 8601 Datums-/Zeitformate wie
+<code>2017-03-15</code> und <code>08:12</code> verwendet werden, für die
+Zeichenkettenvergleiche wie gewünscht funktionieren.</p>
+<p>Um die Tabellenverbesserungen wirklich zu aktivieren, muss der
+folgende Pluginaufruf irgendwo auf der Seite eingefügt werden:</p>
 <pre><code>{{{tablesorter();}}}</code></pre>
-<p>Alternative kann die <em>auto</em> Option in der Pluginkonfiguration aktiviert werden.</p>
+<p>Alternative kann die <em>auto</em> Option in der Pluginkonfiguration
+aktiviert werden.</p>
 <h2 id="fehlerbehebung">Fehlerbehebung</h2>
-<p>Melden Sie Programmfehler und stellen Sie Supportanfragen entweder auf <a href="https://github.com/cmb69/tablesorter_xh/issues">Github</a> oder im <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
+<p>Melden Sie Programmfehler und stellen Sie Supportanfragen entweder
+auf <a href="https://github.com/cmb69/tablesorter_xh/issues">Github</a>
+oder im <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
 <h2 id="lizenz">Lizenz</h2>
-<p>Tablesorter_XH ist freie Software. Sie können es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version.</p>
-<p>Die Veröffentlichung von Tablesorter_XH erfolgt in der Hoffnung, daß es Ihnen von Nutzen sein wird, aber ohne irgendeine Garantie, sogar ohne die implizite Garantie der Marktreife oder der Verwendbarkeit für einen bestimmten Zweck. Details finden Sie in der GNU General Public License.</p>
-<p>Sie sollten ein Exemplar der GNU General Public License zusammen mit Tablesorter_XH erhalten haben. Falls nicht, siehe http://www.gnu.org/licenses/.</p>
+<p>Tablesorter_XH ist freie Software. Sie können es unter den
+Bedingungen der GNU General Public License, wie von der Free Software
+Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder
+gemäß Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren
+Version.</p>
+<p>Die Veröffentlichung von Tablesorter_XH erfolgt in der Hoffnung, daß
+es Ihnen von Nutzen sein wird, aber ohne irgendeine Garantie, sogar ohne
+die implizite Garantie der Marktreife oder der Verwendbarkeit für einen
+bestimmten Zweck. Details finden Sie in der GNU General Public
+License.</p>
+<p>Sie sollten ein Exemplar der GNU General Public License zusammen mit
+Tablesorter_XH erhalten haben. Falls nicht, siehe
+http://www.gnu.org/licenses/.</p>
 <p>Copyright © 2012-2019 Christoph M. Becker</p>
 <h2 id="danksagung">Danksagung</h2>
-<p>Das Pluginlogo wurde von <a href="http://code.google.com/u/newmooon/">New Mooon</a> gestaltet. Vielen Dank für die Veröffentlichung unter GPL.</p>
-<p>Diese Plugin verwendet Free-Application-Icons von <a href="http://www.aha-soft.com/">Aha-Soft</a>. Vielen Dank für die freie Bereitstellung dieser Icons.</p>
-<p>Vielen Dank an die Community im <a href="http://www.cmsimpleforum.com/">CMSimple_XH Forum</a> für Hinweise, Anregungen und das Testen. Besonders möchte ich lck für hilfreiche Tipps bezüglich der Gestaltung danken.</p>
-<p>Und zu guter letzt vielen Dank an <a href="http://www.harteg.dk/">Peter Harteg</a>, den “Vater” von CMSimple, und allen Entwicklern von <a href="http://www.cmsimple-xh.org/de/">CMSimple_XH</a> ohne die es dieses phantastische CMS nicht gäbe.</p>
+<p>Das Pluginlogo wurde von <a
+href="http://code.google.com/u/newmooon/">New Mooon</a> gestaltet.
+Vielen Dank für die Veröffentlichung unter GPL.</p>
+<p>Diese Plugin verwendet Free-Application-Icons von <a
+href="http://www.aha-soft.com/">Aha-Soft</a>. Vielen Dank für die freie
+Bereitstellung dieser Icons.</p>
+<p>Vielen Dank an die Community im <a
+href="http://www.cmsimpleforum.com/">CMSimple_XH Forum</a> für Hinweise,
+Anregungen und das Testen. Besonders möchte ich lck für hilfreiche Tipps
+bezüglich der Gestaltung danken.</p>
+<p>Und zu guter letzt vielen Dank an <a
+href="http://www.harteg.dk/">Peter Harteg</a>, den “Vater” von CMSimple,
+und allen Entwicklern von <a
+href="http://www.cmsimple-xh.org/de/">CMSimple_XH</a> ohne die es dieses
+phantastische CMS nicht gäbe.</p>
 </body>
 </html>

@@ -30,7 +30,10 @@
 </head>
 <body>
 <h1 id="tablesorter_xh">Tablesorter_XH</h1>
-<p>Tablesorter_XH facilitates semi-automatic enhancement of tables in browsers which support somewhat contemporary JavaScript. Sorting by single columns in ascending and descending order, hiding of predefined columns which can be expanded, and pagination are supported.</p>
+<p>Tablesorter_XH facilitates semi-automatic enhancement of tables in
+browsers which support somewhat contemporary JavaScript. Sorting by
+single columns in ascending and descending order, hiding of predefined
+columns which can be expanded, and pagination are supported.</p>
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
@@ -43,41 +46,100 @@
 <li><a href="#credits">Credits</a></li>
 </ul>
 <h2 id="requirements">Requirements</h2>
-<p>Tablesorter_XH is a plugin for CMSimple_XH ≥ 1.7.0. It requires PHP ≥ 5.5.0 with the JSON extension.</p>
+<p>Tablesorter_XH is a plugin for CMSimple_XH ≥ 1.7.0. It requires PHP ≥
+7.4.0.</p>
 <h2 id="download">Download</h2>
-<p>The <a href="https://github.com/cmb69/tablesorter_xh/releases/latest">lastest release</a> is available for download on Github.</p>
+<p>The <a
+href="https://github.com/cmb69/tablesorter_xh/releases/latest">lastest
+release</a> is available for download on Github.</p>
 <h2 id="installation">Installation</h2>
-<p>The installation is done as with many other CMSimple_XH plugins. See the <a href="https://wiki.cmsimple-xh.org/doku.php/installation#plugins">CMSimple_XH wiki</a> for further details.</p>
+<p>The installation is done as with many other CMSimple_XH plugins. See
+the <a
+href="https://wiki.cmsimple-xh.org/doku.php/installation#plugins">CMSimple_XH
+wiki</a> for further details.</p>
 <ol type="1">
 <li>Backup the data on your server.</li>
 <li>Unzip the distribution on your computer.</li>
-<li>Upload the whole directory tablesorter/ to your server into CMSimple_XH’s plugins directory.</li>
-<li>Set write permissions for the subdirectories config/, css/ and languages/.</li>
-<li>Switch to <em>Plugins</em>→<em>Tablesorter</em> in the back-end to check if all requirements are fulfilled.</li>
+<li>Upload the whole directory tablesorter/ to your server into
+CMSimple_XH’s plugins directory.</li>
+<li>Set write permissions for the subdirectories config/, css/ and
+languages/.</li>
+<li>Switch to <em>Plugins</em>→<em>Tablesorter</em> in the back-end to
+check if all requirements are fulfilled.</li>
 </ol>
 <h2 id="settings">Settings</h2>
-<p>The plugin’s configuration is done as with many other CMSimple_XH plugins in the website’s back-end. Select Plugins→Tablesorter.</p>
-<p>You can change the default settings of Tablesorter_XH under <em>Config</em>. Hints for the options will be displayed when hovering over the help icon with your mouse.</p>
-<p>Localization is done under <em>Language</em>. You can translate the character strings to your own language if there is no appropriate language file available, or customize them according to your needs.</p>
-<p>The look of Tablesorter_XH can be customized under <em>Stylesheet</em>.</p>
+<p>The plugin’s configuration is done as with many other CMSimple_XH
+plugins in the website’s back-end. Select Plugins→Tablesorter.</p>
+<p>You can change the default settings of Tablesorter_XH under
+<em>Config</em>. Hints for the options will be displayed when hovering
+over the help icon with your mouse.</p>
+<p>Localization is done under <em>Language</em>. You can translate the
+character strings to your own language if there is no appropriate
+language file available, or customize them according to your needs.</p>
+<p>The look of Tablesorter_XH can be customized under
+<em>Stylesheet</em>.</p>
 <h2 id="usage">Usage</h2>
-<p>To turn a table into an enhanced table, you have to give it the CSS class <code>tablesorter</code>. Furthermore it is mandatory that the table has a <code>&lt;thead&gt;</code> with <code>&lt;th&gt;</code> cells and a <code>&lt;tbody&gt;</code> section.</p>
-<p>To make wide tables better viewable, you can select less important columns which will not be shown, but the visitor will be able to expand each row to view the hidden column contents. To mark a column as hidden, just add the CSS class <code>tablesorter_hide</code> to the respective <code>&lt;th&gt;</code>. Alternatively, you can add the CSS class <code>tablesorter_x_small</code>, <code>tablesorter_small</code>, <code>tablesorter_medium</code> and <code>tablesorter_large</code>, respectively, to hide the column in inappropriate viewports. For instance, <code>tablesorter_medium</code> will show the column in medium and large viewports, but will hide it in small viewports.</p>
-<p>The sorting of the rows works by case-insensitive string comparison according to the browser’s locale. This does not work well for numeric columns, so it is possible to mark a numeric column as such by adding the CSS class <code>tablesorter_numeric</code> to the column’s <code>&lt;th&gt;</code>. Note that thousands separators are not supported, and that only dots (<code>.</code>) are supported as decimal separator. Sorting arbitrary dates and/or times is also unsupported; if you need this, just use ISO 8601 date/time formats, such as <code>2017-03-15</code> and <code>08:12</code> in which case string comparison works fine.</p>
-<p>To actually enable the table enhancements, you have to add the following plugin call somewhere on the page:</p>
+<p>To turn a table into an enhanced table, you have to give it the CSS
+class <code>tablesorter</code>. Furthermore it is mandatory that the
+table has a <code>&lt;thead&gt;</code> with <code>&lt;th&gt;</code>
+cells and a <code>&lt;tbody&gt;</code> section.</p>
+<p>To make wide tables better viewable, you can select less important
+columns which will not be shown, but the visitor will be able to expand
+each row to view the hidden column contents. To mark a column as hidden,
+just add the CSS class <code>tablesorter_hide</code> to the respective
+<code>&lt;th&gt;</code>. Alternatively, you can add the CSS class
+<code>tablesorter_x_small</code>, <code>tablesorter_small</code>,
+<code>tablesorter_medium</code> and <code>tablesorter_large</code>,
+respectively, to hide the column in inappropriate viewports. For
+instance, <code>tablesorter_medium</code> will show the column in medium
+and large viewports, but will hide it in small viewports.</p>
+<p>The sorting of the rows works by case-insensitive string comparison
+according to the browser’s locale. This does not work well for numeric
+columns, so it is possible to mark a numeric column as such by adding
+the CSS class <code>tablesorter_numeric</code> to the column’s
+<code>&lt;th&gt;</code>. Note that thousands separators are not
+supported, and that only dots (<code>.</code>) are supported as decimal
+separator. Sorting arbitrary dates and/or times is also unsupported; if
+you need this, just use ISO 8601 date/time formats, such as
+<code>2017-03-15</code> and <code>08:12</code> in which case string
+comparison works fine.</p>
+<p>To actually enable the table enhancements, you have to add the
+following plugin call somewhere on the page:</p>
 <pre><code>{{{tablesorter();}}}</code></pre>
-<p>Alternatively, you can enable the <em>auto</em> option in the plugin configuration.</p>
+<p>Alternatively, you can enable the <em>auto</em> option in the plugin
+configuration.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
-<p>Report bugs and ask for support either on <a href="https://github.com/cmb69/tablesorter_xh/issues">Github</a> or in the <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
+<p>Report bugs and ask for support either on <a
+href="https://github.com/cmb69/tablesorter_xh/issues">Github</a> or in
+the <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
 <h2 id="license">License</h2>
-<p>Tablesorter_XH is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
-<p>Tablesorter_XH is distributed in the hope that it will be useful, but <em>without any warranty</em>; without even the implied warranty of <em>merchantibility</em> or <em>fitness for a particular purpose</em>. See the GNU General Public License for more details.</p>
-<p>You should have received a copy of the GNU General Public License along with Tablesorter_XH. If not, see <a href="http://www.gnu.org/licenses/" class="uri">http://www.gnu.org/licenses/</a>.</p>
+<p>Tablesorter_XH is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.</p>
+<p>Tablesorter_XH is distributed in the hope that it will be useful, but
+<em>without any warranty</em>; without even the implied warranty of
+<em>merchantibility</em> or <em>fitness for a particular purpose</em>.
+See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with Tablesorter_XH. If not, see <a
+href="http://www.gnu.org/licenses/"
+class="uri">http://www.gnu.org/licenses/</a>.</p>
 <p>Copyright © 2012-2019 Christoph M. Becker</p>
 <h2 id="credits">Credits</h2>
-<p>The plugin logo is designed by <a href="http://code.google.com/u/newmooon/">New Mooon</a>. Many thanks for publishing this icon under GPL.</p>
-<p>This plugin uses free applications icons from <a href="http://www.aha-soft.com/">Aha-Soft</a>. Many thanks for making these icons freely available.</p>
-<p>Many thanks to the community at the <a href="http://www.cmsimpleforum.com">CMSimple_XH forum</a> for tips, suggestions and testing. Particularly, I want to thank lck for helpful hints regarding the design.</p>
-<p>And last but not least many thanks to <a href="http://harteg.dk/">Peter Harteg</a>, the father of CMSimple, and all developers of <a href="http://www.cmsimple-xh.org">CMSimple_XH</a> without whom this amazing CMS wouldn’t exist.</p>
+<p>The plugin logo is designed by <a
+href="http://code.google.com/u/newmooon/">New Mooon</a>. Many thanks for
+publishing this icon under GPL.</p>
+<p>This plugin uses free applications icons from <a
+href="http://www.aha-soft.com/">Aha-Soft</a>. Many thanks for making
+these icons freely available.</p>
+<p>Many thanks to the community at the <a
+href="http://www.cmsimpleforum.com">CMSimple_XH forum</a> for tips,
+suggestions and testing. Particularly, I want to thank lck for helpful
+hints regarding the design.</p>
+<p>And last but not least many thanks to <a
+href="http://harteg.dk/">Peter Harteg</a>, the father of CMSimple, and
+all developers of <a href="http://www.cmsimple-xh.org">CMSimple_XH</a>
+without whom this amazing CMS wouldn’t exist.</p>
 </body>
 </html>
