@@ -39,16 +39,15 @@ class PluginInfo
 
     public function render(): string
     {
-        $o = '<h1>Tablesorter ' . Plugin::VERSION . '</h1>' . "\n"
-            . '<h4>' . $this->view->text("syscheck_title") . '</h4>' . "\n"
-            . $this->checkPhpVersion("7.4.0");
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $this->pluginFolder . $folder;
-        }
-        foreach ($folders as $folder) {
-            $o .= $this->checkWritability($folder);
-        }
-        return $o;
+        return $this->view->render("info", [
+            "version" => Plugin::VERSION,
+            "checks" => [
+                $this->checkPhpVersion("7.4.0"),
+                $this->checkWritability($this->pluginFolder . "config/"),
+                $this->checkWritability($this->pluginFolder . "css/"),
+                $this->checkWritability($this->pluginFolder . "languages/"),
+            ],
+        ]);
     }
 
     private function checkPhpVersion(string $version): string
