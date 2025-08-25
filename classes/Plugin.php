@@ -32,6 +32,7 @@ class Plugin
 
     public static function makePluginInfo(): PluginInfo
     {
-        return new PluginInfo();
+        global $pth;
+        return new PluginInfo($pth["folder"]["plugins"] . "tablesorter/");
     }
 }

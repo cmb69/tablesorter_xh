@@ -23,13 +23,21 @@ namespace Tablesorter;
 
 class PluginInfo
 {
+    /** @var string */
+    private $pluginFolder;
+
+    public function __construct(string $pluginFolder)
+    {
+        $this->pluginFolder = $pluginFolder;
+    }
+
     public function render(): string
     {
-        global $pth, $plugin_tx;
+        global $plugin_tx;
     
         $phpVersion =  '7.4.0';
         $ptx = $plugin_tx['tablesorter'];
-        $imgdir = $pth['folder']['plugins'] . 'tablesorter/images/';
+        $imgdir = $this->pluginFolder . 'images/';
         $ok = '<img src="' . $imgdir . 'ok.png" alt="ok">';
         $warn = '<img src="' . $imgdir . 'warn.png" alt="warning">';
         $fail = '<img src="' . $imgdir . 'fail.png" alt="failure">';
@@ -39,7 +47,7 @@ class PluginInfo
             . sprintf($ptx['syscheck_phpversion'], $phpVersion)
             . '<br><br>';
         foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'tablesorter/' . $folder;
+            $folders[] = $this->pluginFolder . $folder;
         }
         foreach ($folders as $folder) {
             $o .= (is_writable($folder) ? $ok : $warn)
