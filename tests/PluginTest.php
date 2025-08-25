@@ -1,9 +1,8 @@
 <?php
 
+namespace Tablesorter;
+
 use PHPUnit\Framework\TestCase;
-use Tablesorter\Main;
-use Tablesorter\Plugin;
-use Tablesorter\PluginInfo;
 
 class PluginTest extends TestCase
 {

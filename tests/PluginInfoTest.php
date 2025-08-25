@@ -1,11 +1,12 @@
 <?php
 
+namespace Tablesorter;
+
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
 use Plib\FakeSystemChecker;
 use Plib\SystemChecker;
 use Plib\View;
-use Tablesorter\PluginInfo;
 
 class PluginInfoTest extends TestCase
 {
