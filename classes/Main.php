@@ -48,12 +48,6 @@ class Main
 
     public function __invoke(): Response
     {
-        static $again = false;
-
-        if ($again) {
-            return Response::create();
-        }
-        $again = true;
         return Response::create()->withBjs($this->view->render("main", [
             "script" => $this->pluginFolder . "tablesorter.min.js",
             "config" => $this->config(),

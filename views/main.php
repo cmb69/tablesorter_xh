@@ -9,4 +9,4 @@ use Plib\View;
  */
 ?>
 
-<script async src="<?=$this->esc($script)?>" data-tablesorter-config='<?=$this->json($config)?>'></script>
+<script type="module" src="<?=$this->esc($script)?>" data-tablesorter-config='<?=$this->json($config)?>'></script>

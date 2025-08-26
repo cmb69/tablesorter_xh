@@ -1,8 +1,7 @@
 # Tablesorter_XH
 
-Tablesorter_XH facilitates semi-automatic enhancement of tables in
-browsers which support somewhat contemporary JavaScript. Sorting by
-single columns in ascending and descending order, hiding of predefined
+Tablesorter_XH facilitates semi-automatic enhancement of tables in modern browsers.
+Sorting by single columns in ascending and descending order, hiding of predefined
 columns which can be expanded, and pagination are supported.
 
 ## Table of Contents
