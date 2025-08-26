@@ -35,6 +35,9 @@
     <exec executable="jshint" passthru="true" checkreturn="true">
       <arg line="tablesorter.min.js"/>
     </exec>
+    <exec executable="tsc" passthru="true" checkreturn="true">
+      <arg line="--checkJS --noEmit --lib es5,dom tablesorter.min.js"/>
+    </exec>
   </target>
 
   <target name="check" description="runs all checks" depends="sniff,stan,test,js"/>
