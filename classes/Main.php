@@ -50,7 +50,7 @@ class Main
     public function __invoke(Request $request): Response
     {
         return Response::create()->withBjs($this->view->render("main", [
-            "script" => $this->script(),
+            "script" => $request->url()->path($this->script())->with("v", Plugin::VERSION)->relative(),
             "config" => $this->config($request),
         ]));
     }
