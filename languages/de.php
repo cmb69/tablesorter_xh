@@ -13,3 +13,7 @@ $plugin_tx['tablesorter']['syscheck_writable'] = "Ordner '%s' beschreibbar";
 $plugin_tx['tablesorter']['cf_auto'] = "Ob der Tablesorter automatisch aktiviert werden soll.";
 $plugin_tx['tablesorter']['cf_sortable'] = "Ob die Tabellen sortierbar sein sollen.";
 $plugin_tx['tablesorter']['cf_pagination_max'] = "Die Höchstanzahl von Zeilen, die auf einmal angezeigt werden sollen. Weitere Zeilen können über  Paginierungsschalter abgerufen werden.";
+$plugin_tx['tablesorter']['cf_width_large'] = "Die minimale Breite des Viewports, bei der .tablesorter_large Spalten angezeigt werden.";
+$plugin_tx['tablesorter']['cf_width_medium'] = "Die minimale Breite des Viewports, bei der .tablesorter_medium Spalten angezeigt werden.";
+$plugin_tx['tablesorter']['cf_width_small'] = "Die minimale Breite des Viewports, bei der .tablesorter_small Spalten angezeigt werden.";
+$plugin_tx['tablesorter']['cf_width_x_small'] = "Die minimale Breite des Viewports, bei der .tablesorter_x_small Spalten angezeigt werden.";

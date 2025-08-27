@@ -67,12 +67,16 @@ class Main
     private function config(Request $request): array
     {
         return [
-            'sortable' => (bool) $this->config["sortable"],
-            'maxPages' => (int) $this->config["pagination_max"],
-            'locale' => $request->language(),
-            'columns' => $this->view->plain("label_columns"),
-            'show' => $this->view->plain("label_show"),
-            'hide' => $this->view->plain("label_hide"),
+            "sortable" => (bool) $this->config["sortable"],
+            "maxPages" => (int) $this->config["pagination_max"],
+            "widthLarge" => (int) $this->config["width_large"],
+            "widthMedium" => (int) $this->config["width_medium"],
+            "widthSmall" => (int) $this->config["width_small"],
+            "widthXSmall" => (int) $this->config["width_x_small"],
+            "locale" => $request->language(),
+            "columns" => $this->view->plain("label_columns"),
+            "show" => $this->view->plain("label_show"),
+            "hide" => $this->view->plain("label_hide"),
         ];
     }
 }

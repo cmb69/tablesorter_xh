@@ -20,7 +20,21 @@
 // jshint browser:true,esversion:5,latedef:nofunc,strict:implied
 // @ts-check
 
-/** @type {{sortable: boolean; maxPages: number; locale: string, columns: string, show: string; hide: string}} */
+/**
+ * @typedef {Object} Config
+ * @prop {boolean} sortable
+ * @prop {number} maxPages
+ * @prop {number} widthLarge
+ * @prop {number} widthMedium
+ * @prop {number} widthSmall
+ * @prop {number} widthXSmall
+ * @prop {string} locale
+ * @prop {string} columns
+ * @prop {string} show
+ * @prop {string} hide
+ */
+
+/** @type {Config} */
 var config = (function () {
     var script = /** @type {HTMLScriptElement} */ (
         document.querySelector("script[data-tablesorter-config]")
@@ -106,10 +120,10 @@ function initWidget(table) {
     /** @type {() => number[]} */
     function determineHiddenColumns() {
         var breakpoints = /** @type {{[x: string]: number}} */ ({
-            tablesorter_large: 1200,
-            tablesorter_medium: 992,
-            tablesorter_small: 768,
-            tablesorter_x_small: 480
+            tablesorter_large: config.widthLarge,
+            tablesorter_medium: config.widthMedium,
+            tablesorter_small: config.widthSmall,
+            tablesorter_x_small: config.widthXSmall
         });
         var result = /** @type {number[]} */ ([]);
         var classesToHide = /** @type {string[]} */ ([]);
