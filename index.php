@@ -21,6 +21,7 @@
 
 // phpcs:disable PSR1.Files.SideEffects
 
+use Plib\Request;
 use Tablesorter\Plugin;
 
 /**
@@ -29,10 +30,10 @@ use Tablesorter\Plugin;
  */
 
 if ($plugin_cf['tablesorter']['auto']) {
-    $o .= Plugin::makeMain()()();
+    $o .= Plugin::makeMain()(Request::current())();
 }
 
 function tablesorter(): string
 {
-    return Plugin::makeMain()()();
+    return Plugin::makeMain()(Request::current())();
 }

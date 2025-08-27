@@ -21,6 +21,7 @@
 
 namespace Tablesorter;
 
+use Plib\Request;
 use Plib\Response;
 use Plib\View;
 
@@ -46,20 +47,21 @@ class Main
         $this->view = $view;
     }
 
-    public function __invoke(): Response
+    public function __invoke(Request $request): Response
     {
         return Response::create()->withBjs($this->view->render("main", [
             "script" => $this->pluginFolder . "tablesorter.min.js",
-            "config" => $this->config(),
+            "config" => $this->config($request),
         ]));
     }
 
     /** @return array<string,mixed> */
-    private function config(): array
+    private function config(Request $request): array
     {
         return [
             'sortable' => (bool) $this->config["sortable"],
             'maxPages' => (int) $this->config["pagination_max"],
+            'locale' => $request->language(),
             'columns' => $this->view->plain("label_columns"),
             'show' => $this->view->plain("label_show"),
             'hide' => $this->view->plain("label_hide"),

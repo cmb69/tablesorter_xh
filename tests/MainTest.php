@@ -4,6 +4,7 @@ namespace Tablesorter;
 
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeRequest;
 use Plib\View;
 
 class MainTest extends TestCase
@@ -26,7 +27,8 @@ class MainTest extends TestCase
 
     public function testRendersScript(): void
     {
-        $response = $this->sut()();
+        $request = new FakeRequest();
+        $response = $this->sut()($request);
         Approvals::verifyHtml($response->bjs());
     }
 }
