@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2012-2019 Christoph M. Becker
+ * Copyright Christoph M. Becker
  *
  * This file is part of Tablesorter_XH.
  *

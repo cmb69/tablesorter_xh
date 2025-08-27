@@ -129,7 +129,7 @@ Sie sollten ein Exemplar der GNU General Public License zusammen mit
 Tablesorter_XH erhalten haben. Falls nicht, siehe
 http://www.gnu.org/licenses/.
 
-Copyright © 2012-2019 Christoph M. Becker
+Copyright © Christoph M. Becker
 
 ## Danksagung
 
