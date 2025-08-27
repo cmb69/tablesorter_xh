@@ -4,6 +4,8 @@ $plugin_tx['tablesorter']['label_columns'] = "Spalten …";
 $plugin_tx['tablesorter']['label_show'] = "mehr";
 $plugin_tx['tablesorter']['label_hide'] = "weniger";
 
+$plugin_tx['tablesorter']['error_not_found'] = "Datei %s nicht gefunden!";
+
 $plugin_tx['tablesorter']['syscheck_title'] = "Systemprüfung";
 $plugin_tx['tablesorter']['syscheck_phpversion'] = "PHP Version ≥ %s";
 $plugin_tx['tablesorter']['syscheck_plibversion'] = "Plib_XH Version ≥ %s";

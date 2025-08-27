@@ -33,14 +33,19 @@
 <p>Tablesorter_XH ermöglicht die halbautomatische Verbesserung von
 Tabellen in modernen Browsern. Sortieren nach einzelnen Spalten in auf-
 und absteigender Reihenfolge, verstecken vordefinierter Spalten, die
-erweitert werden können, sowie Paginierung sind möglich.</p>
+erweitert werden können, sowie Paginierung sind möglich. Weiterhin
+können CSV-Dateien direkt dargestellt werden.</p>
 <h2 id="inhaltsverzeichnis">Inhaltsverzeichnis</h2>
 <ul>
 <li><a href="#voraussetzungen">Voraussetzungen</a></li>
 <li><a href="#download">Download</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#einstellungen">Einstellungen</a></li>
-<li><a href="#verwendung">Verwendung</a></li>
+<li><a href="#verwendung">Verwendung</a>
+<ul>
+<li><a href="#anzeigen-von-csv-dateien">Anzeigen von
+CSV-Dateien</a></li>
+</ul></li>
 <li><a href="#fehlerbehebung">Fehlerbehebung</a></li>
 <li><a href="#lizenz">Lizenz</a></li>
 <li><a href="#danksagung">Danksagung</a></li>
@@ -123,9 +128,24 @@ benötigt, sollten ISO 8601 Datums-/Zeitformate wie
 Zeichenkettenvergleiche wie gewünscht funktionieren.</p>
 <p>Um die Tabellenverbesserungen wirklich zu aktivieren, muss der
 folgende Pluginaufruf irgendwo auf der Seite eingefügt werden:</p>
-<pre><code>{{{tablesorter();}}}</code></pre>
-<p>Alternative kann die <em>auto</em> Option in der Pluginkonfiguration
+<pre><code>{{{tablesorter()}}}</code></pre>
+<p>Alternativ kann die <em>auto</em> Option in der Pluginkonfiguration
 aktiviert werden.</p>
+<h3 id="anzeigen-von-csv-dateien">Anzeigen von CSV-Dateien</h3>
+<p>Es ist ebenfalls möglich CSV-Dateien direkt als sortierbare Tabellen
+anzuzeigen, anstatt die Daten manuell auf den Seiten einzubinden. Dazu
+müssen die CSV-Dateien in den Downloads-Ordner
+(<code>userfiles/downloads/</code>) oder einen Unterordner von diesem
+hoch geladen werden. Dann können sie auf einer Seite mit dem folgenden
+Pluginaufruf eingebettet werden:</p>
+<pre><code>{{{tablesorter_csv(&#39;%DATEINAME%&#39;)}}}</code></pre>
+<p>Um beispielsweise
+<code>userfiles/downloads/unterordner/daten.csv</code> anzuzeigen,
+schreibt man</p>
+<pre><code>{{{tablesorter_csv(&#39;unterordner/daten.csv)}}}</code></pre>
+<p>Die erzeugte Tabelle hat die CSS-Klassen <code>tablesorter</code> und
+<code>tablesorter_columns</code>; weitere Anpassung wie bei manuell
+erzeugten Tabellen werden nicht unterstützt.</p>
 <h2 id="fehlerbehebung">Fehlerbehebung</h2>
 <p>Melden Sie Programmfehler und stellen Sie Supportanfragen entweder
 auf <a href="https://github.com/cmb69/tablesorter_xh/issues">Github</a>

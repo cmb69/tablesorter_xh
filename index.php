@@ -37,3 +37,8 @@ function tablesorter(): string
 {
     return Plugin::makeMain()(Request::current())();
 }
+
+function tablesorter_csv(string $filename): string
+{
+    return Plugin::makeCsvTabler()($filename)();
+}

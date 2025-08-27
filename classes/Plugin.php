@@ -38,6 +38,12 @@ class Plugin
         );
     }
 
+    public static function makeCsvTabler(): CsvTabler
+    {
+        global $pth;
+        return new CsvTabler($pth["folder"]["downloads"], self::view());
+    }
+
     public static function makePluginInfo(): PluginInfo
     {
         global $pth;

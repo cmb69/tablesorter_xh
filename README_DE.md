@@ -3,7 +3,8 @@
 Tablesorter_XH ermöglicht die halbautomatische Verbesserung von Tabellen in
 modernen Browsern. Sortieren nach einzelnen Spalten in auf- und absteigender
 Reihenfolge, verstecken vordefinierter Spalten, die erweitert werden
-können, sowie Paginierung sind möglich.
+können, sowie Paginierung sind möglich. Weiterhin können CSV-Dateien direkt
+dargestellt werden.
 
 ## Inhaltsverzeichnis
 
@@ -12,6 +13,7 @@ können, sowie Paginierung sind möglich.
   - [Installation](#installation)
   - [Einstellungen](#einstellungen)
   - [Verwendung](#verwendung)
+    - [Anzeigen von CSV-Dateien](#anzeigen-von-csv-dateien)
   - [Fehlerbehebung](#fehlerbehebung)
   - [Lizenz](#lizenz)
   - [Danksagung](#danksagung)
@@ -102,10 +104,28 @@ Zeichenkettenvergleiche wie gewünscht funktionieren.
 Um die Tabellenverbesserungen wirklich zu aktivieren, muss der folgende
 Pluginaufruf irgendwo auf der Seite eingefügt werden:
 
-    {{{tablesorter();}}}
+    {{{tablesorter()}}}
 
-Alternative kann die *auto* Option in der Pluginkonfiguration aktiviert
+Alternativ kann die *auto* Option in der Pluginkonfiguration aktiviert
 werden.
+
+### Anzeigen von CSV-Dateien
+
+Es ist ebenfalls möglich CSV-Dateien direkt als sortierbare Tabellen anzuzeigen,
+anstatt die Daten manuell auf den Seiten einzubinden. Dazu müssen die CSV-Dateien
+in den Downloads-Ordner (`userfiles/downloads/`) oder einen Unterordner von diesem
+hoch geladen werden. Dann können sie auf einer Seite mit dem folgenden Pluginaufruf
+eingebettet werden:
+
+    {{{tablesorter_csv('%DATEINAME%')}}}
+
+Um beispielsweise `userfiles/downloads/unterordner/daten.csv` anzuzeigen, schreibt
+man
+
+    {{{tablesorter_csv('unterordner/daten.csv)}}}
+
+Die erzeugte Tabelle hat die CSS-Klassen `tablesorter` und `tablesorter_columns`;
+weitere Anpassung wie bei manuell erzeugten Tabellen werden nicht unterstützt.
 
 ## Fehlerbehebung
 

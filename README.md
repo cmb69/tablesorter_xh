@@ -2,7 +2,8 @@
 
 Tablesorter_XH facilitates semi-automatic enhancement of tables in modern browsers.
 Sorting by single columns in ascending and descending order, hiding of predefined
-columns which can be expanded, and pagination are supported.
+columns which can be expanded, and pagination are supported.  Furthermore, CSV files
+can be displayed directly.
 
 ## Table of Contents
 
@@ -11,6 +12,7 @@ columns which can be expanded, and pagination are supported.
   - [Installation](#installation)
   - [Settings](#settings)
   - [Usage](#usage)
+    - [Displaying CSV Files](#displaying-csv-files)
   - [Troubleshooting](#troubleshooting)
   - [License](#license)
   - [Credits](#credits)
@@ -92,10 +94,26 @@ fine.
 To actually enable the table enhancements, you have to add the following
 plugin call somewhere on the page:
 
-    {{{tablesorter();}}}
+    {{{tablesorter()}}}
 
 Alternatively, you can enable the *auto* option in the plugin
 configuration.
+
+### Displaying CSV Files
+
+You can also display CSV files as sortable tables directly, instead of manually
+embedding the data on your pages.  If you want to do this, put the CSV files
+in your downloads folder (`userfiles/downloads/`), or a subfolder thereof.
+Then embed them on a page with the following plugin call:
+
+    {{{tablesorter_csv('%FILENAME%')}}}
+
+For instace, to display `userfiles/downloads/subfolder/data.csv`, use
+
+    {{{tablesorter_csv('subfolder/data.csv)}}}
+
+The generated table will have the CSS classes `tablesorter` and `tablesorter_columns`;
+further customization like for manually created tables is not supported.
 
 ## Troubleshooting
 

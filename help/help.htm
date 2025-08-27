@@ -33,14 +33,18 @@
 <p>Tablesorter_XH facilitates semi-automatic enhancement of tables in
 modern browsers. Sorting by single columns in ascending and descending
 order, hiding of predefined columns which can be expanded, and
-pagination are supported.</p>
+pagination are supported. Furthermore, CSV files can be displayed
+directly.</p>
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#download">Download</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#settings">Settings</a></li>
-<li><a href="#usage">Usage</a></li>
+<li><a href="#usage">Usage</a>
+<ul>
+<li><a href="#displaying-csv-files">Displaying CSV Files</a></li>
+</ul></li>
 <li><a href="#troubleshooting">Troubleshooting</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#credits">Credits</a></li>
@@ -112,9 +116,22 @@ you need this, just use ISO 8601 date/time formats, such as
 comparison works fine.</p>
 <p>To actually enable the table enhancements, you have to add the
 following plugin call somewhere on the page:</p>
-<pre><code>{{{tablesorter();}}}</code></pre>
+<pre><code>{{{tablesorter()}}}</code></pre>
 <p>Alternatively, you can enable the <em>auto</em> option in the plugin
 configuration.</p>
+<h3 id="displaying-csv-files">Displaying CSV Files</h3>
+<p>You can also display CSV files as sortable tables directly, instead
+of manually embedding the data on your pages. If you want to do this,
+put the CSV files in your downloads folder
+(<code>userfiles/downloads/</code>), or a subfolder thereof. Then embed
+them on a page with the following plugin call:</p>
+<pre><code>{{{tablesorter_csv(&#39;%FILENAME%&#39;)}}}</code></pre>
+<p>For instace, to display
+<code>userfiles/downloads/subfolder/data.csv</code>, use</p>
+<pre><code>{{{tablesorter_csv(&#39;subfolder/data.csv)}}}</code></pre>
+<p>The generated table will have the CSS classes
+<code>tablesorter</code> and <code>tablesorter_columns</code>; further
+customization like for manually created tables is not supported.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <p>Report bugs and ask for support either on <a
 href="https://github.com/cmb69/tablesorter_xh/issues">Github</a> or in

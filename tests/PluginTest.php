@@ -15,6 +15,14 @@ class PluginTest extends TestCase
         $this->assertInstanceOf(Main::class, Plugin::makeMain());
     }
 
+    public function testMakesCsvTabler(): void
+    {
+        global $pth, $plugin_tx;
+        $pth = ["folder" => ["downloads" => "", "plugins" => ""]];
+        $plugin_tx = ["tablesorter" => []];
+        $this->assertInstanceOf(CsvTabler::class, Plugin::makeCsvTabler());
+    }
+
     public function testMakesPluginInfo(): void
     {
         global $pth, $plugin_tx;
