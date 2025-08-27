@@ -58,6 +58,13 @@
     padding: 1em 0;
 }
 
+/* column selection */
+table.tablesorter_columns {}
+button.tablesorter_colbutton {}
+ol.tablesorter_colsel {
+    list-style: none;
+}
+
 /*
  * Back-end
  */

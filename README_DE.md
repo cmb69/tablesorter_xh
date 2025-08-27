@@ -83,6 +83,9 @@ Viewports auszublenden. Beispielsweise wird `tablesorter_medium` die
 Spalte in mittleren und großen Viewports anzeigen, sie aber in schmalen
 Viewports ausblenden.
 
+Wird der Tabelle ebenfalls die CSS-Klasse `tablesorter_columns` zugewiesen,
+können Nutzer selbst auswählen, welche Spalten angezeigt werden.
+
 Die Sortierung der Zeilen erfolgt gemäß des Zeichenkettenvergleichs
 unter Berücksichtung der im Browser gültigen Regionaleinstellungen;
 Groß-/Kleinschreibung spielt dabei keine Rolle. Dies liefert bei

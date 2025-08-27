@@ -76,6 +76,9 @@ respectively, to hide the column in inappropriate viewports. For
 instance, `tablesorter_medium` will show the column in medium and large
 viewports, but will hide it in small viewports.
 
+If you also assign the CSS class `tablesorter_columns` on the table,
+users can select which columns are shown.
+
 The sorting of the rows works by case-insensitive string comparison
 according to the browser's locale. This does not work well for numeric
 columns, so it is possible to mark a numeric column as such by adding

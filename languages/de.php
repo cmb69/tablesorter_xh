@@ -1,5 +1,6 @@
 <?php
 
+$plugin_tx['tablesorter']['label_columns'] = "Spalten …";
 $plugin_tx['tablesorter']['label_show'] = "mehr";
 $plugin_tx['tablesorter']['label_hide'] = "weniger";
 

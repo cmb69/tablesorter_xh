@@ -60,6 +60,7 @@ class Main
         return [
             'sortable' => (bool) $this->config["sortable"],
             'maxPages' => (int) $this->config["pagination_max"],
+            'columns' => $this->view->plain("label_columns"),
             'show' => $this->view->plain("label_show"),
             'hide' => $this->view->plain("label_hide"),
         ];

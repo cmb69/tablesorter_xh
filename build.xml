@@ -36,7 +36,7 @@
       <arg line="tablesorter.min.js"/>
     </exec>
     <exec executable="tsc" passthru="true" checkreturn="true">
-      <arg line="--checkJS --noEmit --strict --lib es6,dom tablesorter.min.js"/>
+      <arg line="--checkJS --noEmit --strict --lib es2016,dom tablesorter.min.js"/>
     </exec>
   </target>
 
