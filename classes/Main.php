@@ -50,9 +50,17 @@ class Main
     public function __invoke(Request $request): Response
     {
         return Response::create()->withBjs($this->view->render("main", [
-            "script" => $this->pluginFolder . "tablesorter.min.js",
+            "script" => $this->script(),
             "config" => $this->config($request),
         ]));
+    }
+
+    private function script(): string
+    {
+        if (is_file($this->pluginFolder . "tablesorter.min.js")) {
+            return $this->pluginFolder . "tablesorter.min.js";
+        }
+        return $this->pluginFolder . "tablesorter.js";
     }
 
     /** @return array<string,mixed> */
