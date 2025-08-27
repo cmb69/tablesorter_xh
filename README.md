@@ -13,6 +13,7 @@ can be displayed directly.
   - [Settings](#settings)
   - [Usage](#usage)
     - [Displaying CSV Files](#displaying-csv-files)
+  - [Limitations](#limitations)
   - [Troubleshooting](#troubleshooting)
   - [License](#license)
   - [Credits](#credits)
@@ -114,6 +115,11 @@ For instace, to display `userfiles/downloads/subfolder/data.csv`, use
 
 The generated table will have the CSS classes `tablesorter` and `tablesorter_columns`;
 further customization like for manually created tables is not supported.
+
+## Limitations
+
+Tablesorter_XH does not support “complex” table markup, e.g. colspans, rowspans,
+table footers, etc.
 
 ## Troubleshooting
 

@@ -14,6 +14,7 @@ dargestellt werden.
   - [Einstellungen](#einstellungen)
   - [Verwendung](#verwendung)
     - [Anzeigen von CSV-Dateien](#anzeigen-von-csv-dateien)
+  - [Einschränkungen](#einschränkungen)
   - [Fehlerbehebung](#fehlerbehebung)
   - [Lizenz](#lizenz)
   - [Danksagung](#danksagung)
@@ -126,6 +127,11 @@ man
 
 Die erzeugte Tabelle hat die CSS-Klassen `tablesorter` und `tablesorter_columns`;
 weitere Anpassung wie bei manuell erzeugten Tabellen werden nicht unterstützt.
+
+## Einschränkungen
+
+Tablesorter_XH unterstützt kein „komplexes“ Tabellen-Markup, wie beispielsweise
+colspans, rowspans, Tabellen-Fußbereiche, usw.
 
 ## Fehlerbehebung
 
