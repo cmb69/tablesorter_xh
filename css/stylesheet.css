@@ -1,10 +1,10 @@
 .tablesorter thead th button{
     width: 100%;
 }
-.tablesorter_ascdesc:after, .tablesorter_asc:after, .tablesorter_desc:after {
+.tablesorter_asc:after, .tablesorter_desc:after {
     color: #555;
 }
-.tablesorter_ascdesc:after {
+.tablesorter_asc.tablesorter_desc:after {
     content: "▲▼";
     letter-spacing: -0.3em;
     padding: 0 0 0 0.7em;
