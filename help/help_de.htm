@@ -56,8 +56,8 @@ CSV-Dateien</a></li>
 href="https://cmsimple-xh.org/de/">CMSimple_XH</a>. Es benötigt
 CMSimple_XH ≥ 1.7.0 und PHP ≥ 7.4.0. Tablesorter_XH benötigt weiterhin
 <a href="https://github.com/cmb69/plib_xh">Plib_XH</a> ≥ 1.11; ist
-dieses noch nicht installiert (see
-<em>Einstellungen</em>→<em>Info</em>), laden Sie das <a
+dieses noch nicht installiert (see <code>Einstellungen</code> →
+<code>Info</code>), laden Sie das <a
 href="https://github.com/cmb69/plib_xh/releases/latest">aktuelle
 Release</a> herunter, und installieren Sie es.</p>
 <h2 id="download">Download</h2>
@@ -66,36 +66,34 @@ href="https://github.com/cmb69/tablesorter_xh/releases/latest">aktuelle
 Release</a> kann von Github herunter geladen werden.</p>
 <h2 id="installation">Installation</h2>
 <p>Die Installation erfolgt wie bei vielen anderen CMSimple_XH-Plugins
-auch. Im <a
-href="https://wiki.cmsimple-xh.org/doku.php/de:installation#plugins">CMSimple_XH-Wiki</a>
-sind weitere Details zu finden.</p>
+auch.</p>
 <ol type="1">
 <li>Sichern Sie die Daten auf Ihrem Server.</li>
 <li>Entpacken Sie die ZIP-Datei auf Ihrem Rechner.</li>
-<li>Laden Sie das ganze Verzeichnis tablesorter/ auf Ihren Server in
-CMSimple_XHs Plugin-Verzeichnis hoch.</li>
-<li>Machen Sie die Unterverzeichnisse config/, css/ und languages/
-beschreibbar.</li>
-<li>Gehen Sie im Administrationsbereich zu
-<em>Plugins</em>→<em>Tablesorter</em> , um zu prüfen ob alle
-Voraussetzungen erfüllt sind.</li>
+<li>Laden Sie den ganzen Ordner <code>tablesorter/</code> auf Ihren
+Server in den Plugin-Ordner von CMSimple_XH hoch.</li>
+<li>Machen Sie die Unterordner <code>config/</code>, <code>css/</code>
+und <code>languages/</code> beschreibbar.</li>
+<li>Gehen Sie im Administrationsbereich zu <code>Plugins</code> →
+<code>Tablesorter</code> , um zu prüfen ob alle Voraussetzungen erfüllt
+sind.</li>
 </ol>
 <h2 id="einstellungen">Einstellungen</h2>
 <p>Die Plugin-Konfiguration erfolgt wie bei vielen anderen
-CMSimple_XH-Plugins auch im Administrationsbereich der Website. Wählen
-Sie <em>Plugins</em>→<em>Tablesorter</em>.</p>
+CMSimple_XH-Plugins auch im Administrationsbereich der Website. Gehen
+Sie zu <code>Plugins</code> → <code>Tablesorter</code>.</p>
 <p>Sie können die Voreinstellungen von Tablesorter_XH unter
-<em>Konfiguration</em> ändern. Hinweise zu den Optionen werden beim
+<code>Konfiguration</code> ändern. Hinweise zu den Optionen werden beim
 Überfahren der Hilfe-Icons mit der Maus angezeigt.</p>
-<p>Die Lokalisierung wird unter <em>Sprache</em> vorgenommen. Sie können
-die Sprachtexte in Ihre eigene Sprache übersetzen, falls keine
+<p>Die Lokalisierung wird unter <code>Sprache</code> vorgenommen. Sie
+können die Sprachtexte in Ihre eigene Sprache übersetzen, falls keine
 entsprechende Sprachdatei zur Verfügung steht, oder diese Ihren Wünschen
 gemäß anpassen.</p>
-<p>Das Aussehen von Tablesorter_XH kann unter <em>Stylesheet</em>
+<p>Das Aussehen von Tablesorter_XH kann unter <code>Stylesheet</code>
 angepasst werden.</p>
 <h2 id="verwendung">Verwendung</h2>
 <p>Um eine Tabelle in eine verbesserte Tabelle zu wandeln, muss ihr die
-CSS-Klasse <code>tablesorter</code> gegeben werden. Weiterhin ist es
+CSS-Klasse <code>tablesorter</code> zugewiesen werden. Weiterhin ist es
 erforderlich, dass die Tabelle einen <code>&lt;thead&gt;</code>
 Abschnitt mit <code>&lt;th&gt;</code> Zellen, und einen
 <code>&lt;tbody&gt;</code> Abschnitt hat.</p>
@@ -114,19 +112,21 @@ Viewports anzeigen, sie aber in schmalen Viewports ausblenden.</p>
 <p>Wird der Tabelle ebenfalls die CSS-Klasse
 <code>tablesorter_columns</code> zugewiesen, können Nutzer selbst
 auswählen, welche Spalten angezeigt werden.</p>
-<p>Die Sortierung der Zeilen erfolgt gemäß des Zeichenkettenvergleichs
-unter Berücksichtung der im Browser gültigen Regionaleinstellungen;
+<p>Die Sortierung der Zeilen erfolgt gemäß des Zeichenkettenvergleichs;
 Groß-/Kleinschreibung spielt dabei keine Rolle. Dies liefert bei
 numerischen Spalten falsche Resultate, so dass es möglich ist,
 numerische Spalten als solche auszuzeichnen indem dem zugehöhrigen
 <code>&lt;th&gt;</code> die CSS-Klasse <code>tablesorter_numeric</code>
 zugewiesen wird. Es ist zu beachten, dass Tausendertrennzeichen nicht
 unterstützt werden, und dass nur Punkte (<code>.</code>) als
-Dezimaltrennzeichen erlaubt sind. Das Sortieren von beliebigen Datums-
-und/oder Zeitangaben wird ebenfalls nicht unterstützt; wird dies
-benötigt, sollten ISO 8601 Datums-/Zeitformate wie
-<code>2017-03-15</code> und <code>08:12</code> verwendet werden, für die
-Zeichenkettenvergleiche wie gewünscht funktionieren.</p>
+Dezimaltrennzeichen erlaubt sind. Eine Alternative ist, den Zahlen
+Nullen voranzustellen, und sie auf eine Weise zu formatieren, so dass
+alphanumerische Sortierung die gewünschten Ergebnisse erzielt (und dann
+nicht <code>tablesorter_numeric</code> zu verweden). Das Sortieren von
+beliebigen Datums- und/oder Zeitangaben wird ebenfalls nicht
+unterstützt; wird dies benötigt, sollten ISO 8601 Datums-/Zeitformate
+wie <code>2017-03-15</code> und <code>08:12</code> verwendet werden, für
+die Zeichenkettenvergleiche wie gewünscht funktionieren.</p>
 <p>Um die Tabellenverbesserungen wirklich zu aktivieren, muss der
 folgende Pluginaufruf irgendwo auf der Seite eingefügt werden:</p>
 <pre><code>{{{tablesorter()}}}</code></pre>
@@ -143,7 +143,7 @@ Pluginaufruf eingebettet werden:</p>
 <p>Um beispielsweise
 <code>userfiles/downloads/unterordner/daten.csv</code> anzuzeigen,
 schreibt man</p>
-<pre><code>{{{tablesorter_csv(&#39;unterordner/daten.csv)}}}</code></pre>
+<pre><code>{{{tablesorter_csv(&#39;unterordner/daten.csv&#39;)}}}</code></pre>
 <p>Die erzeugte Tabelle hat die CSS-Klassen <code>tablesorter</code> und
 <code>tablesorter_columns</code>; weitere Anpassung wie bei manuell
 erzeugten Tabellen werden nicht unterstützt.</p>
@@ -167,20 +167,20 @@ bestimmten Zweck. Details finden Sie in der GNU General Public
 License.</p>
 <p>Sie sollten ein Exemplar der GNU General Public License zusammen mit
 Tablesorter_XH erhalten haben. Falls nicht, siehe
-http://www.gnu.org/licenses/.</p>
+https://www.gnu.org/licenses/.</p>
 <p>Copyright © Christoph M. Becker</p>
 <h2 id="danksagung">Danksagung</h2>
 <p>Das Pluginlogo wurde von <a
-href="http://code.google.com/u/newmooon/">New Mooon</a> gestaltet.
+href="https://code.google.com/u/newmooon/">New Mooon</a> gestaltet.
 Vielen Dank für die Veröffentlichung unter GPL.</p>
 <p>Vielen Dank an die Community im <a
-href="http://www.cmsimpleforum.com/">CMSimple_XH Forum</a> für Hinweise,
-Anregungen und das Testen. Besonders möchte ich lck für hilfreiche Tipps
-bezüglich der Gestaltung danken.</p>
+href="https://www.cmsimpleforum.com/">CMSimple_XH Forum</a> für
+Hinweise, Anregungen und das Testen. Besonders möchte ich <em>lck</em>
+für hilfreiche Tipps bezüglich der Gestaltung danken.</p>
 <p>Und zu guter letzt vielen Dank an <a
-href="http://www.harteg.dk/">Peter Harteg</a>, den “Vater” von CMSimple,
-und allen Entwicklern von <a
-href="http://www.cmsimple-xh.org/de/">CMSimple_XH</a> ohne die es dieses
-phantastische CMS nicht gäbe.</p>
+href="https://www.harteg.dk/">Peter Harteg</a>, den „Vater“ von
+CMSimple, und allen Entwicklern von <a
+href="https://www.cmsimple-xh.org/de/">CMSimple_XH</a> ohne die es
+dieses phantastische CMS nicht gäbe.</p>
 </body>
 </html>

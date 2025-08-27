@@ -24,7 +24,7 @@ dargestellt werden.
 Tablesorter_XH ist ein Plugin für [CMSimple_XH](https://cmsimple-xh.org/de/).
 Es benötigt CMSimple_XH ≥ 1.7.0 und PHP ≥ 7.4.0.
 Tablesorter_XH benötigt weiterhin [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.11;
-ist dieses noch nicht installiert (see *Einstellungen*→*Info*),
+ist dieses noch nicht installiert (see `Einstellungen` → `Info`),
 laden Sie das [aktuelle Release](https://github.com/cmb69/plib_xh/releases/latest)
 herunter, und installieren Sie es.
 
@@ -36,41 +36,39 @@ kann von Github herunter geladen werden.
 ## Installation
 
 Die Installation erfolgt wie bei vielen anderen CMSimple_XH-Plugins
-auch. Im
-[CMSimple_XH-Wiki](https://wiki.cmsimple-xh.org/doku.php/de:installation#plugins)
-sind weitere Details zu finden.
+auch.
 
 1.  Sichern Sie die Daten auf Ihrem Server.
 2.  Entpacken Sie die ZIP-Datei auf Ihrem Rechner.
-3.  Laden Sie das ganze Verzeichnis tablesorter/ auf Ihren Server in
-    CMSimple_XHs Plugin-Verzeichnis hoch.
-4.  Machen Sie die Unterverzeichnisse config/, css/ und languages/
+3.  Laden Sie den ganzen Ordner `tablesorter/` auf Ihren Server in den
+    Plugin-Ordner von CMSimple_XH hoch.
+4.  Machen Sie die Unterordner `config/`, `css/` und `languages/`
     beschreibbar.
-5.  Gehen Sie im Administrationsbereich zu *Plugins*→*Tablesorter* , um
+5.  Gehen Sie im Administrationsbereich zu `Plugins` → `Tablesorter` , um
     zu prüfen ob alle Voraussetzungen erfüllt sind.
 
 ## Einstellungen
 
 Die Plugin-Konfiguration erfolgt wie bei vielen anderen
-CMSimple_XH-Plugins auch im Administrationsbereich der Website. Wählen
-Sie *Plugins*→*Tablesorter*.
+CMSimple_XH-Plugins auch im Administrationsbereich der Website.
+Gehen Sie zu `Plugins` → `Tablesorter`.
 
 Sie können die Voreinstellungen von Tablesorter_XH unter
-*Konfiguration* ändern. Hinweise zu den Optionen werden beim Überfahren
+`Konfiguration` ändern. Hinweise zu den Optionen werden beim Überfahren
 der Hilfe-Icons mit der Maus angezeigt.
 
-Die Lokalisierung wird unter *Sprache* vorgenommen. Sie können die
+Die Lokalisierung wird unter `Sprache` vorgenommen. Sie können die
 Sprachtexte in Ihre eigene Sprache übersetzen, falls keine entsprechende
 Sprachdatei zur Verfügung steht, oder diese Ihren Wünschen gemäß
 anpassen.
 
-Das Aussehen von Tablesorter_XH kann unter *Stylesheet* angepasst
+Das Aussehen von Tablesorter_XH kann unter `Stylesheet` angepasst
 werden.
 
 ## Verwendung
 
 Um eine Tabelle in eine verbesserte Tabelle zu wandeln, muss ihr die
-CSS-Klasse `tablesorter` gegeben werden. Weiterhin ist es erforderlich,
+CSS-Klasse `tablesorter` zugewiesen werden. Weiterhin ist es erforderlich,
 dass die Tabelle einen `<thead>` Abschnitt mit `<th>` Zellen, und einen
 `<tbody>` Abschnitt hat.
 
@@ -89,14 +87,16 @@ Viewports ausblenden.
 Wird der Tabelle ebenfalls die CSS-Klasse `tablesorter_columns` zugewiesen,
 können Nutzer selbst auswählen, welche Spalten angezeigt werden.
 
-Die Sortierung der Zeilen erfolgt gemäß des Zeichenkettenvergleichs
-unter Berücksichtung der im Browser gültigen Regionaleinstellungen;
+Die Sortierung der Zeilen erfolgt gemäß des Zeichenkettenvergleichs;
 Groß-/Kleinschreibung spielt dabei keine Rolle. Dies liefert bei
 numerischen Spalten falsche Resultate, so dass es möglich ist,
 numerische Spalten als solche auszuzeichnen indem dem zugehöhrigen
 `<th>` die CSS-Klasse `tablesorter_numeric` zugewiesen wird. Es ist zu
 beachten, dass Tausendertrennzeichen nicht unterstützt werden, und dass
-nur Punkte (`.`) als Dezimaltrennzeichen erlaubt sind. Das Sortieren von
+nur Punkte (`.`) als Dezimaltrennzeichen erlaubt sind. Eine Alternative ist, den
+Zahlen Nullen voranzustellen, und sie auf eine Weise zu formatieren, so dass
+alphanumerische Sortierung die gewünschten Ergebnisse erzielt (und dann nicht
+`tablesorter_numeric` zu verweden). Das Sortieren von
 beliebigen Datums- und/oder Zeitangaben wird ebenfalls nicht
 unterstützt; wird dies benötigt, sollten ISO 8601 Datums-/Zeitformate
 wie `2017-03-15` und `08:12` verwendet werden, für die
@@ -123,7 +123,7 @@ eingebettet werden:
 Um beispielsweise `userfiles/downloads/unterordner/daten.csv` anzuzeigen, schreibt
 man
 
-    {{{tablesorter_csv('unterordner/daten.csv)}}}
+    {{{tablesorter_csv('unterordner/daten.csv')}}}
 
 Die erzeugte Tabelle hat die CSS-Klassen `tablesorter` und `tablesorter_columns`;
 weitere Anpassung wie bei manuell erzeugten Tabellen werden nicht unterstützt.
@@ -153,21 +153,21 @@ bestimmten Zweck. Details finden Sie in der GNU General Public License.
 
 Sie sollten ein Exemplar der GNU General Public License zusammen mit
 Tablesorter_XH erhalten haben. Falls nicht, siehe
-http://www.gnu.org/licenses/.
+https://www.gnu.org/licenses/.
 
 Copyright © Christoph M. Becker
 
 ## Danksagung
 
-Das Pluginlogo wurde von [New Mooon](http://code.google.com/u/newmooon/)
+Das Pluginlogo wurde von [New Mooon](https://code.google.com/u/newmooon/)
 gestaltet. Vielen Dank für die Veröffentlichung unter GPL.
 
 Vielen Dank an die Community im [CMSimple_XH
-Forum](http://www.cmsimpleforum.com/) für Hinweise, Anregungen und das
-Testen. Besonders möchte ich lck für hilfreiche Tipps bezüglich der
+Forum](https://www.cmsimpleforum.com/) für Hinweise, Anregungen und das
+Testen. Besonders möchte ich *lck* für hilfreiche Tipps bezüglich der
 Gestaltung danken.
 
-Und zu guter letzt vielen Dank an [Peter Harteg](http://www.harteg.dk/),
-den "Vater" von CMSimple, und allen Entwicklern von
-[CMSimple_XH](http://www.cmsimple-xh.org/de/) ohne die es dieses
+Und zu guter letzt vielen Dank an [Peter Harteg](https://www.harteg.dk/),
+den „Vater“ von CMSimple, und allen Entwicklern von
+[CMSimple_XH](https://www.cmsimple-xh.org/de/) ohne die es dieses
 phantastische CMS nicht gäbe.
