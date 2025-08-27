@@ -1,8 +1,7 @@
 # Tablesorter_XH
 
-Tablesorter_XH ermöglicht die halbautomatische Verbesserung von
-Tabellen in Browsern, die einigermaßen zeitgemäßes JavaScript
-unterstützen. Sortieren nach einzelnen Spalten in auf- und absteigender
+Tablesorter_XH ermöglicht die halbautomatische Verbesserung von Tabellen in
+modernen Browsern. Sortieren nach einzelnen Spalten in auf- und absteigender
 Reihenfolge, verstecken vordefinierter Spalten, die erweitert werden
 können, sowie Paginierung sind möglich.
 
