@@ -281,46 +281,48 @@
             table.parentNode.insertBefore(selectionList, table);
         }
 
-        headings.forEach(function (heading, index) {
-            if (!config.sortable) {
-                return;
-            }
-            var button = document.createElement("button");
-            while (heading.firstChild) {
-                button.appendChild(heading.firstChild);
-            }
-            heading.appendChild(button);
-            button.classList.add("tablesorter_asc", "tablesorter_desc");
-            button.onclick = function () {
-                collapseDetails();
-                headings.forEach(function (heading2) {
-                    if (heading2.firstChild !== heading.firstChild) {
-                        var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
-                        button2.classList.add("tablesorter_asc", "tablesorter_desc");
-                    }
-                });
-                if (!button.classList.contains("tablesorter_desc")) {
-                    button.classList.remove("tablesorter_asc");
-                    button.classList.add("tablesorter_desc");
-                    sort(index, true, heading.classList.contains("tablesorter_numeric"));
-                } else {
-                    button.classList.remove("tablesorter_desc");
-                    button.classList.add("tablesorter_asc");
-                    sort(index, false, heading.classList.contains("tablesorter_numeric"));
+        (function () {
+            headings.forEach(function (heading, index) {
+                if (!config.sortable) {
+                    return;
                 }
-                paginate();
-            };
-        });
-        if (table.classList.contains("tablesorter_columns")) {
-            createColumnSelection();
-        }
-        addEventListener("resize", function () {
-            collapseDetails();
-            redisplayColumns();
-        });
-        hiddenColumns = determineHiddenColumns();
-        hideColumns();
-        paginate();
+                var button = document.createElement("button");
+                while (heading.firstChild) {
+                    button.appendChild(heading.firstChild);
+                }
+                heading.appendChild(button);
+                button.classList.add("tablesorter_asc", "tablesorter_desc");
+                button.onclick = function () {
+                    collapseDetails();
+                    headings.forEach(function (heading2) {
+                        if (heading2.firstChild !== heading.firstChild) {
+                            var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
+                            button2.classList.add("tablesorter_asc", "tablesorter_desc");
+                        }
+                    });
+                    if (!button.classList.contains("tablesorter_desc")) {
+                        button.classList.remove("tablesorter_asc");
+                        button.classList.add("tablesorter_desc");
+                        sort(index, true, heading.classList.contains("tablesorter_numeric"));
+                    } else {
+                        button.classList.remove("tablesorter_desc");
+                        button.classList.add("tablesorter_asc");
+                        sort(index, false, heading.classList.contains("tablesorter_numeric"));
+                    }
+                    paginate();
+                };
+            });
+            if (table.classList.contains("tablesorter_columns")) {
+                createColumnSelection();
+            }
+            addEventListener("resize", function () {
+                collapseDetails();
+                redisplayColumns();
+            });
+            hiddenColumns = determineHiddenColumns();
+            hideColumns();
+            paginate();
+        })();
     }
 
     /** @type {HTMLTableElement[]} */ (
