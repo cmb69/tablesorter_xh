@@ -185,14 +185,7 @@
                     detailCell.colSpan = row.cells.length;
                     var defList = document.createElement("dl");
                     hiddenColumns.forEach(function (column) {
-                        var dt = document.createElement("dt");
-                        var headingElement = headings[column];
-                        if (config.sortable) {
-                            headingElement = /** @type {HTMLButtonElement} */ (
-                                headingElement.firstChild
-                            );
-                        }
-                        dt.innerHTML = headingElement.innerHTML;
+                        var dt = makeDt(column);
                         defList.appendChild(dt);
                         var dd = document.createElement("dd");
                         dd.innerHTML = row.cells[column].innerHTML;
@@ -206,6 +199,17 @@
                     button.className = "tablesorter_expand";
                     button.textContent = config.show;
                 }
+            }
+
+            /** @type {(column: number) => HTMLElement} */
+            function makeDt(column) {
+                var dt = document.createElement("dt");
+                var headingElement = headings[column];
+                if (config.sortable) {
+                    headingElement = /** @type {HTMLButtonElement} */ (headingElement.firstChild);
+                }
+                dt.innerHTML = headingElement.innerHTML;
+                return dt;
             }
 
             (function () {
