@@ -86,11 +86,7 @@
                 var start = currentPage * config.maxPages;
                 var end = (currentPage + 1) * config.maxPages - 1;
                 array(rows).forEach(function (row, index) {
-                    if (index >= start && index <= end) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
+                    row.style.display = index >= start && index <= end ? "" : "none";
                 });
                 if (pageCount > 1) {
                     var pagination = document.createElement("div");
