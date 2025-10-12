@@ -52,7 +52,6 @@
 
     /** @type {(table: HTMLTableElement) => void} */
     function initWidget(table) {
-        var currentPage = 0;
         var hiddenColumns = /** @type {number[]} */ ([]);
         var headings = array(table.querySelectorAll("thead th"));
         var selectionList = document.createElement("ol");
@@ -60,6 +59,7 @@
 
         /** @type {() => void} */
         function paginate() {
+            var currentPage = 0;
             collapseDetails();
             var rows = table.tBodies[0].rows;
             var pageCount = Math.ceil(rows.length / config.maxPages);
