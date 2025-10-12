@@ -52,7 +52,7 @@
 
   <target name="minify" description="minifies JS">
     <exec executable="uglifyjs" passthru="true" checkreturn="true">
-      <arg line="${dir}/tablesorter.js --module --mangle --compress -o ${dir}/tablesorter.min.js"/>
+      <arg line="${dir}/tablesorter.js --no-module --mangle --compress -o ${dir}/tablesorter.min.js"/>
     </exec>
   </target>
 

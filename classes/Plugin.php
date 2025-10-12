@@ -21,6 +21,7 @@
 
 namespace Tablesorter;
 
+use Plib\JavaScript;
 use Plib\SystemChecker;
 use Plib\View;
 
@@ -34,6 +35,7 @@ class Plugin
         return new Main(
             $pth["folder"]["plugins"] . "tablesorter/",
             $plugin_cf["tablesorter"],
+            new JavaScript(),
             self::view()
         );
     }

@@ -21,6 +21,7 @@
 
 namespace Tablesorter;
 
+use Plib\JavaScript;
 use Plib\Request;
 use Plib\Response;
 use Plib\View;
@@ -33,6 +34,9 @@ class Main
     /** @var array<string,string> */
     private $config;
 
+    /** @var JavaScript */
+    private $javaScript;
+
     /** @var View */
     private $view;
 
@@ -40,27 +44,21 @@ class Main
     public function __construct(
         string $pluginFolder,
         array $config,
+        JavaScript $javaScript,
         View $view
     ) {
         $this->pluginFolder = $pluginFolder;
         $this->config = $config;
+        $this->javaScript = $javaScript;
         $this->view = $view;
     }
 
     public function __invoke(Request $request): Response
     {
+        $this->javaScript->include($this->pluginFolder . "tablesorter");
         return Response::create()->withBjs($this->view->render("main", [
-            "script" => $request->url()->path($this->script())->with("v", Plugin::VERSION)->relative(),
             "config" => $this->config($request),
         ]));
-    }
-
-    private function script(): string
-    {
-        if (is_file($this->pluginFolder . "tablesorter.min.js")) {
-            return $this->pluginFolder . "tablesorter.min.js";
-        }
-        return $this->pluginFolder . "tablesorter.js";
     }
 
     /** @return array<string,mixed> */

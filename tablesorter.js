@@ -17,304 +17,308 @@
  * along with Tablesorter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// jshint browser:true,esversion:5,latedef:nofunc,strict:implied
+// jshint browser:true,esversion:5,latedef:nofunc,strict:true
 // @ts-check
 
-/**
- * @typedef {Object} Config
- * @prop {boolean} sortable
- * @prop {number} maxPages
- * @prop {number} widthLarge
- * @prop {number} widthMedium
- * @prop {number} widthSmall
- * @prop {number} widthXSmall
- * @prop {string} locale
- * @prop {string} columns
- * @prop {string} show
- * @prop {string} hide
- */
+(function () {
+    "use strict";
 
-/** @type {Config} */
-var config = (function () {
-    var meta = /** @type {HTMLMetaElement} */ (
-        document.querySelector("meta[name=tablesorter_config]")
-    );
-    var data = /** @type {string} */ (meta.content);
-    return JSON.parse(data);
-})();
+    /**
+     * @typedef {Object} Config
+     * @prop {boolean} sortable
+     * @prop {number} maxPages
+     * @prop {number} widthLarge
+     * @prop {number} widthMedium
+     * @prop {number} widthSmall
+     * @prop {number} widthXSmall
+     * @prop {string} locale
+     * @prop {string} columns
+     * @prop {string} show
+     * @prop {string} hide
+     */
 
-/** @type {(table: HTMLTableElement) => void} */
-function initWidget(table) {
-    var currentPage = 0;
-    var hiddenColumns = /** @type {number[]} */ ([]);
-    var headings = table.querySelectorAll("thead th");
-    var selectionList = document.createElement("ol");
-    var userColumns = /** @type {boolean[]} */ ([]);
+    /** @type {Config} */
+    var config = (function () {
+        var meta = /** @type {HTMLMetaElement} */ (
+            document.querySelector("meta[name=tablesorter_config]")
+        );
+        var data = /** @type {string} */ (meta.content);
+        return JSON.parse(data);
+    })();
 
-    /** @type {() => void} */
-    function paginate() {
-        collapseDetails();
-        var rows = table.tBodies[0].rows;
-        var pageCount = Math.ceil(rows.length / config.maxPages);
-        var start = currentPage * config.maxPages;
-        var end = (currentPage + 1) * config.maxPages - 1;
-        Array.from(rows).forEach(function (row, index) {
-            if (index >= start && index <= end) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        });
-        if (pageCount > 1) {
-            var pagination = document.createElement("div");
-            pagination.className = "tablesorter_pagination";
-            Array.from(Array(pageCount).keys()).forEach(function (index) {
-                var button = document.createElement("button");
-                button.textContent = String(index + 1);
-                if (index === currentPage) {
-                    button.disabled = true;
+    /** @type {(table: HTMLTableElement) => void} */
+    function initWidget(table) {
+        var currentPage = 0;
+        var hiddenColumns = /** @type {number[]} */ ([]);
+        var headings = table.querySelectorAll("thead th");
+        var selectionList = document.createElement("ol");
+        var userColumns = /** @type {boolean[]} */ ([]);
+
+        /** @type {() => void} */
+        function paginate() {
+            collapseDetails();
+            var rows = table.tBodies[0].rows;
+            var pageCount = Math.ceil(rows.length / config.maxPages);
+            var start = currentPage * config.maxPages;
+            var end = (currentPage + 1) * config.maxPages - 1;
+            Array.from(rows).forEach(function (row, index) {
+                if (index >= start && index <= end) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
                 }
-                button.onclick = function () {
-                    currentPage = index;
-                    paginate();
-                };
-                pagination.append(button);
             });
-            if (
-                table.nextElementSibling &&
-                table.nextElementSibling.classList.contains("tablesorter_pagination")
-            ) {
-                table.nextElementSibling.remove();
-            }
-            table.after(pagination);
-        }
-    }
-
-    /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
-    function sort(column, desc, numeric) {
-        var tbody = table.tBodies[0];
-        var rows = Array.from(tbody.rows).map(function (tr) {
-            var td = tr.cells[column];
-            var value = td.textContent || "";
-            return {
-                value: numeric ? +value : value,
-                element: tr
-            };
-        });
-        if (!numeric) var collator = Intl.Collator(config.locale, { sensitivity: "base" });
-        rows = rows.sort(function (a, b) {
-            var order = desc ? -1 : 1;
-            if (typeof a.value === "number" && typeof b.value === "number") {
-                return (a.value - b.value) * order;
-            } else if (typeof a.value === "string" && typeof b.value === "string") {
-                return collator.compare(a.value, b.value) * order;
-            } else {
-                throw "error";
-            }
-        });
-        rows.forEach(function (value) {
-            tbody.append(value.element);
-        });
-    }
-
-    /** @type {() => number[]} */
-    function determineHiddenColumns() {
-        var breakpoints = /** @type {{[x: string]: number}} */ ({
-            tablesorter_large: config.widthLarge,
-            tablesorter_medium: config.widthMedium,
-            tablesorter_small: config.widthSmall,
-            tablesorter_x_small: config.widthXSmall
-        });
-        var result = /** @type {number[]} */ ([]);
-        var classesToHide = /** @type {string[]} */ ([]);
-        for (var prop in breakpoints) {
-            if (breakpoints.hasOwnProperty(prop) && window.innerWidth < breakpoints[prop]) {
-                classesToHide.push(prop);
-            }
-        }
-        headings.forEach(function (heading, index) {
-            if (userColumns[index] !== undefined) {
-                if (!userColumns[index]) {
-                    result.push(index);
+            if (pageCount > 1) {
+                var pagination = document.createElement("div");
+                pagination.className = "tablesorter_pagination";
+                Array.from(Array(pageCount).keys()).forEach(function (index) {
+                    var button = document.createElement("button");
+                    button.textContent = String(index + 1);
+                    if (index === currentPage) {
+                        button.disabled = true;
+                    }
+                    button.onclick = function () {
+                        currentPage = index;
+                        paginate();
+                    };
+                    pagination.append(button);
+                });
+                if (
+                    table.nextElementSibling &&
+                    table.nextElementSibling.classList.contains("tablesorter_pagination")
+                ) {
+                    table.nextElementSibling.remove();
                 }
-            } else if (heading.classList.contains("tablesorter_hide")) {
-                result.push(index);
-            } else {
-                var alreadyHidden = false;
-                classesToHide.forEach(function (className) {
-                    if (!alreadyHidden && heading.classList.contains(className)) {
+                table.after(pagination);
+            }
+        }
+
+        /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
+        function sort(column, desc, numeric) {
+            var tbody = table.tBodies[0];
+            var rows = Array.from(tbody.rows).map(function (tr) {
+                var td = tr.cells[column];
+                var value = td.textContent || "";
+                return {
+                    value: numeric ? +value : value,
+                    element: tr
+                };
+            });
+            if (!numeric) var collator = Intl.Collator(config.locale, { sensitivity: "base" });
+            rows = rows.sort(function (a, b) {
+                var order = desc ? -1 : 1;
+                if (typeof a.value === "number" && typeof b.value === "number") {
+                    return (a.value - b.value) * order;
+                } else if (typeof a.value === "string" && typeof b.value === "string") {
+                    return collator.compare(a.value, b.value) * order;
+                } else {
+                    throw "error";
+                }
+            });
+            rows.forEach(function (value) {
+                tbody.append(value.element);
+            });
+        }
+
+        /** @type {() => number[]} */
+        function determineHiddenColumns() {
+            var breakpoints = /** @type {{[x: string]: number}} */ ({
+                tablesorter_large: config.widthLarge,
+                tablesorter_medium: config.widthMedium,
+                tablesorter_small: config.widthSmall,
+                tablesorter_x_small: config.widthXSmall
+            });
+            var result = /** @type {number[]} */ ([]);
+            var classesToHide = /** @type {string[]} */ ([]);
+            for (var prop in breakpoints) {
+                if (breakpoints.hasOwnProperty(prop) && window.innerWidth < breakpoints[prop]) {
+                    classesToHide.push(prop);
+                }
+            }
+            headings.forEach(function (heading, index) {
+                if (userColumns[index] !== undefined) {
+                    if (!userColumns[index]) {
                         result.push(index);
-                        alreadyHidden = true;
+                    }
+                } else if (heading.classList.contains("tablesorter_hide")) {
+                    result.push(index);
+                } else {
+                    var alreadyHidden = false;
+                    classesToHide.forEach(function (className) {
+                        if (!alreadyHidden && heading.classList.contains(className)) {
+                            result.push(index);
+                            alreadyHidden = true;
+                        }
+                    });
+                }
+            });
+            return result;
+        }
+
+        /** @type {() => void} */
+        function hideColumns() {
+            if (hiddenColumns.length) {
+                table.querySelectorAll("tr").forEach(function (row) {
+                    hiddenColumns.forEach(function (column) {
+                        var cell = row.cells[column];
+                        cell.style.display = "none";
+                    });
+                    row.insertCell();
+                    if (row.parentElement && row.parentElement.nodeName.toLowerCase() === "tbody") {
+                        var section = /** @type {HTMLTableSectionElement} */ (row.parentElement);
+                        var button = document.createElement("button");
+                        button.className = "tablesorter_expand";
+                        button.textContent = config.show;
+                        button.onclick = function () {
+                            if (button.className === "tablesorter_expand") {
+                                var detailRow = section.insertRow(row.sectionRowIndex + 1);
+                                detailRow.className = "tablesorter_detail";
+                                var detailCell = detailRow.insertCell();
+                                detailCell.colSpan = row.cells.length;
+                                var defList = document.createElement("dl");
+                                hiddenColumns.forEach(function (column) {
+                                    var dt = document.createElement("dt");
+                                    var headingElement = headings[column];
+                                    if (config.sortable) {
+                                        headingElement = /** @type {HTMLButtonElement} */ (
+                                            headingElement.firstChild
+                                        );
+                                    }
+                                    dt.innerHTML = headingElement.innerHTML;
+                                    defList.append(dt);
+                                    var dd = document.createElement("dd");
+                                    dd.innerHTML = row.cells[column].innerHTML;
+                                    defList.append(dd);
+                                });
+                                detailCell.append(defList);
+                                button.className = "tablesorter_collapse";
+                                button.textContent = config.hide;
+                            } else {
+                                section.deleteRow(row.sectionRowIndex + 1);
+                                button.className = "tablesorter_expand";
+                                button.textContent = config.show;
+                            }
+                        };
+                        var lastColumn = row.cells.length - 1;
+                        row.cells[lastColumn].prepend(button);
                     }
                 });
+                var checkboxes = /** @type {NodeListOf<HTMLInputElement>} */ (
+                    selectionList.querySelectorAll("input[type=checkbox]")
+                );
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = !hiddenColumns.includes(Number(checkbox.value));
+                });
             }
-        });
-        return result;
-    }
+        }
 
-    /** @type {() => void} */
-    function hideColumns() {
-        if (hiddenColumns.length) {
-            table.querySelectorAll("tr").forEach(function (row) {
-                hiddenColumns.forEach(function (column) {
-                    var cell = row.cells[column];
-                    cell.style.display = "none";
+        /** @type {() => void} */
+        function unhideColumns() {
+            if (hiddenColumns.length) {
+                table.querySelectorAll("tr").forEach(function (row) {
+                    hiddenColumns.forEach(function (column) {
+                        var cell = row.cells[column];
+                        cell.style.display = "";
+                    });
+                    row.deleteCell(row.cells.length - 1);
                 });
-                row.insertCell();
-                if (row.parentElement && row.parentElement.nodeName.toLowerCase() === "tbody") {
-                    var section = /** @type {HTMLTableSectionElement} */ (row.parentElement);
-                    var button = document.createElement("button");
-                    button.className = "tablesorter_expand";
-                    button.textContent = config.show;
-                    button.onclick = function () {
-                        if (button.className === "tablesorter_expand") {
-                            var detailRow = section.insertRow(row.sectionRowIndex + 1);
-                            detailRow.className = "tablesorter_detail";
-                            var detailCell = detailRow.insertCell();
-                            detailCell.colSpan = row.cells.length;
-                            var defList = document.createElement("dl");
-                            hiddenColumns.forEach(function (column) {
-                                var dt = document.createElement("dt");
-                                var headingElement = headings[column];
-                                if (config.sortable) {
-                                    headingElement = /** @type {HTMLButtonElement} */ (
-                                        headingElement.firstChild
-                                    );
-                                }
-                                dt.innerHTML = headingElement.innerHTML;
-                                defList.append(dt);
-                                var dd = document.createElement("dd");
-                                dd.innerHTML = row.cells[column].innerHTML;
-                                defList.append(dd);
-                            });
-                            detailCell.append(defList);
-                            button.className = "tablesorter_collapse";
-                            button.textContent = config.hide;
-                        } else {
-                            section.deleteRow(row.sectionRowIndex + 1);
-                            button.className = "tablesorter_expand";
-                            button.textContent = config.show;
-                        }
-                    };
-                    var lastColumn = row.cells.length - 1;
-                    row.cells[lastColumn].prepend(button);
-                }
+            }
+            hiddenColumns = [];
+        }
+
+        /** @type {() => void} */
+        function redisplayColumns() {
+            var newHiddenColumns = determineHiddenColumns();
+            if (newHiddenColumns.length !== hiddenColumns.length) {
+                unhideColumns();
+                hiddenColumns = newHiddenColumns;
+                hideColumns();
+            }
+        }
+
+        /** @type {() => void} */
+        function collapseDetails() {
+            table.querySelectorAll("tr.tablesorter_detail").forEach(function (row) {
+                row.remove();
             });
-            var checkboxes = /** @type {NodeListOf<HTMLInputElement>} */ (
-                selectionList.querySelectorAll("input[type=checkbox]")
-            );
-            checkboxes.forEach(function (checkbox) {
-                checkbox.checked = !hiddenColumns.includes(Number(checkbox.value));
+            table.querySelectorAll("button.tablesorter_collapse").forEach(function (button) {
+                button.className = "tablesorter_expand";
+                button.textContent = config.show;
             });
         }
-    }
 
-    /** @type {() => void} */
-    function unhideColumns() {
-        if (hiddenColumns.length) {
-            table.querySelectorAll("tr").forEach(function (row) {
-                hiddenColumns.forEach(function (column) {
-                    var cell = row.cells[column];
-                    cell.style.display = "";
-                });
-                row.deleteCell(row.cells.length - 1);
+        /** @type {() => void} */
+        function createColumnSelection() {
+            headings.forEach(function (heading, index) {
+                var li = document.createElement("li");
+                var label = document.createElement("label");
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = String(index);
+                checkbox.indeterminate = true;
+                checkbox.onchange = function () {
+                    userColumns[index] = checkbox.checked;
+                    redisplayColumns();
+                };
+                label.append(checkbox, " ", heading.textContent || "");
+                li.append(label);
+                selectionList.append(li);
             });
-        }
-        hiddenColumns = [];
-    }
+            selectionList.className = "tablesorter_colsel";
+            selectionList.style.display = "none";
 
-    /** @type {() => void} */
-    function redisplayColumns() {
-        var newHiddenColumns = determineHiddenColumns();
-        if (newHiddenColumns.length !== hiddenColumns.length) {
-            unhideColumns();
-            hiddenColumns = newHiddenColumns;
-            hideColumns();
-        }
-    }
-
-    /** @type {() => void} */
-    function collapseDetails() {
-        table.querySelectorAll("tr.tablesorter_detail").forEach(function (row) {
-            row.remove();
-        });
-        table.querySelectorAll("button.tablesorter_collapse").forEach(function (button) {
-            button.className = "tablesorter_expand";
-            button.textContent = config.show;
-        });
-    }
-
-    /** @type {() => void} */
-    function createColumnSelection() {
-        headings.forEach(function (heading, index) {
-            var li = document.createElement("li");
-            var label = document.createElement("label");
-            var checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.value = String(index);
-            checkbox.indeterminate = true;
-            checkbox.onchange = function () {
-                userColumns[index] = checkbox.checked;
-                redisplayColumns();
+            var columnsButton = document.createElement("button");
+            columnsButton.className = "tablesorter_colbutton";
+            columnsButton.append(config.columns);
+            columnsButton.onclick = function () {
+                selectionList.style.display = selectionList.style.display === "none" ? "" : "none";
             };
-            label.append(checkbox, " ", heading.textContent || "");
-            li.append(label);
-            selectionList.append(li);
-        });
-        selectionList.className = "tablesorter_colsel";
-        selectionList.style.display = "none";
-
-        var columnsButton = document.createElement("button");
-        columnsButton.className = "tablesorter_colbutton";
-        columnsButton.append(config.columns);
-        columnsButton.onclick = function () {
-            selectionList.style.display = selectionList.style.display === "none" ? "" : "none";
-        };
-        table.before(columnsButton, selectionList);
-    }
-
-    headings.forEach(function (heading, index) {
-        if (!config.sortable) {
-            return;
+            table.before(columnsButton, selectionList);
         }
-        var button = document.createElement("button");
-        while (heading.firstChild) {
-            button.append(heading.firstChild);
-        }
-        heading.append(button);
-        button.classList.add("tablesorter_asc", "tablesorter_desc");
-        button.onclick = function () {
-            collapseDetails();
-            headings.forEach(function (heading2) {
-                if (heading2.firstChild !== heading.firstChild) {
-                    var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
-                    button2.classList.add("tablesorter_asc", "tablesorter_desc");
-                }
-            });
-            if (!button.classList.contains("tablesorter_desc")) {
-                button.classList.remove("tablesorter_asc");
-                button.classList.add("tablesorter_desc");
-                sort(index, true, heading.classList.contains("tablesorter_numeric"));
-            } else {
-                button.classList.remove("tablesorter_desc");
-                button.classList.add("tablesorter_asc");
-                sort(index, false, heading.classList.contains("tablesorter_numeric"));
+
+        headings.forEach(function (heading, index) {
+            if (!config.sortable) {
+                return;
             }
-            paginate();
-        };
-    });
-    if (table.classList.contains("tablesorter_columns")) {
-        createColumnSelection();
+            var button = document.createElement("button");
+            while (heading.firstChild) {
+                button.append(heading.firstChild);
+            }
+            heading.append(button);
+            button.classList.add("tablesorter_asc", "tablesorter_desc");
+            button.onclick = function () {
+                collapseDetails();
+                headings.forEach(function (heading2) {
+                    if (heading2.firstChild !== heading.firstChild) {
+                        var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
+                        button2.classList.add("tablesorter_asc", "tablesorter_desc");
+                    }
+                });
+                if (!button.classList.contains("tablesorter_desc")) {
+                    button.classList.remove("tablesorter_asc");
+                    button.classList.add("tablesorter_desc");
+                    sort(index, true, heading.classList.contains("tablesorter_numeric"));
+                } else {
+                    button.classList.remove("tablesorter_desc");
+                    button.classList.add("tablesorter_asc");
+                    sort(index, false, heading.classList.contains("tablesorter_numeric"));
+                }
+                paginate();
+            };
+        });
+        if (table.classList.contains("tablesorter_columns")) {
+            createColumnSelection();
+        }
+        window.addEventListener("resize", function () {
+            collapseDetails();
+            redisplayColumns();
+        });
+        hiddenColumns = determineHiddenColumns();
+        hideColumns();
+        paginate();
     }
-    window.addEventListener("resize", function () {
-        collapseDetails();
-        redisplayColumns();
-    });
-    hiddenColumns = determineHiddenColumns();
-    hideColumns();
-    paginate();
-}
 
-/** @type {NodeListOf<HTMLTableElement>} */ (
-    document.querySelectorAll("table.tablesorter")
-).forEach(initWidget);
+    /** @type {NodeListOf<HTMLTableElement>} */ (
+        document.querySelectorAll("table.tablesorter")
+    ).forEach(initWidget);
+})();
