@@ -36,6 +36,11 @@
      * @prop {string} hide
      */
 
+    /** @type {<T>(arrayLike: ArrayLike<T>) => T[]} */
+    function array(arrayLike) {
+        return Array.prototype.slice.call(arrayLike);
+    }
+
     /** @type {Config} */
     var config = (function () {
         var meta = /** @type {HTMLMetaElement} */ (
@@ -60,7 +65,7 @@
             var pageCount = Math.ceil(rows.length / config.maxPages);
             var start = currentPage * config.maxPages;
             var end = (currentPage + 1) * config.maxPages - 1;
-            Array.from(rows).forEach(function (row, index) {
+            array(rows).forEach(function (row, index) {
                 if (index >= start && index <= end) {
                     row.style.display = "";
                 } else {
@@ -70,7 +75,9 @@
             if (pageCount > 1) {
                 var pagination = document.createElement("div");
                 pagination.className = "tablesorter_pagination";
-                Array.from(Array(pageCount).keys()).forEach(function (index) {
+                /** @type {number[]} */ (
+                    Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
+                ).forEach(function (index) {
                     var button = document.createElement("button");
                     button.textContent = String(index + 1);
                     if (index === currentPage) {
@@ -95,7 +102,7 @@
         /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
         function sort(column, desc, numeric) {
             var tbody = table.tBodies[0];
-            var rows = Array.from(tbody.rows).map(function (tr) {
+            var rows = array(tbody.rows).map(function (tr) {
                 var td = tr.cells[column];
                 var value = td.textContent || "";
                 return {
@@ -206,7 +213,7 @@
                     selectionList.querySelectorAll("input[type=checkbox]")
                 );
                 checkboxes.forEach(function (checkbox) {
-                    checkbox.checked = !hiddenColumns.includes(Number(checkbox.value));
+                    checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
                 });
             }
         }

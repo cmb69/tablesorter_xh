@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es2016", "dom"],
+    "lib": ["es5", "dom"],
     "checkJs": true,
     "noEmit": true,
     "strict": true,
