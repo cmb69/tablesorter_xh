@@ -209,32 +209,28 @@
             }
 
             (function () {
-                if (hiddenColumns.length) {
-                    array(table.querySelectorAll("tr")).forEach(function (row) {
-                        hiddenColumns.forEach(function (column) {
-                            var cell = row.cells[column];
-                            cell.style.display = "none";
-                        });
-                        row.insertCell();
-                        if (
-                            row.parentElement &&
-                            row.parentElement.nodeName.toLowerCase() === "tbody"
-                        ) {
-                            var button = document.createElement("button");
-                            button.className = "tablesorter_expand";
-                            button.textContent = config.show;
-                            button.onclick = onMoreLessClick;
-                            var lastCell = row.cells[row.cells.length - 1];
-                            lastCell.insertBefore(button, lastCell.firstElementChild);
-                        }
+                if (!hiddenColumns.length) return;
+                array(table.querySelectorAll("tr")).forEach(function (row) {
+                    hiddenColumns.forEach(function (column) {
+                        var cell = row.cells[column];
+                        cell.style.display = "none";
                     });
-                    var checkboxes = /** @type {HTMLInputElement[]} */ (
-                        array(selectionList.querySelectorAll("input[type=checkbox]"))
-                    );
-                    checkboxes.forEach(function (checkbox) {
-                        checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
-                    });
-                }
+                    row.insertCell();
+                    if (row.parentElement && row.parentElement.nodeName.toLowerCase() === "tbody") {
+                        var button = document.createElement("button");
+                        button.className = "tablesorter_expand";
+                        button.textContent = config.show;
+                        button.onclick = onMoreLessClick;
+                        var lastCell = row.cells[row.cells.length - 1];
+                        lastCell.insertBefore(button, lastCell.firstElementChild);
+                    }
+                });
+                var checkboxes = /** @type {HTMLInputElement[]} */ (
+                    array(selectionList.querySelectorAll("input[type=checkbox]"))
+                );
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
+                });
             })();
         }
 
