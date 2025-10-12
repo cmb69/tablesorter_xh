@@ -52,10 +52,14 @@
 
     /** @type {(table: HTMLTableElement) => void} */
     function initWidget(table) {
-        var hiddenColumns = /** @type {number[]} */ ([]);
-        var headings = array(table.querySelectorAll("thead th"));
-        var selectionList = document.createElement("ol");
-        var userColumns = /** @type {boolean[]} */ ([]);
+        /** @type {number[]} */
+        var hiddenColumns;
+        /** @type {Element[]} */
+        var headings;
+        /** @type {HTMLOListElement} */
+        var selectionList;
+        /** @type {boolean[]} */
+        var userColumns;
 
         /** @type {() => void} */
         function paginate() {
@@ -282,6 +286,10 @@
         }
 
         (function () {
+            hiddenColumns = /** @type {number[]} */ ([]);
+            headings = array(table.querySelectorAll("thead th"));
+            selectionList = document.createElement("ol");
+            userColumns = /** @type {boolean[]} */ ([]);
             headings.forEach(function (heading, index) {
                 if (!config.sortable) {
                     return;
