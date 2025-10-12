@@ -242,7 +242,7 @@
         /** @type {() => void} */
         function collapseDetails() {
             array(table.querySelectorAll("tr.tablesorter_detail")).forEach(function (row) {
-                row.remove();
+                row.parentNode.removeChild(row);
             });
             array(table.querySelectorAll("button.tablesorter_collapse")).forEach(function (button) {
                 button.className = "tablesorter_expand";
