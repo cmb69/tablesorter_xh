@@ -136,7 +136,7 @@
             });
             var result = /** @type {number[]} */ ([]);
             var classesToHide = Object.keys(breakpoints).filter(function (key) {
-                return window.innerWidth < breakpoints[key];
+                return innerWidth < breakpoints[key];
             });
             headings.forEach(function (heading, index) {
                 if (userColumns[index] !== undefined) {
@@ -314,7 +314,7 @@
         if (table.classList.contains("tablesorter_columns")) {
             createColumnSelection();
         }
-        window.addEventListener("resize", function () {
+        addEventListener("resize", function () {
             collapseDetails();
             redisplayColumns();
         });
