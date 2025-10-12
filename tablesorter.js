@@ -54,7 +54,7 @@
     function initWidget(table) {
         var currentPage = 0;
         var hiddenColumns = /** @type {number[]} */ ([]);
-        var headings = table.querySelectorAll("thead th");
+        var headings = array(table.querySelectorAll("thead th"));
         var selectionList = document.createElement("ol");
         var userColumns = /** @type {boolean[]} */ ([]);
 
@@ -87,15 +87,15 @@
                         currentPage = index;
                         paginate();
                     };
-                    pagination.append(button);
+                    pagination.appendChild(button);
                 });
                 if (
                     table.nextElementSibling &&
                     table.nextElementSibling.classList.contains("tablesorter_pagination")
                 ) {
-                    table.nextElementSibling.remove();
+                    table.nextElementSibling.parentNode.removeChild(table.nextElementSibling);
                 }
-                table.after(pagination);
+                table.parentNode.insertBefore(pagination, table.nextElementSibling);
             }
         }
 
@@ -122,7 +122,7 @@
                 }
             });
             rows.forEach(function (value) {
-                tbody.append(value.element);
+                tbody.appendChild(value.element);
             });
         }
 
@@ -164,7 +164,7 @@
         /** @type {() => void} */
         function hideColumns() {
             if (hiddenColumns.length) {
-                table.querySelectorAll("tr").forEach(function (row) {
+                array(table.querySelectorAll("tr")).forEach(function (row) {
                     hiddenColumns.forEach(function (column) {
                         var cell = row.cells[column];
                         cell.style.display = "none";
@@ -191,12 +191,12 @@
                                         );
                                     }
                                     dt.innerHTML = headingElement.innerHTML;
-                                    defList.append(dt);
+                                    defList.appendChild(dt);
                                     var dd = document.createElement("dd");
                                     dd.innerHTML = row.cells[column].innerHTML;
-                                    defList.append(dd);
+                                    defList.appendChild(dd);
                                 });
-                                detailCell.append(defList);
+                                detailCell.appendChild(defList);
                                 button.className = "tablesorter_collapse";
                                 button.textContent = config.hide;
                             } else {
@@ -205,12 +205,12 @@
                                 button.textContent = config.show;
                             }
                         };
-                        var lastColumn = row.cells.length - 1;
-                        row.cells[lastColumn].prepend(button);
+                        var lastCell = row.cells[row.cells.length - 1];
+                        lastCell.insertBefore(button, lastCell.firstElementChild);
                     }
                 });
-                var checkboxes = /** @type {NodeListOf<HTMLInputElement>} */ (
-                    selectionList.querySelectorAll("input[type=checkbox]")
+                var checkboxes = /** @type {HTMLInputElement[]} */ (
+                    array(selectionList.querySelectorAll("input[type=checkbox]"))
                 );
                 checkboxes.forEach(function (checkbox) {
                     checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
@@ -221,7 +221,7 @@
         /** @type {() => void} */
         function unhideColumns() {
             if (hiddenColumns.length) {
-                table.querySelectorAll("tr").forEach(function (row) {
+                array(table.querySelectorAll("tr")).forEach(function (row) {
                     hiddenColumns.forEach(function (column) {
                         var cell = row.cells[column];
                         cell.style.display = "";
@@ -244,10 +244,10 @@
 
         /** @type {() => void} */
         function collapseDetails() {
-            table.querySelectorAll("tr.tablesorter_detail").forEach(function (row) {
+            array(table.querySelectorAll("tr.tablesorter_detail")).forEach(function (row) {
                 row.remove();
             });
-            table.querySelectorAll("button.tablesorter_collapse").forEach(function (button) {
+            array(table.querySelectorAll("button.tablesorter_collapse")).forEach(function (button) {
                 button.className = "tablesorter_expand";
                 button.textContent = config.show;
             });
@@ -266,20 +266,22 @@
                     userColumns[index] = checkbox.checked;
                     redisplayColumns();
                 };
-                label.append(checkbox, " ", heading.textContent || "");
-                li.append(label);
-                selectionList.append(li);
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(" " + heading.textContent));
+                li.appendChild(label);
+                selectionList.appendChild(li);
             });
             selectionList.className = "tablesorter_colsel";
             selectionList.style.display = "none";
 
             var columnsButton = document.createElement("button");
             columnsButton.className = "tablesorter_colbutton";
-            columnsButton.append(config.columns);
+            columnsButton.appendChild(document.createTextNode(config.columns));
             columnsButton.onclick = function () {
                 selectionList.style.display = selectionList.style.display === "none" ? "" : "none";
             };
-            table.before(columnsButton, selectionList);
+            table.parentNode.insertBefore(columnsButton, table);
+            table.parentNode.insertBefore(selectionList, table);
         }
 
         headings.forEach(function (heading, index) {
@@ -288,9 +290,9 @@
             }
             var button = document.createElement("button");
             while (heading.firstChild) {
-                button.append(heading.firstChild);
+                button.appendChild(heading.firstChild);
             }
-            heading.append(button);
+            heading.appendChild(button);
             button.classList.add("tablesorter_asc", "tablesorter_desc");
             button.onclick = function () {
                 collapseDetails();
@@ -324,7 +326,7 @@
         paginate();
     }
 
-    /** @type {NodeListOf<HTMLTableElement>} */ (
-        document.querySelectorAll("table.tablesorter")
+    /** @type {HTMLTableElement[]} */ (
+        array(document.querySelectorAll("table.tablesorter"))
     ).forEach(initWidget);
 })();
