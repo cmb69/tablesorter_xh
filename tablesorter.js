@@ -271,7 +271,8 @@
 
         /** @type {() => void} */
         function createColumnSelection() {
-            headings.forEach(function (heading, index) {
+            /** @type {(heading: Element, index: number) => HTMLLIElement} */
+            function makeListItem(heading, index) {
                 var li = document.createElement("li");
                 var label = document.createElement("label");
                 var checkbox = document.createElement("input");
@@ -285,19 +286,27 @@
                 label.appendChild(checkbox);
                 label.appendChild(document.createTextNode(" " + heading.textContent));
                 li.appendChild(label);
-                selectionList.appendChild(li);
-            });
-            selectionList.className = "tablesorter_colsel";
-            selectionList.style.display = "none";
+                return li;
+            }
 
-            var columnsButton = document.createElement("button");
-            columnsButton.className = "tablesorter_colbutton";
-            columnsButton.appendChild(document.createTextNode(config.columns));
-            columnsButton.onclick = function () {
-                selectionList.style.display = selectionList.style.display === "none" ? "" : "none";
-            };
-            table.parentNode.insertBefore(columnsButton, table);
-            table.parentNode.insertBefore(selectionList, table);
+            (function () {
+                headings.forEach(function (heading, index) {
+                    var li = makeListItem(heading, index);
+                    selectionList.appendChild(li);
+                });
+                selectionList.className = "tablesorter_colsel";
+                selectionList.style.display = "none";
+
+                var columnsButton = document.createElement("button");
+                columnsButton.className = "tablesorter_colbutton";
+                columnsButton.appendChild(document.createTextNode(config.columns));
+                columnsButton.onclick = function () {
+                    selectionList.style.display =
+                        selectionList.style.display === "none" ? "" : "none";
+                };
+                table.parentNode.insertBefore(columnsButton, table);
+                table.parentNode.insertBefore(selectionList, table);
+            })();
         }
 
         /** @type {(heading: Element, index: number) => void} */
