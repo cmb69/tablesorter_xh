@@ -60,47 +60,56 @@
         var selectionList;
         /** @type {boolean[]} */
         var userColumns;
+        /** @type {number} */
+        var currentPage;
 
         /** @type {() => void} */
         function paginate() {
-            var currentPage = 0;
-            collapseDetails();
-            var rows = table.tBodies[0].rows;
-            var pageCount = Math.ceil(rows.length / config.maxPages);
-            var start = currentPage * config.maxPages;
-            var end = (currentPage + 1) * config.maxPages - 1;
-            array(rows).forEach(function (row, index) {
-                if (index >= start && index <= end) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
+            /** @type {(index: number) => HTMLButtonElement} */
+            function makePaginationButton(index) {
+                var button = document.createElement("button");
+                button.textContent = String(index + 1);
+                if (index === currentPage) {
+                    button.disabled = true;
                 }
-            });
-            if (pageCount > 1) {
-                var pagination = document.createElement("div");
-                pagination.className = "tablesorter_pagination";
-                /** @type {number[]} */ (
-                    Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
-                ).forEach(function (index) {
-                    var button = document.createElement("button");
-                    button.textContent = String(index + 1);
-                    if (index === currentPage) {
-                        button.disabled = true;
-                    }
-                    button.onclick = function () {
-                        currentPage = index;
-                        paginate();
-                    };
-                    pagination.appendChild(button);
-                });
-                if (
-                    table.nextElementSibling &&
-                    table.nextElementSibling.classList.contains("tablesorter_pagination")
-                ) {
-                    table.nextElementSibling.parentNode.removeChild(table.nextElementSibling);
-                }
-                table.parentNode.insertBefore(pagination, table.nextElementSibling);
+                button.onclick = function () {
+                    currentPage = index;
+                    paginate();
+                };
+                return button;
             }
+
+            (function () {
+                collapseDetails();
+                var rows = table.tBodies[0].rows;
+                var pageCount = Math.ceil(rows.length / config.maxPages);
+                var start = currentPage * config.maxPages;
+                var end = (currentPage + 1) * config.maxPages - 1;
+                array(rows).forEach(function (row, index) {
+                    if (index >= start && index <= end) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+                if (pageCount > 1) {
+                    var pagination = document.createElement("div");
+                    pagination.className = "tablesorter_pagination";
+                    /** @type {number[]} */ (
+                        Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
+                    ).forEach(function (index) {
+                        var button = makePaginationButton(index);
+                        pagination.appendChild(button);
+                    });
+                    if (
+                        table.nextElementSibling &&
+                        table.nextElementSibling.classList.contains("tablesorter_pagination")
+                    ) {
+                        table.nextElementSibling.parentNode.removeChild(table.nextElementSibling);
+                    }
+                    table.parentNode.insertBefore(pagination, table.nextElementSibling);
+                }
+            })();
         }
 
         /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
@@ -290,6 +299,7 @@
             headings = array(table.querySelectorAll("thead th"));
             selectionList = document.createElement("ol");
             userColumns = /** @type {boolean[]} */ ([]);
+            currentPage = 0;
             headings.forEach(function (heading, index) {
                 if (!config.sortable) {
                     return;
