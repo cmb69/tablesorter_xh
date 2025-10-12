@@ -42,13 +42,7 @@
     }
 
     /** @type {Config} */
-    var config = (function () {
-        var meta = /** @type {HTMLMetaElement} */ (
-            document.querySelector("meta[name=tablesorter_config]")
-        );
-        var data = /** @type {string} */ (meta.content);
-        return JSON.parse(data);
-    })();
+    var config;
 
     /** @type {(table: HTMLTableElement) => void} */
     function initWidget(table) {
@@ -366,7 +360,14 @@
         })();
     }
 
-    /** @type {HTMLTableElement[]} */ (
-        array(document.querySelectorAll("table.tablesorter"))
-    ).forEach(initWidget);
+    (function () {
+        var meta = /** @type {HTMLMetaElement} */ (
+            document.querySelector("meta[name=tablesorter_config]")
+        );
+        var data = /** @type {string} */ (meta.content);
+        config = JSON.parse(data);
+        /** @type {HTMLTableElement[]} */ (
+            array(document.querySelectorAll("table.tablesorter"))
+        ).forEach(initWidget);
+    })()
 })();
