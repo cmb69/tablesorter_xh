@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["es2016", "dom"],
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "strictNullChecks": false
+  },
+  "files": [
+    "tablesorter.js"
+  ]
+}

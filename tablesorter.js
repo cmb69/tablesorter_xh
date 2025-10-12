@@ -18,7 +18,6 @@
  */
 
 // jshint browser:true,esversion:5,latedef:nofunc,strict:true
-// @ts-check
 
 (function () {
     "use strict";
