@@ -301,8 +301,8 @@
                 columnsButton.className = "tablesorter_colbutton";
                 columnsButton.appendChild(document.createTextNode(config.columns));
                 columnsButton.onclick = function () {
-                    selectionList.style.display =
-                        selectionList.style.display === "none" ? "" : "none";
+                    var style = selectionList.style;
+                    style.display = style.display === "none" ? "" : "none";
                 };
                 table.parentNode.insertBefore(columnsButton, table);
                 table.parentNode.insertBefore(selectionList, table);
