@@ -36,10 +36,10 @@
 
 /** @type {Config} */
 var config = (function () {
-    var script = /** @type {HTMLScriptElement} */ (
-        document.querySelector("script[data-tablesorter-config]")
+    var meta = /** @type {HTMLMetaElement} */ (
+        document.querySelector("meta[name=tablesorter_config]")
     );
-    var data = /** @type {string} */ (script.dataset.tablesorterConfig);
+    var data = /** @type {string} */ (meta.content);
     return JSON.parse(data);
 })();
 

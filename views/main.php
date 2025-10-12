@@ -9,4 +9,5 @@ use Plib\View;
  */
 ?>
 
-<script type="module" src="<?=$this->esc($script)?>" data-tablesorter-config='<?=$this->json($config)?>'></script>
+<script type="module" src="<?=$this->esc($script)?>"></script>
+<meta name="tablesorter_config" content='<?=$this->json($config)?>'>
