@@ -135,12 +135,9 @@
                 tablesorter_x_small: config.widthXSmall
             });
             var result = /** @type {number[]} */ ([]);
-            var classesToHide = /** @type {string[]} */ ([]);
-            for (var prop in breakpoints) {
-                if (breakpoints.hasOwnProperty(prop) && window.innerWidth < breakpoints[prop]) {
-                    classesToHide.push(prop);
-                }
-            }
+            var classesToHide = Object.keys(breakpoints).filter(function (key) {
+                return window.innerWidth < breakpoints[key];
+            });
             headings.forEach(function (heading, index) {
                 if (userColumns[index] !== undefined) {
                     if (!userColumns[index]) {
