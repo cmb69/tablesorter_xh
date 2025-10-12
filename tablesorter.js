@@ -173,59 +173,69 @@
 
         /** @type {() => void} */
         function hideColumns() {
-            if (hiddenColumns.length) {
-                array(table.querySelectorAll("tr")).forEach(function (row) {
+            /** @type {(event: Event) => void} */
+            function onMoreLessClick(event) {
+                var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
+                var row = /** @type {HTMLTableRowElement} */ (button.parentElement.parentElement);
+                var section = /** @type {HTMLTableSectionElement} */ (row.parentElement);
+                if (button.className === "tablesorter_expand") {
+                    var detailRow = section.insertRow(row.sectionRowIndex + 1);
+                    detailRow.className = "tablesorter_detail";
+                    var detailCell = detailRow.insertCell();
+                    detailCell.colSpan = row.cells.length;
+                    var defList = document.createElement("dl");
                     hiddenColumns.forEach(function (column) {
-                        var cell = row.cells[column];
-                        cell.style.display = "none";
+                        var dt = document.createElement("dt");
+                        var headingElement = headings[column];
+                        if (config.sortable) {
+                            headingElement = /** @type {HTMLButtonElement} */ (
+                                headingElement.firstChild
+                            );
+                        }
+                        dt.innerHTML = headingElement.innerHTML;
+                        defList.appendChild(dt);
+                        var dd = document.createElement("dd");
+                        dd.innerHTML = row.cells[column].innerHTML;
+                        defList.appendChild(dd);
                     });
-                    row.insertCell();
-                    if (row.parentElement && row.parentElement.nodeName.toLowerCase() === "tbody") {
-                        var section = /** @type {HTMLTableSectionElement} */ (row.parentElement);
-                        var button = document.createElement("button");
-                        button.className = "tablesorter_expand";
-                        button.textContent = config.show;
-                        button.onclick = function () {
-                            if (button.className === "tablesorter_expand") {
-                                var detailRow = section.insertRow(row.sectionRowIndex + 1);
-                                detailRow.className = "tablesorter_detail";
-                                var detailCell = detailRow.insertCell();
-                                detailCell.colSpan = row.cells.length;
-                                var defList = document.createElement("dl");
-                                hiddenColumns.forEach(function (column) {
-                                    var dt = document.createElement("dt");
-                                    var headingElement = headings[column];
-                                    if (config.sortable) {
-                                        headingElement = /** @type {HTMLButtonElement} */ (
-                                            headingElement.firstChild
-                                        );
-                                    }
-                                    dt.innerHTML = headingElement.innerHTML;
-                                    defList.appendChild(dt);
-                                    var dd = document.createElement("dd");
-                                    dd.innerHTML = row.cells[column].innerHTML;
-                                    defList.appendChild(dd);
-                                });
-                                detailCell.appendChild(defList);
-                                button.className = "tablesorter_collapse";
-                                button.textContent = config.hide;
-                            } else {
-                                section.deleteRow(row.sectionRowIndex + 1);
-                                button.className = "tablesorter_expand";
-                                button.textContent = config.show;
-                            }
-                        };
-                        var lastCell = row.cells[row.cells.length - 1];
-                        lastCell.insertBefore(button, lastCell.firstElementChild);
-                    }
-                });
-                var checkboxes = /** @type {HTMLInputElement[]} */ (
-                    array(selectionList.querySelectorAll("input[type=checkbox]"))
-                );
-                checkboxes.forEach(function (checkbox) {
-                    checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
-                });
+                    detailCell.appendChild(defList);
+                    button.className = "tablesorter_collapse";
+                    button.textContent = config.hide;
+                } else {
+                    section.deleteRow(row.sectionRowIndex + 1);
+                    button.className = "tablesorter_expand";
+                    button.textContent = config.show;
+                }
             }
+
+            (function () {
+                if (hiddenColumns.length) {
+                    array(table.querySelectorAll("tr")).forEach(function (row) {
+                        hiddenColumns.forEach(function (column) {
+                            var cell = row.cells[column];
+                            cell.style.display = "none";
+                        });
+                        row.insertCell();
+                        if (
+                            row.parentElement &&
+                            row.parentElement.nodeName.toLowerCase() === "tbody"
+                        ) {
+                            var button = document.createElement("button");
+                            button.className = "tablesorter_expand";
+                            button.textContent = config.show;
+                            button.onclick = onMoreLessClick;
+                            var lastCell = row.cells[row.cells.length - 1];
+                            lastCell.insertBefore(button, lastCell.firstElementChild);
+                        }
+                    });
+                    var checkboxes = /** @type {HTMLInputElement[]} */ (
+                        array(selectionList.querySelectorAll("input[type=checkbox]"))
+                    );
+                    checkboxes.forEach(function (checkbox) {
+                        checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
+                    });
+                }
+            })();
         }
 
         /** @type {() => void} */
