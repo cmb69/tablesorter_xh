@@ -302,14 +302,9 @@
 
         /** @type {(heading: Element, index: number) => void} */
         function makeHeadingSortable(heading, index) {
-            var button = document.createElement("button");
-            while (heading.firstChild) {
-                button.appendChild(heading.firstChild);
-            }
-            heading.appendChild(button);
-            button.classList.add("tablesorter_asc");
-            button.classList.add("tablesorter_desc");
-            button.onclick = function () {
+            /** @type {(event: Event) => void} */
+            function onSortButtonClick(event) {
+                var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
                 collapseDetails();
                 headings.forEach(function (heading2) {
                     if (heading2.firstChild !== heading.firstChild) {
@@ -328,7 +323,18 @@
                     sort(index, false, heading.classList.contains("tablesorter_numeric"));
                 }
                 paginate();
-            };
+            }
+
+            (function () {
+                var button = document.createElement("button");
+                while (heading.firstChild) {
+                    button.appendChild(heading.firstChild);
+                }
+                heading.appendChild(button);
+                button.classList.add("tablesorter_asc");
+                button.classList.add("tablesorter_desc");
+                button.onclick = onSortButtonClick;
+            })();
         }
 
         (function () {
