@@ -44,41 +44,44 @@
     /** @type {Config} */
     var config;
 
-    /** @type {(table: HTMLTableElement) => void} */
-    function initWidget(table) {
+    /** @readonly */
+    var widgetProto = Object.seal({
+        /** @type {HTMLTableElement} */
+        table: undefined,
         /** @type {number[]} */
-        var hiddenColumns;
+        hiddenColumns: undefined,
         /** @type {Element[]} */
-        var headings;
+        headings: undefined,
         /** @type {HTMLOListElement} */
-        var selectionList;
+        selectionList: undefined,
         /** @type {boolean[]} */
-        var userColumns;
+        userColumns: undefined,
         /** @type {number} */
-        var currentPage;
+        currentPage: undefined,
 
         /** @type {() => void} */
-        function paginate() {
+        paginate: function () {
+            var self = this;
             /** @type {(index: number) => HTMLButtonElement} */
             function makePaginationButton(index) {
                 var button = document.createElement("button");
                 button.textContent = String(index + 1);
-                if (index === currentPage) {
+                if (index === self.currentPage) {
                     button.disabled = true;
                 }
                 button.onclick = function () {
-                    currentPage = index;
-                    paginate();
+                    self.currentPage = index;
+                    self.paginate();
                 };
                 return button;
             }
 
             (function () {
-                collapseDetails();
-                var rows = table.tBodies[0].rows;
+                self.collapseDetails();
+                var rows = self.table.tBodies[0].rows;
                 var pageCount = Math.ceil(rows.length / config.maxPages);
-                var start = currentPage * config.maxPages;
-                var end = (currentPage + 1) * config.maxPages - 1;
+                var start = self.currentPage * config.maxPages;
+                var end = (self.currentPage + 1) * config.maxPages - 1;
                 array(rows).forEach(function (row, index) {
                     row.style.display = index >= start && index <= end ? "" : "none";
                 });
@@ -92,19 +95,21 @@
                         pagination.appendChild(button);
                     });
                     if (
-                        table.nextElementSibling &&
-                        table.nextElementSibling.classList.contains("tablesorter_pagination")
+                        self.table.nextElementSibling &&
+                        self.table.nextElementSibling.classList.contains("tablesorter_pagination")
                     ) {
-                        table.nextElementSibling.parentNode.removeChild(table.nextElementSibling);
+                        self.table.nextElementSibling.parentNode.removeChild(
+                            self.table.nextElementSibling
+                        );
                     }
-                    table.parentNode.insertBefore(pagination, table.nextElementSibling);
+                    self.table.parentNode.insertBefore(pagination, self.table.nextElementSibling);
                 }
             })();
-        }
+        },
 
         /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
-        function sort(column, desc, numeric) {
-            var tbody = table.tBodies[0];
+        sort: function (column, desc, numeric) {
+            var tbody = this.table.tBodies[0];
             var rows = array(tbody.rows).map(function (tr) {
                 var td = tr.cells[column];
                 var value = td.textContent || "";
@@ -127,10 +132,10 @@
             rows.forEach(function (value) {
                 tbody.appendChild(value.element);
             });
-        }
+        },
 
         /** @type {() => number[]} */
-        function determineHiddenColumns() {
+        determineHiddenColumns: function () {
             var breakpoints = /** @type {{[x: string]: number}} */ ({
                 tablesorter_large: config.widthLarge,
                 tablesorter_medium: config.widthMedium,
@@ -141,9 +146,10 @@
             var classesToHide = Object.keys(breakpoints).filter(function (key) {
                 return innerWidth < breakpoints[key];
             });
-            headings.forEach(function (heading, index) {
-                if (userColumns[index] !== undefined) {
-                    if (!userColumns[index]) {
+            var self = this;
+            this.headings.forEach(function (heading, index) {
+                if (self.userColumns[index] !== undefined) {
+                    if (!self.userColumns[index]) {
                         result.push(index);
                     }
                 } else if (heading.classList.contains("tablesorter_hide")) {
@@ -159,10 +165,11 @@
                 }
             });
             return result;
-        }
+        },
 
         /** @type {() => void} */
-        function hideColumns() {
+        hideColumns: function () {
+            var self = this;
             /** @type {(event: Event) => void} */
             function onMoreLessClick(event) {
                 var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
@@ -174,7 +181,7 @@
                     var detailCell = detailRow.insertCell();
                     detailCell.colSpan = row.cells.length;
                     var defList = document.createElement("dl");
-                    hiddenColumns.forEach(function (column) {
+                    self.hiddenColumns.forEach(function (column) {
                         var dt = makeDt(column);
                         defList.appendChild(dt);
                         var dd = document.createElement("dd");
@@ -194,7 +201,7 @@
             /** @type {(column: number) => HTMLElement} */
             function makeDt(column) {
                 var dt = document.createElement("dt");
-                var headingElement = headings[column];
+                var headingElement = self.headings[column];
                 if (config.sortable) {
                     headingElement = /** @type {HTMLButtonElement} */ (headingElement.firstChild);
                 }
@@ -203,9 +210,9 @@
             }
 
             (function () {
-                if (!hiddenColumns.length) return;
-                array(table.querySelectorAll("tr")).forEach(function (row) {
-                    hiddenColumns.forEach(function (column) {
+                if (!self.hiddenColumns.length) return;
+                array(self.table.querySelectorAll("tr")).forEach(function (row) {
+                    self.hiddenColumns.forEach(function (column) {
                         var cell = row.cells[column];
                         cell.style.display = "none";
                     });
@@ -220,51 +227,55 @@
                     }
                 });
                 var checkboxes = /** @type {HTMLInputElement[]} */ (
-                    array(selectionList.querySelectorAll("input[type=checkbox]"))
+                    array(self.selectionList.querySelectorAll("input[type=checkbox]"))
                 );
                 checkboxes.forEach(function (checkbox) {
-                    checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
+                    checkbox.checked = self.hiddenColumns.indexOf(Number(checkbox.value)) < 0;
                 });
             })();
-        }
+        },
 
         /** @type {() => void} */
-        function unhideColumns() {
-            if (hiddenColumns.length) {
-                array(table.querySelectorAll("tr")).forEach(function (row) {
-                    hiddenColumns.forEach(function (column) {
+        unhideColumns: function () {
+            if (this.hiddenColumns.length) {
+                var self = this;
+                array(this.table.querySelectorAll("tr")).forEach(function (row) {
+                    self.hiddenColumns.forEach(function (column) {
                         var cell = row.cells[column];
                         cell.style.display = "";
                     });
                     row.deleteCell(row.cells.length - 1);
                 });
             }
-            hiddenColumns = [];
-        }
+            this.hiddenColumns = [];
+        },
 
         /** @type {() => void} */
-        function redisplayColumns() {
-            var newHiddenColumns = determineHiddenColumns();
-            if (newHiddenColumns.length !== hiddenColumns.length) {
-                unhideColumns();
-                hiddenColumns = newHiddenColumns;
-                hideColumns();
+        redisplayColumns: function () {
+            var newHiddenColumns = this.determineHiddenColumns();
+            if (newHiddenColumns.length !== this.hiddenColumns.length) {
+                this.unhideColumns();
+                this.hiddenColumns = newHiddenColumns;
+                this.hideColumns();
             }
-        }
+        },
 
         /** @type {() => void} */
-        function collapseDetails() {
-            array(table.querySelectorAll("tr.tablesorter_detail")).forEach(function (row) {
+        collapseDetails: function () {
+            array(this.table.querySelectorAll("tr.tablesorter_detail")).forEach(function (row) {
                 row.parentNode.removeChild(row);
             });
-            array(table.querySelectorAll("button.tablesorter_collapse")).forEach(function (button) {
-                button.className = "tablesorter_expand";
-                button.textContent = config.show;
-            });
-        }
+            array(this.table.querySelectorAll("button.tablesorter_collapse")).forEach(
+                function (button) {
+                    button.className = "tablesorter_expand";
+                    button.textContent = config.show;
+                }
+            );
+        },
 
         /** @type {() => void} */
-        function createColumnSelection() {
+        createColumnSelection: function () {
+            var self = this;
             /** @type {(heading: Element, index: number) => HTMLLIElement} */
             function makeListItem(heading, index) {
                 var li = document.createElement("li");
@@ -274,8 +285,8 @@
                 checkbox.value = String(index);
                 checkbox.indeterminate = true;
                 checkbox.onchange = function () {
-                    userColumns[index] = checkbox.checked;
-                    redisplayColumns();
+                    self.userColumns[index] = checkbox.checked;
+                    self.redisplayColumns();
                 };
                 label.appendChild(checkbox);
                 label.appendChild(document.createTextNode(" " + heading.textContent));
@@ -284,32 +295,33 @@
             }
 
             (function () {
-                headings.forEach(function (heading, index) {
+                self.headings.forEach(function (heading, index) {
                     var li = makeListItem(heading, index);
-                    selectionList.appendChild(li);
+                    self.selectionList.appendChild(li);
                 });
-                selectionList.className = "tablesorter_colsel";
-                selectionList.style.display = "none";
+                self.selectionList.className = "tablesorter_colsel";
+                self.selectionList.style.display = "none";
 
                 var columnsButton = document.createElement("button");
                 columnsButton.className = "tablesorter_colbutton";
                 columnsButton.appendChild(document.createTextNode(config.columns));
                 columnsButton.onclick = function () {
-                    var style = selectionList.style;
+                    var style = self.selectionList.style;
                     style.display = style.display === "none" ? "" : "none";
                 };
-                table.parentNode.insertBefore(columnsButton, table);
-                table.parentNode.insertBefore(selectionList, table);
+                self.table.parentNode.insertBefore(columnsButton, self.table);
+                self.table.parentNode.insertBefore(self.selectionList, self.table);
             })();
-        }
+        },
 
         /** @type {(heading: Element, index: number) => void} */
-        function makeHeadingSortable(heading, index) {
+        makeHeadingSortable: function (heading, index) {
+            var self = this;
             /** @type {(event: Event) => void} */
             function onSortButtonClick(event) {
                 var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
-                collapseDetails();
-                headings.forEach(function (heading2) {
+                self.collapseDetails();
+                self.headings.forEach(function (heading2) {
                     if (heading2.firstChild !== heading.firstChild) {
                         var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
                         button2.classList.add("tablesorter_asc");
@@ -319,13 +331,13 @@
                 if (!button.classList.contains("tablesorter_desc")) {
                     button.classList.remove("tablesorter_asc");
                     button.classList.add("tablesorter_desc");
-                    sort(index, true, heading.classList.contains("tablesorter_numeric"));
+                    self.sort(index, true, heading.classList.contains("tablesorter_numeric"));
                 } else {
                     button.classList.remove("tablesorter_desc");
                     button.classList.add("tablesorter_asc");
-                    sort(index, false, heading.classList.contains("tablesorter_numeric"));
+                    self.sort(index, false, heading.classList.contains("tablesorter_numeric"));
                 }
-                paginate();
+                self.paginate();
             }
 
             (function () {
@@ -338,27 +350,29 @@
                 button.classList.add("tablesorter_desc");
                 button.onclick = onSortButtonClick;
             })();
-        }
+        },
 
-        (function () {
-            hiddenColumns = /** @type {number[]} */ ([]);
-            headings = array(table.querySelectorAll("thead th"));
-            selectionList = document.createElement("ol");
-            userColumns = /** @type {boolean[]} */ ([]);
-            currentPage = 0;
-            if (config.sortable) headings.forEach(makeHeadingSortable);
-            if (table.classList.contains("tablesorter_columns")) {
-                createColumnSelection();
+        /** @type {() => void} */
+        init: function () {
+            this.hiddenColumns = /** @type {number[]} */ ([]);
+            this.headings = array(this.table.querySelectorAll("thead th"));
+            this.selectionList = document.createElement("ol");
+            this.userColumns = /** @type {boolean[]} */ ([]);
+            this.currentPage = 0;
+            if (config.sortable) this.headings.forEach(this.makeHeadingSortable.bind(this));
+            if (this.table.classList.contains("tablesorter_columns")) {
+                this.createColumnSelection();
             }
+            var self = this;
             addEventListener("resize", function () {
-                collapseDetails();
-                redisplayColumns();
+                self.collapseDetails();
+                self.redisplayColumns();
             });
-            hiddenColumns = determineHiddenColumns();
-            hideColumns();
-            paginate();
-        })();
-    }
+            this.hiddenColumns = this.determineHiddenColumns();
+            this.hideColumns();
+            this.paginate();
+        }
+    });
 
     (function () {
         var meta = /** @type {HTMLMetaElement} */ (
@@ -368,6 +382,11 @@
         config = JSON.parse(data);
         /** @type {HTMLTableElement[]} */ (
             array(document.querySelectorAll("table.tablesorter"))
-        ).forEach(initWidget);
-    })()
+        ).forEach(function (table) {
+            var widget = /** @type {typeof widgetProto} */ (
+                Object.create(widgetProto, { table: { value: table } })
+            );
+            widget.init();
+        });
+    })();
 })();
