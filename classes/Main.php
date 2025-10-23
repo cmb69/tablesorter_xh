@@ -55,6 +55,7 @@ class Main
 
     public function __invoke(Request $request): Response
     {
+        $this->javaScript->includePolyfills();
         $this->javaScript->include($this->pluginFolder . "tablesorter");
         return Response::create()->withBjs($this->view->render("main", [
             "config" => $this->config($request),

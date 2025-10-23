@@ -33,6 +33,7 @@ class MainTest extends TestCase
 
     public function testRendersScript(): void
     {
+        $this->javaScript->expects($this->once())->method("includePolyfills");
         $this->javaScript->expects($this->once())->method("include")->with("./plugins/tablesorter/tablesorter");
         $request = new FakeRequest();
         $response = $this->sut()($request);

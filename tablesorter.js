@@ -59,10 +59,10 @@
         /** @type {number} */
         currentPage: undefined,
 
-        /** @type {HTMLTableRowElement[]} */
+        /** @type {NodeListOf<HTMLTableRowElement>} */
         get rows() {
-            return array(
-                this.table.querySelectorAll("thead tr:not(.tablesorter_column_selection), tbody tr")
+            return this.table.querySelectorAll(
+                "thead tr:not(.tablesorter_column_selection), tbody tr"
             );
         },
 
@@ -173,11 +173,11 @@
         /** @type {() => void} */
         paginate: function () {
             this.collapseDetails();
-            var rows = this.table.tBodies[0].rows;
+            var rows = array(this.table.tBodies[0].rows);
             var pageCount = Math.ceil(rows.length / config.maxPages);
             var start = this.currentPage * config.maxPages;
             var end = (this.currentPage + 1) * config.maxPages - 1;
-            array(rows).forEach(function (row, index) {
+            rows.forEach(function (row, index) {
                 row.style.display = index >= start && index <= end ? "" : "none";
             });
             if (pageCount > 1) {
@@ -268,8 +268,8 @@
         hideColumns: function () {
             if (!this.hiddenColumns.length) return;
             this.rows.forEach(this.hideColumn.bind(this));
-            var checkboxes = /** @type {HTMLInputElement[]} */ (
-                array(this.selectionList.querySelectorAll("input[type=checkbox]"))
+            var checkboxes = /** @type {NodeListOf<HTMLInputElement>} */ (
+                this.selectionList.querySelectorAll("input[type=checkbox]")
             );
             var hiddenColumns = this.hiddenColumns;
             checkboxes.forEach(function (checkbox) {
@@ -320,15 +320,13 @@
 
         /** @type {() => void} */
         collapseDetails: function () {
-            array(this.table.querySelectorAll("tr.tablesorter_detail")).forEach(function (row) {
+            this.table.querySelectorAll("tr.tablesorter_detail").forEach(function (row) {
                 row.parentNode.removeChild(row);
             });
-            array(this.table.querySelectorAll("button.tablesorter_collapse")).forEach(
-                function (button) {
-                    button.className = "tablesorter_expand";
-                    button.textContent = config.show;
-                }
-            );
+            this.table.querySelectorAll("button.tablesorter_collapse").forEach(function (button) {
+                button.className = "tablesorter_expand";
+                button.textContent = config.show;
+            });
         },
 
         /** @type {() => void} */
@@ -406,8 +404,8 @@
         );
         var data = /** @type {string} */ (meta.content);
         config = JSON.parse(data);
-        /** @type {HTMLTableElement[]} */ (
-            array(document.querySelectorAll("table.tablesorter"))
+        /** @type {NodeListOf<HTMLTableElement>} */ (
+            document.querySelectorAll("table.tablesorter")
         ).forEach(function (table) {
             var widget = /** @type {typeof widgetProto} */ (
                 Object.create(widgetProto, { table: { value: table } })
