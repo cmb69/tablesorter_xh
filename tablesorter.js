@@ -17,7 +17,7 @@
  * along with Tablesorter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// jshint browser:true,esversion:5,latedef:nofunc,strict:true
+// jshint browser:true,esversion:5,latedef:true,strict:true
 
 (function () {
     "use strict";
@@ -41,8 +41,14 @@
         return Array.prototype.slice.call(arrayLike);
     }
 
-    /** @type {Config} */
-    var config;
+    /** @readonly @type {Config} */
+    var config = (function () {
+        var meta = /** @type {HTMLMetaElement} */ (
+            document.querySelector("meta[name=tablesorter_config]")
+        );
+        var data = /** @type {string} */ (meta.content);
+        return JSON.parse(data);
+    })();
 
     /** @readonly */
     var widgetProto = Object.seal({
@@ -401,19 +407,12 @@
         },
     });
 
-    (function () {
-        var meta = /** @type {HTMLMetaElement} */ (
-            document.querySelector("meta[name=tablesorter_config]")
+    /** @type {NodeListOf<HTMLTableElement>} */ (
+        document.querySelectorAll("table.tablesorter")
+    ).forEach(function (table) {
+        var widget = /** @type {typeof widgetProto} */ (
+            Object.create(widgetProto, { table: { value: table } })
         );
-        var data = /** @type {string} */ (meta.content);
-        config = JSON.parse(data);
-        /** @type {NodeListOf<HTMLTableElement>} */ (
-            document.querySelectorAll("table.tablesorter")
-        ).forEach(function (table) {
-            var widget = /** @type {typeof widgetProto} */ (
-                Object.create(widgetProto, { table: { value: table } })
-            );
-            widget.init();
-        });
-    })();
+        widget.init();
+    });
 })();
