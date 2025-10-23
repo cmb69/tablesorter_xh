@@ -339,40 +339,34 @@
 
         /** @type {() => void} */
         createColumnSelection: function () {
-            var self = this;
-            /** @type {(heading: Element, index: number) => HTMLLIElement} */
-            function makeListItem(heading, index) {
-                var li = document.createElement("li");
-                var label = document.createElement("label");
-                var checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.value = String(index);
-                checkbox.indeterminate = true;
-                label.appendChild(checkbox);
-                label.appendChild(document.createTextNode(" " + heading.textContent));
-                li.appendChild(label);
-                return li;
-            }
+            this.headings.forEach(this.addColumnSelectionListItem.bind(this));
+            this.selectionList.className = "tablesorter_colsel";
+            this.selectionList.style.display = "none";
 
-            (function () {
-                self.headings.forEach(function (heading, index) {
-                    var li = makeListItem(heading, index);
-                    self.selectionList.appendChild(li);
-                });
-                self.selectionList.className = "tablesorter_colsel";
-                self.selectionList.style.display = "none";
+            var columnsButton = document.createElement("button");
+            columnsButton.className = "tablesorter_colbutton";
+            columnsButton.appendChild(document.createTextNode(config.columns));
+            var thead = this.table.createTHead();
+            var row = thead.insertRow(0);
+            row.className = "tablesorter_column_selection";
+            var cell = row.insertCell(0);
+            cell.colSpan = this.headings.length;
+            cell.appendChild(columnsButton);
+            cell.appendChild(this.selectionList);
+        },
 
-                var columnsButton = document.createElement("button");
-                columnsButton.className = "tablesorter_colbutton";
-                columnsButton.appendChild(document.createTextNode(config.columns));
-                var thead = self.table.createTHead();
-                var row = thead.insertRow(0);
-                row.className = "tablesorter_column_selection";
-                var cell = row.insertCell(0);
-                cell.colSpan = self.headings.length;
-                cell.appendChild(columnsButton);
-                cell.appendChild(self.selectionList);
-            })();
+        /** @type {(heading: Element, index: number) => void} */
+        addColumnSelectionListItem: function (heading, index) {
+            var li = document.createElement("li");
+            var label = document.createElement("label");
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = String(index);
+            checkbox.indeterminate = true;
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(" " + heading.textContent));
+            li.appendChild(label);
+            this.selectionList.appendChild(li);
         },
 
         /** @type {() => void} */
