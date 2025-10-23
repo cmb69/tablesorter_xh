@@ -52,7 +52,7 @@
 
     /** @readonly */
     var widgetProto = Object.seal({
-        /** @type {HTMLTableElement} */
+        /** @readonly @type {HTMLTableElement} */
         table: undefined,
         /** @type {number[]} */
         hiddenColumns: undefined,
