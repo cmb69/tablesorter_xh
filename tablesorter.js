@@ -216,9 +216,10 @@
                 var row = pagination.insertRow(0);
                 var cell = row.insertCell(0);
                 cell.colSpan = this.headings.length;
-                /** @type {number[]} */ (
+                var range = /** @type {number[]} */ (
                     Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
-                ).forEach(this.addPaginationButton.bind(this, cell));
+                );
+                range.forEach(this.addPaginationButton.bind(this, cell));
             }
         },
 
@@ -407,9 +408,10 @@
         },
     });
 
-    /** @type {NodeListOf<HTMLTableElement>} */ (
+    var tables = /** @type {NodeListOf<HTMLTableElement>} */ (
         document.querySelectorAll("table.tablesorter")
-    ).forEach(function (table) {
+    );
+    tables.forEach(function (table) {
         var widget = /** @type {typeof widgetProto} */ (
             Object.create(widgetProto, { table: { value: table } })
         );
