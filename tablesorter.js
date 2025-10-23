@@ -384,6 +384,7 @@
             checkbox.type = "checkbox";
             checkbox.value = index.toString();
             checkbox.indeterminate = true;
+            checkbox.checked = true;
             label.appendChild(checkbox);
             label.appendChild(document.createTextNode(" " + heading.textContent));
             li.appendChild(label);
