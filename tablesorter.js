@@ -92,7 +92,7 @@
                     return this.onSortButtonClick(event);
                 case "tablesorter_expand":
                 case "tablesorter_collapse":
-                    return this.onMoreLessClick(event);
+                    return this.showMoreOrLess(button);
                 case "tablesorter_paginate":
                     this.currentPage = +button.dataset.page;
                     this.paginate();
@@ -124,20 +124,17 @@
             this.paginate();
         },
 
-        /** @type {(event: Event) => void} */
-        onMoreLessClick: function (event) {
+        /** @type {(button: HTMLButtonElement) => void} */
+        showMoreOrLess: function (button) {
             /** @type {(column: number, headings: Element[]) => HTMLElement} */
             function makeDt(column, headings) {
                 var dt = document.createElement("dt");
                 var headingElement = headings[column];
-                if (config.sortable) {
-                    headingElement = /** @type {HTMLButtonElement} */ (headingElement.firstChild);
-                }
+                if (config.sortable) headingElement = headingElement.firstElementChild;
                 dt.innerHTML = headingElement.innerHTML;
                 return dt;
             }
 
-            var button = /** @type {Element} */ (event.target).closest("button");
             var row = /** @type {HTMLTableRowElement} */ (button.parentElement.parentElement);
             var section = /** @type {HTMLTableSectionElement} */ (row.parentElement);
             var headings = this.headings;
