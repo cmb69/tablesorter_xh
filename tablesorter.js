@@ -227,9 +227,7 @@
             button.className = "tablesorter_paginate";
             button.textContent = (index + 1).toString();
             button.dataset.page = index.toString();
-            if (index === this.currentPage) {
-                button.disabled = true;
-            }
+            button.disabled = index === this.currentPage;
             cell.appendChild(button);
         },
 
