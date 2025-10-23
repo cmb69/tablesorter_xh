@@ -306,9 +306,9 @@
         /** @type {() => void} */
         unhideColumns: function () {
             if (this.hiddenColumns.length) {
-                var self = this;
+                var hiddenColumns = this.hiddenColumns;
                 this.rows.forEach(function (row) {
-                    self.hiddenColumns.forEach(function (column) {
+                    hiddenColumns.forEach(function (column) {
                         var cell = row.cells[column];
                         cell.style.display = "";
                     });
