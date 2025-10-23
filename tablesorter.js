@@ -232,7 +232,7 @@
                 var value = td.textContent || "";
                 return {
                     value: numeric ? +value : value,
-                    element: tr
+                    element: tr,
                 };
             });
             if (!numeric) var collator = Intl.Collator(config.locale, { sensitivity: "base" });
@@ -257,7 +257,7 @@
                 tablesorter_large: config.widthLarge,
                 tablesorter_medium: config.widthMedium,
                 tablesorter_small: config.widthSmall,
-                tablesorter_x_small: config.widthXSmall
+                tablesorter_x_small: config.widthXSmall,
             });
             var classesToHide = Object.keys(breakpoints).filter(function (key) {
                 return innerWidth < breakpoints[key];
@@ -395,7 +395,7 @@
             heading.appendChild(button);
             button.classList.add("tablesorter_asc");
             button.classList.add("tablesorter_desc");
-        }
+        },
     });
 
     (function () {
