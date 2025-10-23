@@ -59,6 +59,13 @@
         /** @type {number} */
         currentPage: undefined,
 
+        /** @type {HTMLTableRowElement[]} */
+        get rows() {
+            return array(
+                this.table.querySelectorAll("thead tr:not(.tablesorter_column_selection), tbody tr")
+            );
+        },
+
         /** @type {() => void} */
         paginate: function () {
             var self = this;
@@ -86,23 +93,18 @@
                     row.style.display = index >= start && index <= end ? "" : "none";
                 });
                 if (pageCount > 1) {
-                    var pagination = document.createElement("div");
+                    while (self.table.tFoot) self.table.deleteTFoot();
+                    var pagination = self.table.createTFoot();
                     pagination.className = "tablesorter_pagination";
+                    var row = pagination.insertRow(0);
+                    var cell = row.insertCell(0);
+                    cell.colSpan = self.headings.length;
                     /** @type {number[]} */ (
                         Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
                     ).forEach(function (index) {
                         var button = makePaginationButton(index);
-                        pagination.appendChild(button);
+                        cell.appendChild(button);
                     });
-                    if (
-                        self.table.nextElementSibling &&
-                        self.table.nextElementSibling.classList.contains("tablesorter_pagination")
-                    ) {
-                        self.table.nextElementSibling.parentNode.removeChild(
-                            self.table.nextElementSibling
-                        );
-                    }
-                    self.table.parentNode.insertBefore(pagination, self.table.nextElementSibling);
                 }
             })();
         },
@@ -211,7 +213,7 @@
 
             (function () {
                 if (!self.hiddenColumns.length) return;
-                array(self.table.querySelectorAll("tr")).forEach(function (row) {
+                self.rows.forEach(function (row) {
                     self.hiddenColumns.forEach(function (column) {
                         var cell = row.cells[column];
                         cell.style.display = "none";
@@ -239,7 +241,7 @@
         unhideColumns: function () {
             if (this.hiddenColumns.length) {
                 var self = this;
-                array(this.table.querySelectorAll("tr")).forEach(function (row) {
+                this.rows.forEach(function (row) {
                     self.hiddenColumns.forEach(function (column) {
                         var cell = row.cells[column];
                         cell.style.display = "";
@@ -309,8 +311,13 @@
                     var style = self.selectionList.style;
                     style.display = style.display === "none" ? "" : "none";
                 };
-                self.table.parentNode.insertBefore(columnsButton, self.table);
-                self.table.parentNode.insertBefore(self.selectionList, self.table);
+                var thead = self.table.createTHead();
+                var row = thead.insertRow(0);
+                row.className = "tablesorter_column_selection";
+                var cell = row.insertCell(0);
+                cell.colSpan = self.headings.length;
+                cell.appendChild(columnsButton);
+                cell.appendChild(self.selectionList);
             })();
         },
 
