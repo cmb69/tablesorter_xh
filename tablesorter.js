@@ -227,7 +227,7 @@
         addPaginationButton: function (cell, index) {
             var button = document.createElement("button");
             button.className = "tablesorter_paginate";
-            button.textContent = String(index + 1);
+            button.textContent = (index + 1).toString();
             button.dataset.page = index.toString();
             if (index === this.currentPage) {
                 button.disabled = true;
@@ -303,7 +303,7 @@
             );
             var hiddenColumns = this.hiddenColumns;
             checkboxes.forEach(function (checkbox) {
-                checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
+                checkbox.checked = hiddenColumns.indexOf(+checkbox.value) < 0;
             });
         },
 
@@ -382,7 +382,7 @@
             var label = document.createElement("label");
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.value = String(index);
+            checkbox.value = index.toString();
             checkbox.indeterminate = true;
             label.appendChild(checkbox);
             label.appendChild(document.createTextNode(" " + heading.textContent));
