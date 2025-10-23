@@ -66,6 +66,25 @@
             );
         },
 
+        /** @type {() => void} */
+        init: function () {
+            this.hiddenColumns = /** @type {number[]} */ ([]);
+            this.headings = array(this.table.querySelectorAll("thead th"));
+            this.selectionList = document.createElement("ol");
+            this.userColumns = /** @type {boolean[]} */ ([]);
+            this.currentPage = 0;
+            if (config.sortable) this.headings.forEach(this.makeHeadingSortable.bind(this));
+            if (this.table.classList.contains("tablesorter_columns")) {
+                this.createColumnSelection();
+                this.table.addEventListener("change", this);
+            }
+            this.table.addEventListener("click", this);
+            addEventListener("resize", this);
+            this.hiddenColumns = this.determineHiddenColumns();
+            this.hideColumns();
+            this.paginate();
+        },
+
         /** @type {(event: Event) => void} */
         handleEvent: function (event) {
             switch (event.type) {
@@ -376,25 +395,6 @@
             heading.appendChild(button);
             button.classList.add("tablesorter_asc");
             button.classList.add("tablesorter_desc");
-        },
-
-        /** @type {() => void} */
-        init: function () {
-            this.hiddenColumns = /** @type {number[]} */ ([]);
-            this.headings = array(this.table.querySelectorAll("thead th"));
-            this.selectionList = document.createElement("ol");
-            this.userColumns = /** @type {boolean[]} */ ([]);
-            this.currentPage = 0;
-            if (config.sortable) this.headings.forEach(this.makeHeadingSortable.bind(this));
-            if (this.table.classList.contains("tablesorter_columns")) {
-                this.createColumnSelection();
-                this.table.addEventListener("change", this);
-            }
-            this.table.addEventListener("click", this);
-            addEventListener("resize", this);
-            this.hiddenColumns = this.determineHiddenColumns();
-            this.hideColumns();
-            this.paginate();
         }
     });
 
