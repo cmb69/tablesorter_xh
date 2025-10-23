@@ -91,7 +91,7 @@
                 case "click":
                     return this.handleClickEvent(event);
                 case "change":
-                    return this.onChangeColumnSelection(event);
+                    return this.handleChangeEvent(event);
                 case "resize":
                     this.collapseDetails();
                     this.redisplayColumns();
@@ -108,7 +108,7 @@
                     return this.toggleColumnSelection();
                 case "tablesorter_asc":
                 case "tablesorter_desc":
-                    return this.onSortButtonClick(event);
+                    return this.sortTable(button);
                 case "tablesorter_expand":
                     return this.showMore(button);
                 case "tablesorter_collapse":
@@ -120,8 +120,15 @@
         },
 
         /** @type {(event: Event) => void} */
-        onSortButtonClick: function (event) {
-            var button = /** @type {HTMLElement} */ (event.target).closest("button");
+        handleChangeEvent: function (event) {
+            var target = /** @type {Element} */ (event.target);
+            if (!target.closest(".tablesorter_colsel")) return;
+            var checkbox = target.closest("input");
+            return this.changeColumnSelection(checkbox);
+        },
+
+        /** @type {(button: HTMLButtonElement) => void} */
+        sortTable: function (button) {
             var heading = button.closest("th");
             var index = this.headings.indexOf(heading);
             this.collapseDetails();
@@ -178,11 +185,8 @@
             button.textContent = config.show;
         },
 
-        /** @type {(event: Event) => void} */
-        onChangeColumnSelection: function (event) {
-            var target = /** @type {Element} */ (event.target);
-            if (!target.closest(".tablesorter_colsel")) return;
-            var checkbox = target.closest("input");
+        /** @type {(checkbox: HTMLInputElement) => void} */
+        changeColumnSelection: function (checkbox) {
             var li = checkbox.closest("li");
             var index = array(li.parentElement.children).indexOf(li);
             this.userColumns[index] = checkbox.checked;
