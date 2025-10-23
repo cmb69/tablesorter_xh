@@ -278,28 +278,31 @@
 
         /** @type {() => void} */
         hideColumns: function () {
-            var self = this;
             if (!this.hiddenColumns.length) return;
-            this.rows.forEach(function (row) {
-                self.hiddenColumns.forEach(function (column) {
-                    var cell = row.cells[column];
-                    cell.style.display = "none";
-                });
-                row.insertCell();
-                if (row.parentElement && row.parentElement.nodeName.toLowerCase() === "tbody") {
-                    var button = document.createElement("button");
-                    button.className = "tablesorter_expand";
-                    button.textContent = config.show;
-                    var lastCell = row.cells[row.cells.length - 1];
-                    lastCell.insertBefore(button, lastCell.firstElementChild);
-                }
-            });
+            this.rows.forEach(this.hideColumn.bind(this));
             var checkboxes = /** @type {HTMLInputElement[]} */ (
                 array(this.selectionList.querySelectorAll("input[type=checkbox]"))
             );
+            var hiddenColumns = this.hiddenColumns;
             checkboxes.forEach(function (checkbox) {
-                checkbox.checked = self.hiddenColumns.indexOf(Number(checkbox.value)) < 0;
+                checkbox.checked = hiddenColumns.indexOf(Number(checkbox.value)) < 0;
             });
+        },
+
+        /** @type {(row: HTMLTableRowElement) => void} */
+        hideColumn: function (row) {
+            this.hiddenColumns.forEach(function (column) {
+                var cell = row.cells[column];
+                cell.style.display = "none";
+            });
+            row.insertCell();
+            if (row.parentElement && row.parentElement.nodeName.toLowerCase() === "tbody") {
+                var button = document.createElement("button");
+                button.className = "tablesorter_expand";
+                button.textContent = config.show;
+                var lastCell = row.cells[row.cells.length - 1];
+                lastCell.insertBefore(button, lastCell.firstElementChild);
+            }
         },
 
         /** @type {() => void} */
