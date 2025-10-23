@@ -54,14 +54,19 @@
     var widgetProto = Object.seal({
         /** @readonly @type {HTMLTableElement} */
         table: undefined,
+
         /** @type {number[]} */
         hiddenColumns: undefined,
+
         /** @type {Element[]} */
         headings: undefined,
+
         /** @type {HTMLOListElement} */
         selectionList: undefined,
         /** @type {boolean[]} */
+
         userColumns: undefined,
+
         /** @type {number} */
         currentPage: undefined,
 
@@ -357,7 +362,6 @@
             this.headings.forEach(this.addColumnSelectionListItem.bind(this));
             this.selectionList.className = "tablesorter_colsel";
             this.selectionList.style.display = "none";
-
             var columnsButton = document.createElement("button");
             columnsButton.className = "tablesorter_colbutton";
             columnsButton.appendChild(document.createTextNode(config.columns));
