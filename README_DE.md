@@ -1,10 +1,11 @@
 # Tablesorter_XH
 
 Tablesorter_XH ermöglicht die halbautomatische Verbesserung von Tabellen in
-modernen Browsern. Sortieren nach einzelnen Spalten in auf- und absteigender
-Reihenfolge, verstecken vordefinierter Spalten, die erweitert werden
-können, sowie Paginierung sind möglich. Weiterhin können CSV-Dateien direkt
-dargestellt werden.
+Browsern in denen JavaScript verfügbar ist.
+Sortieren nach einzelnen Spalten in auf- und absteigender Reihenfolge,
+verstecken vordefinierter Spalten, die erweitert werden können,
+sowie Paginierung sind möglich.
+Weiterhin können CSV-Dateien direkt dargestellt werden.
 
 ## Inhaltsverzeichnis
 
@@ -23,7 +24,7 @@ dargestellt werden.
 
 Tablesorter_XH ist ein Plugin für [CMSimple_XH](https://cmsimple-xh.org/de/).
 Es benötigt CMSimple_XH ≥ 1.7.0 und PHP ≥ 7.4.0.
-Tablesorter_XH benötigt weiterhin [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.11;
+Tablesorter_XH benötigt weiterhin [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.12;
 ist dieses noch nicht installiert (see `Einstellungen` → `Info`),
 laden Sie das [aktuelle Release](https://github.com/cmb69/plib_xh/releases/latest)
 herunter, und installieren Sie es.
