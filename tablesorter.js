@@ -178,42 +178,40 @@
         /** @type {() => void} */
         paginate: function () {
             var self = this;
-            /** @type {(index: number) => HTMLButtonElement} */
-            function makePaginationButton(index) {
-                var button = document.createElement("button");
-                button.className = "tablesorter_paginate";
-                button.textContent = String(index + 1);
-                button.dataset.page = index.toString();
-                if (index === self.currentPage) {
-                    button.disabled = true;
-                }
-                return button;
-            }
-
-            (function () {
-                self.collapseDetails();
-                var rows = self.table.tBodies[0].rows;
-                var pageCount = Math.ceil(rows.length / config.maxPages);
-                var start = self.currentPage * config.maxPages;
-                var end = (self.currentPage + 1) * config.maxPages - 1;
-                array(rows).forEach(function (row, index) {
-                    row.style.display = index >= start && index <= end ? "" : "none";
+            this.collapseDetails();
+            var rows = this.table.tBodies[0].rows;
+            var pageCount = Math.ceil(rows.length / config.maxPages);
+            var start = this.currentPage * config.maxPages;
+            var end = (this.currentPage + 1) * config.maxPages - 1;
+            array(rows).forEach(function (row, index) {
+                row.style.display = index >= start && index <= end ? "" : "none";
+            });
+            if (pageCount > 1) {
+                while (this.table.tFoot) this.table.deleteTFoot();
+                var pagination = this.table.createTFoot();
+                pagination.className = "tablesorter_pagination";
+                var row = pagination.insertRow(0);
+                var cell = row.insertCell(0);
+                cell.colSpan = this.headings.length;
+                /** @type {number[]} */ (
+                    Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
+                ).forEach(function (index) {
+                    var button = self.makePaginationButton(index);
+                    cell.appendChild(button);
                 });
-                if (pageCount > 1) {
-                    while (self.table.tFoot) self.table.deleteTFoot();
-                    var pagination = self.table.createTFoot();
-                    pagination.className = "tablesorter_pagination";
-                    var row = pagination.insertRow(0);
-                    var cell = row.insertCell(0);
-                    cell.colSpan = self.headings.length;
-                    /** @type {number[]} */ (
-                        Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
-                    ).forEach(function (index) {
-                        var button = makePaginationButton(index);
-                        cell.appendChild(button);
-                    });
-                }
-            })();
+            }
+        },
+
+        /** @type {(index: number) => HTMLButtonElement} */
+        makePaginationButton: function (index) {
+            var button = document.createElement("button");
+            button.className = "tablesorter_paginate";
+            button.textContent = String(index + 1);
+            button.dataset.page = index.toString();
+            if (index === this.currentPage) {
+                button.disabled = true;
+            }
+            return button;
         },
 
         /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
