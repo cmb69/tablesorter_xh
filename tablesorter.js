@@ -91,8 +91,9 @@
                 case "tablesorter_desc":
                     return this.onSortButtonClick(event);
                 case "tablesorter_expand":
+                    return this.showMore(button);
                 case "tablesorter_collapse":
-                    return this.showMoreOrLess(button);
+                    return this.showLess(button);
                 case "tablesorter_paginate":
                     this.currentPage = +button.dataset.page;
                     this.paginate();
@@ -125,40 +126,37 @@
         },
 
         /** @type {(button: HTMLButtonElement) => void} */
-        showMoreOrLess: function (button) {
-            /** @type {(column: number, headings: Element[]) => HTMLElement} */
-            function makeDt(column, headings) {
+        showMore: function (button) {
+            var row = button.closest("tr");
+            var section = row.closest("tbody");
+            var headings = this.headings;
+            var detailRow = section.insertRow(row.sectionRowIndex + 1);
+            detailRow.className = "tablesorter_detail";
+            var detailCell = detailRow.insertCell();
+            detailCell.colSpan = row.cells.length;
+            var defList = document.createElement("dl");
+            this.hiddenColumns.forEach(function (column) {
                 var dt = document.createElement("dt");
                 var headingElement = headings[column];
                 if (config.sortable) headingElement = headingElement.firstElementChild;
                 dt.innerHTML = headingElement.innerHTML;
-                return dt;
-            }
+                defList.appendChild(dt);
+                var dd = document.createElement("dd");
+                dd.innerHTML = row.cells[column].innerHTML;
+                defList.appendChild(dd);
+            });
+            detailCell.appendChild(defList);
+            button.className = "tablesorter_collapse";
+            button.textContent = config.hide;
+        },
 
-            var row = /** @type {HTMLTableRowElement} */ (button.parentElement.parentElement);
-            var section = /** @type {HTMLTableSectionElement} */ (row.parentElement);
-            var headings = this.headings;
-            if (button.className === "tablesorter_expand") {
-                var detailRow = section.insertRow(row.sectionRowIndex + 1);
-                detailRow.className = "tablesorter_detail";
-                var detailCell = detailRow.insertCell();
-                detailCell.colSpan = row.cells.length;
-                var defList = document.createElement("dl");
-                this.hiddenColumns.forEach(function (column) {
-                    var dt = makeDt(column, headings);
-                    defList.appendChild(dt);
-                    var dd = document.createElement("dd");
-                    dd.innerHTML = row.cells[column].innerHTML;
-                    defList.appendChild(dd);
-                });
-                detailCell.appendChild(defList);
-                button.className = "tablesorter_collapse";
-                button.textContent = config.hide;
-            } else {
-                section.deleteRow(row.sectionRowIndex + 1);
-                button.className = "tablesorter_expand";
-                button.textContent = config.show;
-            }
+        /** @type {(button: HTMLButtonElement) => void} */
+        showLess: function (button) {
+            var row = button.closest("tr");
+            var section = row.closest("tbody");
+            section.deleteRow(row.sectionRowIndex + 1);
+            button.className = "tablesorter_expand";
+            button.textContent = config.show;
         },
 
         /** @type {(event: Event) => void} */
