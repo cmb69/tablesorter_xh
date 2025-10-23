@@ -81,7 +81,8 @@
   <descriptions>
     <!-- description of the plugin, ca. 200 characters, you can use <br/>, <ol></ol>, <ul></ul>, <li></li>, <b></b>, <i></i>. -->
     <description lang="en">
-      Tablesorter_XH facilitates semi-automatic enhancement of tables in modern browsers.
+      Tablesorter_XH facilitates semi-automatic enhancement of tables in browsers
+      where JavaScript is available.
       Sorting by single columns in ascending and descending order, hiding of predefined
       columns which can be expanded, and pagination are supported.  Furthermore, CSV files
       can be displayed directly.
@@ -89,7 +90,7 @@
     <!-- Beschreibung des Plugins, ca. 200 Zeichen, es können <br/>, <ol></ol>, <ul></ul>, <li></li>, <b></b>, <i></i> genutzt werden. -->
     <description lang="de">
       Tablesorter_XH ermöglicht die halbautomatische Verbesserung von Tabellen in
-      modernen Browsern. Sortieren nach einzelnen Spalten in auf- und absteigender
+      Browsern in denen JavaScript verfügbar ist. Sortieren nach einzelnen Spalten in auf- und absteigender
       Reihenfolge, verstecken vordefinierter Spalten, die erweitert werden
       können, sowie Paginierung sind möglich. Weiterhin können CSV-Dateien direkt
       dargestellt werden.

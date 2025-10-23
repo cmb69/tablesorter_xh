@@ -49,7 +49,7 @@ class PluginInfo
             "checks" => [
                 $this->checkPhpVersion("7.4.0"),
                 $this->checkXhVersion("1.7.0"),
-                $this->checkPlib("1.11"),
+                $this->checkPlib("1.12"),
                 $this->checkWritability($this->pluginFolder . "config/"),
                 $this->checkWritability($this->pluginFolder . "css/"),
                 $this->checkWritability($this->pluginFolder . "languages/"),

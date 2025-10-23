@@ -32,14 +32,12 @@
 
   <target name="js" description="checks JavaScript">
     <exec executable="prettier" passthru="true" checkreturn="true">
-      <arg line="--write --print-width 100 --tab-width 4 --trailing-comma none tablesorter.js"/>
+      <arg line="--write --print-width 100 --tab-width 4 --trailing-comma es5 tablesorter.js"/>
     </exec>
     <exec executable="jshint" passthru="true" checkreturn="true">
       <arg line="tablesorter.js"/>
     </exec>
-    <exec executable="tsc" passthru="true" checkreturn="true">
-      <arg line="--checkJS --noEmit --strict --lib es2016,dom tablesorter.js"/>
-    </exec>
+    <exec executable="tsc" passthru="true" checkreturn="true"/>
   </target>
 
   <target name="check" description="runs all checks" depends="sniff,stan,test,js"/>
@@ -52,7 +50,7 @@
 
   <target name="minify" description="minifies JS">
     <exec executable="uglifyjs" passthru="true" checkreturn="true">
-      <arg line="${dir}/tablesorter.js --module --mangle --compress -o ${dir}/tablesorter.min.js"/>
+      <arg line="${dir}/tablesorter.js --no-module --mangle --compress -o ${dir}/tablesorter.min.js"/>
     </exec>
   </target>
 
@@ -85,6 +83,7 @@
         <exclude name="coverage.xml"/>
         <exclude name="phpstan.*"/>
         <exclude name="README*.md"/>
+        <exclude name="tsconfig.json"/>
       </fileset>
     </move>
     <delete dir="export"/>

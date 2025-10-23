@@ -17,304 +17,403 @@
  * along with Tablesorter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// jshint browser:true,esversion:5,latedef:nofunc,strict:implied
-// @ts-check
+// jshint browser:true,esversion:5,latedef:true,strict:true
 
-/**
- * @typedef {Object} Config
- * @prop {boolean} sortable
- * @prop {number} maxPages
- * @prop {number} widthLarge
- * @prop {number} widthMedium
- * @prop {number} widthSmall
- * @prop {number} widthXSmall
- * @prop {string} locale
- * @prop {string} columns
- * @prop {string} show
- * @prop {string} hide
- */
+(function () {
+    "use strict";
 
-/** @type {Config} */
-var config = (function () {
-    var script = /** @type {HTMLScriptElement} */ (
-        document.querySelector("script[data-tablesorter-config]")
-    );
-    var data = /** @type {string} */ (script.dataset.tablesorterConfig);
-    return JSON.parse(data);
-})();
+    /**
+     * @typedef {Object} Config
+     * @prop {boolean} sortable
+     * @prop {number} maxPages
+     * @prop {number} widthLarge
+     * @prop {number} widthMedium
+     * @prop {number} widthSmall
+     * @prop {number} widthXSmall
+     * @prop {string} locale
+     * @prop {string} columns
+     * @prop {string} show
+     * @prop {string} hide
+     */
 
-/** @type {(table: HTMLTableElement) => void} */
-function initWidget(table) {
-    var currentPage = 0;
-    var hiddenColumns = /** @type {number[]} */ ([]);
-    var headings = table.querySelectorAll("thead th");
-    var selectionList = document.createElement("ol");
-    var userColumns = /** @type {boolean[]} */ ([]);
-
-    /** @type {() => void} */
-    function paginate() {
-        collapseDetails();
-        var rows = table.tBodies[0].rows;
-        var pageCount = Math.ceil(rows.length / config.maxPages);
-        var start = currentPage * config.maxPages;
-        var end = (currentPage + 1) * config.maxPages - 1;
-        Array.from(rows).forEach(function (row, index) {
-            if (index >= start && index <= end) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        });
-        if (pageCount > 1) {
-            var pagination = document.createElement("div");
-            pagination.className = "tablesorter_pagination";
-            Array.from(Array(pageCount).keys()).forEach(function (index) {
-                var button = document.createElement("button");
-                button.textContent = String(index + 1);
-                if (index === currentPage) {
-                    button.disabled = true;
-                }
-                button.onclick = function () {
-                    currentPage = index;
-                    paginate();
-                };
-                pagination.append(button);
-            });
-            if (
-                table.nextElementSibling &&
-                table.nextElementSibling.classList.contains("tablesorter_pagination")
-            ) {
-                table.nextElementSibling.remove();
-            }
-            table.after(pagination);
-        }
+    /** @type {<T>(arrayLike: ArrayLike<T>) => T[]} */
+    function array(arrayLike) {
+        return Array.prototype.slice.call(arrayLike);
     }
 
-    /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
-    function sort(column, desc, numeric) {
-        var tbody = table.tBodies[0];
-        var rows = Array.from(tbody.rows).map(function (tr) {
-            var td = tr.cells[column];
-            var value = td.textContent || "";
-            return {
-                value: numeric ? +value : value,
-                element: tr
-            };
-        });
-        if (!numeric) var collator = Intl.Collator(config.locale, { sensitivity: "base" });
-        rows = rows.sort(function (a, b) {
-            var order = desc ? -1 : 1;
-            if (typeof a.value === "number" && typeof b.value === "number") {
-                return (a.value - b.value) * order;
-            } else if (typeof a.value === "string" && typeof b.value === "string") {
-                return collator.compare(a.value, b.value) * order;
-            } else {
-                throw "error";
-            }
-        });
-        rows.forEach(function (value) {
-            tbody.append(value.element);
-        });
-    }
+    /** @readonly @type {Config} */
+    var config = (function () {
+        var meta = /** @type {HTMLMetaElement} */ (
+            document.querySelector("meta[name=tablesorter_config]")
+        );
+        var data = /** @type {string} */ (meta.content);
+        return JSON.parse(data);
+    })();
 
-    /** @type {() => number[]} */
-    function determineHiddenColumns() {
-        var breakpoints = /** @type {{[x: string]: number}} */ ({
-            tablesorter_large: config.widthLarge,
-            tablesorter_medium: config.widthMedium,
-            tablesorter_small: config.widthSmall,
-            tablesorter_x_small: config.widthXSmall
-        });
-        var result = /** @type {number[]} */ ([]);
-        var classesToHide = /** @type {string[]} */ ([]);
-        for (var prop in breakpoints) {
-            if (breakpoints.hasOwnProperty(prop) && window.innerWidth < breakpoints[prop]) {
-                classesToHide.push(prop);
-            }
-        }
-        headings.forEach(function (heading, index) {
-            if (userColumns[index] !== undefined) {
-                if (!userColumns[index]) {
-                    result.push(index);
-                }
-            } else if (heading.classList.contains("tablesorter_hide")) {
-                result.push(index);
-            } else {
-                var alreadyHidden = false;
-                classesToHide.forEach(function (className) {
-                    if (!alreadyHidden && heading.classList.contains(className)) {
-                        result.push(index);
-                        alreadyHidden = true;
-                    }
-                });
-            }
-        });
-        return result;
-    }
+    /** @readonly */
+    var widgetProto = Object.seal({
+        /** @readonly @type {HTMLTableElement} */
+        table: undefined,
 
-    /** @type {() => void} */
-    function hideColumns() {
-        if (hiddenColumns.length) {
-            table.querySelectorAll("tr").forEach(function (row) {
-                hiddenColumns.forEach(function (column) {
-                    var cell = row.cells[column];
-                    cell.style.display = "none";
-                });
-                row.insertCell();
-                if (row.parentElement && row.parentElement.nodeName.toLowerCase() === "tbody") {
-                    var section = /** @type {HTMLTableSectionElement} */ (row.parentElement);
-                    var button = document.createElement("button");
-                    button.className = "tablesorter_expand";
-                    button.textContent = config.show;
-                    button.onclick = function () {
-                        if (button.className === "tablesorter_expand") {
-                            var detailRow = section.insertRow(row.sectionRowIndex + 1);
-                            detailRow.className = "tablesorter_detail";
-                            var detailCell = detailRow.insertCell();
-                            detailCell.colSpan = row.cells.length;
-                            var defList = document.createElement("dl");
-                            hiddenColumns.forEach(function (column) {
-                                var dt = document.createElement("dt");
-                                var headingElement = headings[column];
-                                if (config.sortable) {
-                                    headingElement = /** @type {HTMLButtonElement} */ (
-                                        headingElement.firstChild
-                                    );
-                                }
-                                dt.innerHTML = headingElement.innerHTML;
-                                defList.append(dt);
-                                var dd = document.createElement("dd");
-                                dd.innerHTML = row.cells[column].innerHTML;
-                                defList.append(dd);
-                            });
-                            detailCell.append(defList);
-                            button.className = "tablesorter_collapse";
-                            button.textContent = config.hide;
-                        } else {
-                            section.deleteRow(row.sectionRowIndex + 1);
-                            button.className = "tablesorter_expand";
-                            button.textContent = config.show;
-                        }
-                    };
-                    var lastColumn = row.cells.length - 1;
-                    row.cells[lastColumn].prepend(button);
-                }
-            });
-            var checkboxes = /** @type {NodeListOf<HTMLInputElement>} */ (
-                selectionList.querySelectorAll("input[type=checkbox]")
+        /** @type {number[]} */
+        hiddenColumns: undefined,
+
+        /** @type {Element[]} */
+        headings: undefined,
+
+        /** @type {HTMLOListElement} */
+        selectionList: undefined,
+        /** @type {boolean[]} */
+
+        userColumns: undefined,
+
+        /** @type {number} */
+        currentPage: undefined,
+
+        /** @type {NodeListOf<HTMLTableRowElement>} */
+        get rows() {
+            return this.table.querySelectorAll(
+                "thead tr:not(.tablesorter_column_selection), tbody tr"
             );
-            checkboxes.forEach(function (checkbox) {
-                checkbox.checked = !hiddenColumns.includes(Number(checkbox.value));
-            });
-        }
-    }
+        },
 
-    /** @type {() => void} */
-    function unhideColumns() {
-        if (hiddenColumns.length) {
-            table.querySelectorAll("tr").forEach(function (row) {
+        /** @type {() => void} */
+        init: function () {
+            this.hiddenColumns = /** @type {number[]} */ ([]);
+            this.headings = array(this.table.querySelectorAll("thead th"));
+            this.selectionList = document.createElement("ol");
+            this.userColumns = /** @type {boolean[]} */ ([]);
+            this.currentPage = 0;
+            if (config.sortable) this.headings.forEach(this.makeHeadingSortable.bind(this));
+            if (this.table.classList.contains("tablesorter_columns")) {
+                this.createColumnSelection();
+                this.table.addEventListener("change", this);
+            }
+            this.table.addEventListener("click", this);
+            addEventListener("resize", this);
+            this.hiddenColumns = this.determineHiddenColumns();
+            this.hideColumns();
+            this.paginate();
+        },
+
+        /** @type {(event: Event) => void} */
+        handleEvent: function (event) {
+            switch (event.type) {
+                case "click":
+                    return this.handleClickEvent(event);
+                case "change":
+                    return this.handleChangeEvent(event);
+                case "resize":
+                    this.collapseDetails();
+                    this.redisplayColumns();
+            }
+        },
+
+        /** @type {(event: Event) => void} */
+        handleClickEvent: function (event) {
+            var target = /** @type {Element} */ (event.target);
+            var button = target.closest("button");
+            if (!button) return;
+            switch (button.classList[0]) {
+                case "tablesorter_colbutton":
+                    return this.toggleColumnSelection();
+                case "tablesorter_asc":
+                case "tablesorter_desc":
+                    return this.sortTable(button);
+                case "tablesorter_expand":
+                    return this.showMore(button);
+                case "tablesorter_collapse":
+                    return this.showLess(button);
+                case "tablesorter_paginate":
+                    this.currentPage = +button.dataset.page;
+                    this.paginate();
+            }
+        },
+
+        /** @type {(event: Event) => void} */
+        handleChangeEvent: function (event) {
+            var target = /** @type {Element} */ (event.target);
+            if (!target.closest(".tablesorter_colsel")) return;
+            var checkbox = target.closest("input");
+            return this.changeColumnSelection(checkbox);
+        },
+
+        /** @type {(button: HTMLButtonElement) => void} */
+        sortTable: function (button) {
+            var heading = button.closest("th");
+            var index = this.headings.indexOf(heading);
+            this.collapseDetails();
+            this.headings.forEach(function (heading2) {
+                if (heading2.firstChild === heading.firstChild) return;
+                var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
+                button2.classList.add("tablesorter_asc");
+                button2.classList.add("tablesorter_desc");
+            });
+            if (!button.classList.contains("tablesorter_desc")) {
+                button.classList.remove("tablesorter_asc");
+                button.classList.add("tablesorter_desc");
+                this.sort(index, true, heading.classList.contains("tablesorter_numeric"));
+            } else {
+                button.classList.remove("tablesorter_desc");
+                button.classList.add("tablesorter_asc");
+                this.sort(index, false, heading.classList.contains("tablesorter_numeric"));
+            }
+            this.paginate();
+        },
+
+        /** @type {(button: HTMLButtonElement) => void} */
+        showMore: function (button) {
+            var row = button.closest("tr");
+            var section = row.closest("tbody");
+            var headings = this.headings;
+            var detailRow = section.insertRow(row.sectionRowIndex + 1);
+            detailRow.className = "tablesorter_detail";
+            var detailCell = detailRow.insertCell();
+            detailCell.colSpan = row.cells.length;
+            var defList = document.createElement("dl");
+            this.hiddenColumns.forEach(function (column) {
+                var dt = document.createElement("dt");
+                var headingElement = headings[column];
+                if (config.sortable) headingElement = headingElement.firstElementChild;
+                dt.innerHTML = headingElement.innerHTML;
+                defList.appendChild(dt);
+                var dd = document.createElement("dd");
+                dd.innerHTML = row.cells[column].innerHTML;
+                defList.appendChild(dd);
+            });
+            detailCell.appendChild(defList);
+            button.className = "tablesorter_collapse";
+            button.textContent = config.hide;
+        },
+
+        /** @type {(button: HTMLButtonElement) => void} */
+        showLess: function (button) {
+            var row = button.closest("tr");
+            var section = row.closest("tbody");
+            section.deleteRow(row.sectionRowIndex + 1);
+            button.className = "tablesorter_expand";
+            button.textContent = config.show;
+        },
+
+        /** @type {(checkbox: HTMLInputElement) => void} */
+        changeColumnSelection: function (checkbox) {
+            var li = checkbox.closest("li");
+            var index = array(li.parentElement.children).indexOf(li);
+            this.userColumns[index] = checkbox.checked;
+            this.redisplayColumns();
+        },
+
+        /** @type {() => void} */
+        paginate: function () {
+            this.collapseDetails();
+            var rows = array(this.table.tBodies[0].rows);
+            var pageCount = Math.ceil(rows.length / config.maxPages);
+            var start = this.currentPage * config.maxPages;
+            var end = (this.currentPage + 1) * config.maxPages - 1;
+            rows.forEach(function (row, index) {
+                row.style.display = index >= start && index <= end ? "" : "none";
+            });
+            if (pageCount <= 1) return;
+            while (this.table.tFoot) this.table.deleteTFoot();
+            var pagination = this.table.createTFoot();
+            pagination.className = "tablesorter_pagination";
+            var row = pagination.insertRow(0);
+            var cell = row.insertCell(0);
+            cell.colSpan = this.headings.length;
+            var range = /** @type {number[]} */ (
+                Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
+            );
+            range.forEach(this.addPaginationButton.bind(this, cell));
+        },
+
+        /** @type {(cell: HTMLTableCellElement, index: number) => void} */
+        addPaginationButton: function (cell, index) {
+            var button = document.createElement("button");
+            button.className = "tablesorter_paginate";
+            button.textContent = (index + 1).toString();
+            button.dataset.page = index.toString();
+            button.disabled = index === this.currentPage;
+            cell.appendChild(button);
+        },
+
+        /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
+        sort: function (column, desc, numeric) {
+            var tbody = this.table.tBodies[0];
+            var rows = array(tbody.rows).map(function (tr) {
+                var td = tr.cells[column];
+                var value = td.textContent || "";
+                return {
+                    value: numeric ? +value : value,
+                    element: tr,
+                };
+            });
+            if (!numeric) var collator = Intl.Collator(config.locale, { sensitivity: "base" });
+            rows = rows.sort(function (a, b) {
+                var order = desc ? -1 : 1;
+                if (typeof a.value === "number" && typeof b.value === "number") {
+                    return (a.value - b.value) * order;
+                } else if (typeof a.value === "string" && typeof b.value === "string") {
+                    return collator.compare(a.value, b.value) * order;
+                } else {
+                    throw "error";
+                }
+            });
+            rows.forEach(function (value) {
+                tbody.appendChild(value.element);
+            });
+        },
+
+        /** @type {() => number[]} */
+        determineHiddenColumns: function () {
+            var breakpoints = /** @type {{[x: string]: number}} */ ({
+                tablesorter_large: config.widthLarge,
+                tablesorter_medium: config.widthMedium,
+                tablesorter_small: config.widthSmall,
+                tablesorter_x_small: config.widthXSmall,
+            });
+            var classesToHide = Object.keys(breakpoints).filter(function (key) {
+                return innerWidth < breakpoints[key];
+            });
+            return this.headings
+                .map(this.isHiddenIndex.bind(this, classesToHide))
+                .filter(function (index) {
+                    return index >= 0;
+                });
+        },
+
+        /** @type {(classesToHide: string[], heading: Element, index: number) => number} */
+        isHiddenIndex: function (classesToHide, heading, index) {
+            if (this.userColumns[index] !== undefined) {
+                return !this.userColumns[index] ? index : -1;
+            }
+            if (heading.classList.contains("tablesorter_hide")) {
+                return index;
+            }
+            var hidden = array(heading.classList).some(function (className) {
+                return classesToHide.indexOf(className) >= 0;
+            });
+            return hidden ? index : -1;
+        },
+
+        /** @type {() => void} */
+        hideColumns: function () {
+            if (!this.hiddenColumns.length) return;
+            this.rows.forEach(this.hideColumn.bind(this));
+            var checkboxes = /** @type {NodeListOf<HTMLInputElement>} */ (
+                this.selectionList.querySelectorAll("input[type=checkbox]")
+            );
+            var hiddenColumns = this.hiddenColumns;
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = hiddenColumns.indexOf(+checkbox.value) < 0;
+            });
+        },
+
+        /** @type {(row: HTMLTableRowElement) => void} */
+        hideColumn: function (row) {
+            this.hiddenColumns.forEach(function (column) {
+                var cell = row.cells[column];
+                cell.style.display = "none";
+            });
+            row.insertCell();
+            if (row.parentElement.localName !== "tbody") return;
+            var button = document.createElement("button");
+            button.className = "tablesorter_expand";
+            button.textContent = config.show;
+            var lastCell = row.cells[row.cells.length - 1];
+            lastCell.insertBefore(button, lastCell.firstElementChild);
+        },
+
+        /** @type {() => void} */
+        unhideColumns: function () {
+            if (!this.hiddenColumns.length) return;
+            var hiddenColumns = this.hiddenColumns;
+            this.rows.forEach(function (row) {
                 hiddenColumns.forEach(function (column) {
                     var cell = row.cells[column];
                     cell.style.display = "";
                 });
                 row.deleteCell(row.cells.length - 1);
             });
-        }
-        hiddenColumns = [];
-    }
+            this.hiddenColumns = [];
+        },
 
-    /** @type {() => void} */
-    function redisplayColumns() {
-        var newHiddenColumns = determineHiddenColumns();
-        if (newHiddenColumns.length !== hiddenColumns.length) {
-            unhideColumns();
-            hiddenColumns = newHiddenColumns;
-            hideColumns();
-        }
-    }
+        /** @type {() => void} */
+        redisplayColumns: function () {
+            var newHiddenColumns = this.determineHiddenColumns();
+            if (newHiddenColumns.length === this.hiddenColumns.length) return;
+            this.unhideColumns();
+            this.hiddenColumns = newHiddenColumns;
+            this.hideColumns();
+        },
 
-    /** @type {() => void} */
-    function collapseDetails() {
-        table.querySelectorAll("tr.tablesorter_detail").forEach(function (row) {
-            row.remove();
-        });
-        table.querySelectorAll("button.tablesorter_collapse").forEach(function (button) {
-            button.className = "tablesorter_expand";
-            button.textContent = config.show;
-        });
-    }
+        /** @type {() => void} */
+        collapseDetails: function () {
+            this.table.querySelectorAll("tr.tablesorter_detail").forEach(function (row) {
+                row.parentNode.removeChild(row);
+            });
+            this.table.querySelectorAll("button.tablesorter_collapse").forEach(function (button) {
+                button.className = "tablesorter_expand";
+                button.textContent = config.show;
+            });
+        },
 
-    /** @type {() => void} */
-    function createColumnSelection() {
-        headings.forEach(function (heading, index) {
+        /** @type {() => void} */
+        createColumnSelection: function () {
+            this.headings.forEach(this.addColumnSelectionListItem.bind(this));
+            this.selectionList.className = "tablesorter_colsel";
+            this.selectionList.style.display = "none";
+            var columnsButton = document.createElement("button");
+            columnsButton.className = "tablesorter_colbutton";
+            columnsButton.appendChild(document.createTextNode(config.columns));
+            var thead = this.table.createTHead();
+            var row = thead.insertRow(0);
+            row.className = "tablesorter_column_selection";
+            var cell = row.insertCell(0);
+            cell.colSpan = this.headings.length;
+            cell.appendChild(columnsButton);
+            cell.appendChild(this.selectionList);
+        },
+
+        /** @type {(heading: Element, index: number) => void} */
+        addColumnSelectionListItem: function (heading, index) {
             var li = document.createElement("li");
             var label = document.createElement("label");
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.value = String(index);
+            checkbox.value = index.toString();
             checkbox.indeterminate = true;
-            checkbox.onchange = function () {
-                userColumns[index] = checkbox.checked;
-                redisplayColumns();
-            };
-            label.append(checkbox, " ", heading.textContent || "");
-            li.append(label);
-            selectionList.append(li);
-        });
-        selectionList.className = "tablesorter_colsel";
-        selectionList.style.display = "none";
+            checkbox.checked = true;
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(" " + heading.textContent));
+            li.appendChild(label);
+            this.selectionList.appendChild(li);
+        },
 
-        var columnsButton = document.createElement("button");
-        columnsButton.className = "tablesorter_colbutton";
-        columnsButton.append(config.columns);
-        columnsButton.onclick = function () {
-            selectionList.style.display = selectionList.style.display === "none" ? "" : "none";
-        };
-        table.before(columnsButton, selectionList);
-    }
+        /** @type {() => void} */
+        toggleColumnSelection: function () {
+            var style = this.selectionList.style;
+            style.display = style.display === "none" ? "" : "none";
+        },
 
-    headings.forEach(function (heading, index) {
-        if (!config.sortable) {
-            return;
-        }
-        var button = document.createElement("button");
-        while (heading.firstChild) {
-            button.append(heading.firstChild);
-        }
-        heading.append(button);
-        button.classList.add("tablesorter_asc", "tablesorter_desc");
-        button.onclick = function () {
-            collapseDetails();
-            headings.forEach(function (heading2) {
-                if (heading2.firstChild !== heading.firstChild) {
-                    var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
-                    button2.classList.add("tablesorter_asc", "tablesorter_desc");
-                }
-            });
-            if (!button.classList.contains("tablesorter_desc")) {
-                button.classList.remove("tablesorter_asc");
-                button.classList.add("tablesorter_desc");
-                sort(index, true, heading.classList.contains("tablesorter_numeric"));
-            } else {
-                button.classList.remove("tablesorter_desc");
-                button.classList.add("tablesorter_asc");
-                sort(index, false, heading.classList.contains("tablesorter_numeric"));
+        /** @type {(heading: Element, index: number) => void} */
+        makeHeadingSortable: function (heading) {
+            var button = document.createElement("button");
+            while (heading.firstChild) {
+                button.appendChild(heading.firstChild);
             }
-            paginate();
-        };
+            heading.appendChild(button);
+            button.classList.add("tablesorter_asc");
+            button.classList.add("tablesorter_desc");
+        },
     });
-    if (table.classList.contains("tablesorter_columns")) {
-        createColumnSelection();
-    }
-    window.addEventListener("resize", function () {
-        collapseDetails();
-        redisplayColumns();
-    });
-    hiddenColumns = determineHiddenColumns();
-    hideColumns();
-    paginate();
-}
 
-/** @type {NodeListOf<HTMLTableElement>} */ (
-    document.querySelectorAll("table.tablesorter")
-).forEach(initWidget);
+    var tables = /** @type {NodeListOf<HTMLTableElement>} */ (
+        document.querySelectorAll("table.tablesorter")
+    );
+    tables.forEach(function (table) {
+        var widget = /** @type {typeof widgetProto} */ (
+            Object.create(widgetProto, { table: { value: table } })
+        );
+        widget.init();
+    });
+})();
