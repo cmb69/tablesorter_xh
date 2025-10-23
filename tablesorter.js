@@ -245,29 +245,28 @@
                 tablesorter_small: config.widthSmall,
                 tablesorter_x_small: config.widthXSmall
             });
-            var result = /** @type {number[]} */ ([]);
             var classesToHide = Object.keys(breakpoints).filter(function (key) {
                 return innerWidth < breakpoints[key];
             });
-            var self = this;
-            this.headings.forEach(function (heading, index) {
-                if (self.userColumns[index] !== undefined) {
-                    if (!self.userColumns[index]) {
-                        result.push(index);
-                    }
-                } else if (heading.classList.contains("tablesorter_hide")) {
-                    result.push(index);
-                } else {
-                    var alreadyHidden = false;
-                    classesToHide.forEach(function (className) {
-                        if (!alreadyHidden && heading.classList.contains(className)) {
-                            result.push(index);
-                            alreadyHidden = true;
-                        }
-                    });
-                }
+            return this.headings
+                .map(this.isHiddenIndex.bind(this, classesToHide))
+                .filter(function (index) {
+                    return index >= 0;
+                });
+        },
+
+        /** @type {(classesToHide: string[], heading: Element, index: number) => number} */
+        isHiddenIndex: function (classesToHide, heading, index) {
+            if (this.userColumns[index] !== undefined) {
+                return !this.userColumns[index] ? index : -1;
+            }
+            if (heading.classList.contains("tablesorter_hide")) {
+                return index;
+            }
+            var hidden = array(heading.classList).some(function (className) {
+                return classesToHide.indexOf(className) >= 0;
             });
-            return result;
+            return hidden ? index : -1;
         },
 
         /** @type {() => void} */
