@@ -139,11 +139,10 @@
             var index = this.headings.indexOf(heading);
             this.collapseDetails();
             this.headings.forEach(function (heading2) {
-                if (heading2.firstChild !== heading.firstChild) {
-                    var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
-                    button2.classList.add("tablesorter_asc");
-                    button2.classList.add("tablesorter_desc");
-                }
+                if (heading2.firstChild === heading.firstChild) return;
+                var button2 = /** @type {HTMLButtonElement} */ (heading2.firstChild);
+                button2.classList.add("tablesorter_asc");
+                button2.classList.add("tablesorter_desc");
             });
             if (!button.classList.contains("tablesorter_desc")) {
                 button.classList.remove("tablesorter_asc");
@@ -209,18 +208,17 @@
             rows.forEach(function (row, index) {
                 row.style.display = index >= start && index <= end ? "" : "none";
             });
-            if (pageCount > 1) {
-                while (this.table.tFoot) this.table.deleteTFoot();
-                var pagination = this.table.createTFoot();
-                pagination.className = "tablesorter_pagination";
-                var row = pagination.insertRow(0);
-                var cell = row.insertCell(0);
-                cell.colSpan = this.headings.length;
-                var range = /** @type {number[]} */ (
-                    Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
-                );
-                range.forEach(this.addPaginationButton.bind(this, cell));
-            }
+            if (pageCount <= 1) return;
+            while (this.table.tFoot) this.table.deleteTFoot();
+            var pagination = this.table.createTFoot();
+            pagination.className = "tablesorter_pagination";
+            var row = pagination.insertRow(0);
+            var cell = row.insertCell(0);
+            cell.colSpan = this.headings.length;
+            var range = /** @type {number[]} */ (
+                Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
+            );
+            range.forEach(this.addPaginationButton.bind(this, cell));
         },
 
         /** @type {(cell: HTMLTableCellElement, index: number) => void} */
@@ -314,13 +312,12 @@
                 cell.style.display = "none";
             });
             row.insertCell();
-            if (row.parentElement && row.parentElement.nodeName.toLowerCase() === "tbody") {
-                var button = document.createElement("button");
-                button.className = "tablesorter_expand";
-                button.textContent = config.show;
-                var lastCell = row.cells[row.cells.length - 1];
-                lastCell.insertBefore(button, lastCell.firstElementChild);
-            }
+            if (row.parentElement.localName !== "tbody") return;
+            var button = document.createElement("button");
+            button.className = "tablesorter_expand";
+            button.textContent = config.show;
+            var lastCell = row.cells[row.cells.length - 1];
+            lastCell.insertBefore(button, lastCell.firstElementChild);
         },
 
         /** @type {() => void} */
@@ -340,11 +337,10 @@
         /** @type {() => void} */
         redisplayColumns: function () {
             var newHiddenColumns = this.determineHiddenColumns();
-            if (newHiddenColumns.length !== this.hiddenColumns.length) {
-                this.unhideColumns();
-                this.hiddenColumns = newHiddenColumns;
-                this.hideColumns();
-            }
+            if (newHiddenColumns.length === this.hiddenColumns.length) return;
+            this.unhideColumns();
+            this.hiddenColumns = newHiddenColumns;
+            this.hideColumns();
         },
 
         /** @type {() => void} */
