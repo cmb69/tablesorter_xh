@@ -318,16 +318,15 @@
 
         /** @type {() => void} */
         unhideColumns: function () {
-            if (this.hiddenColumns.length) {
-                var hiddenColumns = this.hiddenColumns;
-                this.rows.forEach(function (row) {
-                    hiddenColumns.forEach(function (column) {
-                        var cell = row.cells[column];
-                        cell.style.display = "";
-                    });
-                    row.deleteCell(row.cells.length - 1);
+            if (!this.hiddenColumns.length) return;
+            var hiddenColumns = this.hiddenColumns;
+            this.rows.forEach(function (row) {
+                hiddenColumns.forEach(function (column) {
+                    var cell = row.cells[column];
+                    cell.style.display = "";
                 });
-            }
+                row.deleteCell(row.cells.length - 1);
+            });
             this.hiddenColumns = [];
         },
 
