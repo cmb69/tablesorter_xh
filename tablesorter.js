@@ -177,7 +177,6 @@
 
         /** @type {() => void} */
         paginate: function () {
-            var self = this;
             this.collapseDetails();
             var rows = this.table.tBodies[0].rows;
             var pageCount = Math.ceil(rows.length / config.maxPages);
@@ -195,15 +194,12 @@
                 cell.colSpan = this.headings.length;
                 /** @type {number[]} */ (
                     Array.apply(undefined, Array(pageCount)).map(Number.call, Number)
-                ).forEach(function (index) {
-                    var button = self.makePaginationButton(index);
-                    cell.appendChild(button);
-                });
+                ).forEach(this.addPaginationButton.bind(this, cell));
             }
         },
 
-        /** @type {(index: number) => HTMLButtonElement} */
-        makePaginationButton: function (index) {
+        /** @type {(cell: HTMLTableCellElement, index: number) => void} */
+        addPaginationButton: function (cell, index) {
             var button = document.createElement("button");
             button.className = "tablesorter_paginate";
             button.textContent = String(index + 1);
@@ -211,7 +207,7 @@
             if (index === this.currentPage) {
                 button.disabled = true;
             }
-            return button;
+            cell.appendChild(button);
         },
 
         /** @type {(column: number, desc: boolean, numeric: boolean) => void} */
